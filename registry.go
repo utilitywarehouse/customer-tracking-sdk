@@ -23,6 +23,3 @@ func (*meterReadsJourney) EmailClick(eref, utm string) *Event {
   }
 }
 
-// usage
-
-analytics.Track(MeterReads().EmailClick("G12313", "july-meter-read-campaign"))
