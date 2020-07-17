@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/utilitywarehouse/customer-tracking-sdk#readme",
   "devDependencies": {
+    "google-protobuf": "^4.0.0-rc.1",
     "grpc-tools": "^1.9.0",
     "protoc-gen-ts": "^0.2.0"
   }
