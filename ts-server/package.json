@@ -1,5 +1,5 @@
 {
-  "name": "customer-tracking-sdk",
+  "name": "customer-tracking-sdk-ts-server",
   "version": "0.0.1",
   "description": "Tooling for user journey tracking implementations.",
   "main": "sdk.js",
