@@ -16,5 +16,5 @@ test:
 lint:
 	npm run lint
 
-build:browser:
+build-browser:
 	npm run build:browser
