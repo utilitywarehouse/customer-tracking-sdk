@@ -5,9 +5,16 @@ protos:
 	rm -rf $(current_dir)ts/generated
 	mkdir -p $(current_dir)ts/generated
 	./node_modules/.bin/grpc_tools_node_protoc \
-		--plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts \
+		--plugin=./node_modules/.bin/protoc-gen-ts_proto \
 		--proto_path=$(current_dir) \
-		--js_out=import_style=commonjs,binary:$(current_dir)ts/generated \
-		--ts_out=$(current_dir)ts/generated \
+		--ts_proto_out=env=node,outputEncodeMethods=false,outputJsonMethods=true,outputClientImpl=false,useOptionals=true:$(current_dir)ts/generated \
 		$(current_dir)*.proto
 
+test:
+	npm test
+
+lint:
+	npm run lint
+
+build:browser:
+	npm run build:browser

@@ -2,6 +2,12 @@ syntax = "proto3";
 
 /*
 
+    !!! KEEP ENUMS LAST OTHERWISE PBJS IS STRUGGLING :/
+
+ */
+
+/*
+
 Below describes the user journey tracking common attributes schema.
 
 When sinking events into tracking devices, enums need to be converted

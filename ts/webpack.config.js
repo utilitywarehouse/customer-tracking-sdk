@@ -1,7 +1,8 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/sdk.ts',
+    devtool: "source-map",
+    entry: './src/browser_tracker.ts',
     module: {
         rules: [
             {
@@ -16,7 +17,7 @@ module.exports = {
     },
     output: {
         filename: 'uw_tracking.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'browser'),
         library: 'uw_tracking',
     },
 };

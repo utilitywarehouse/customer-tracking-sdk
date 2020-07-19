@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Integration Test</title>
+    <script src="uw_tracking.js"></script>
+</head>
+<body>
+Testing Page, check console.
+<script>
+
+    var tracking = new uw_tracking.Tracker(
+        new uw_tracking.MixpanelBrowserBackend("c4f9c42eec07534c28a8903a7c471f82", {debug: true}),
+        {id: "my-app"},
+    );
+    tracking.identify({number: "acc-888"})
+    tracking.trackStage(
+        uw_tracking.Subject.SUBJECT_METER_READING,
+        uw_tracking.Intent.INTENT_METER_READING_SUBMIT,
+        uw_tracking.Stage.STAGE_ENTERED,
+        {"a-a": "this should be underscored"}
+    );
+    tracking.trackInteraction(
+        uw_tracking.Subject.SUBJECT_METER_READING,
+        uw_tracking.Intent.INTENT_METER_READING_SUBMIT,
+        uw_tracking.Interaction.INTERACTION_CLICKED,
+        uw_tracking.InteractionChannel.INTERACTION_CHANNEL_EMAIL,
+        {"b-b": "this should be underscored"}
+    );
+    tracking.trackClick("click-target", {"c-c": "click attribs"})
+    tracking.trackVisit("visit-location", {"d-c": "visit attribs"})
+
+    setTimeout(() => {
+        tracking.disable();
+        tracking.trackClick("click-target-disabled-1", {"c-c": "click attribs"})
+        tracking.trackClick("click-target-disabled-2", {"c-c": "click attribs"})
+    }, 1000) // wait for tracking disable
+
+    setTimeout(() => {
+        tracking.enable();
+    }, 2000);
+
+</script>
+</body>
+</html>
