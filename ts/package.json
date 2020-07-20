@@ -1,6 +1,6 @@
 {
   "name": "@utilitywarehouse/customer-tracking-sdk",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Tooling for user journey tracking implementations.",
   "main": "sdk.js",
   "scripts": {
