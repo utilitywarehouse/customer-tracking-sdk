@@ -1,55 +1,46 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MixpanelBrowserBackend = void 0;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const mixpanel = require("mixpanel-browser");
-import {BrowserBackend} from "../browser_backend";
-import {Account} from "../generated/tracking";
-
-export class MixpanelBrowserBackend implements BrowserBackend {
-    constructor(token: string, options: {[k: string]: any}) {
+class MixpanelBrowserBackend {
+    constructor(token, options) {
         mixpanel.init(token, {
-            api_host: "api-eu.mixpanel.com", // EU by default
+            api_host: "api-eu.mixpanel.com",
             ...options,
         });
     }
-
-    track(eventName: string, eventAttributes: { [p: string]: string }): Promise<void> {
+    track(eventName, eventAttributes) {
         return new Promise((resolve, reject) => {
-            mixpanel.track(eventName, eventAttributes, (response: any) => {
-
+            mixpanel.track(eventName, eventAttributes, (response) => {
                 if (response === 1) {
                     resolve();
                     return;
                 }
-
                 if (response.status && response.status === 1) {
                     resolve();
                     return;
                 }
-
                 if (response.error) {
                     reject(new Error(response.error));
                     return;
                 }
-
                 reject(new Error("mixpanel response unsuccessful"));
-                return
-            })
-        })
+                return;
+            });
+        });
     }
-
-    disable(): Promise<void> {
-        return Promise.resolve(mixpanel.opt_out_tracking())
+    disable() {
+        return Promise.resolve(mixpanel.opt_out_tracking());
     }
-
-    enable(): Promise<void> {
+    enable() {
         return Promise.resolve(mixpanel.opt_in_tracking());
     }
-
-    identify(account: Account): Promise<void> {
+    identify(account) {
         return Promise.resolve(mixpanel.identify(account.number));
     }
-
-    reset(): Promise<void> {
+    reset() {
         return Promise.resolve(mixpanel.reset());
     }
-
 }
+exports.MixpanelBrowserBackend = MixpanelBrowserBackend;

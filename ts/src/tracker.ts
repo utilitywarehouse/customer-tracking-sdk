@@ -7,9 +7,11 @@ import {
     Stage,
     StageEvent,
     Subject, VisitEvent
-} from "../generated/tracking";
+} from "./generated/tracking";
 import {Backend} from "./backend";
 import {EventEmitter} from "events";
+
+export type EventAttributes = Promise<{[k: string]: string }> | { [k: string]: string }
 
 export class Tracker {
     private emitter: EventEmitter;
@@ -61,8 +63,8 @@ export class Tracker {
         return this.interactionChannelValue(event.channel) + "." + this.interactionValue(event.interaction)
     }
 
-    private attributes(attributes: { [k: string]: string }): { [k: string]: string } {
-        const mapped: { [k: string]: string } = {};
+    private attributes(attributes: {[k: string]: string}): {[k: string]: string} {
+        const mapped: EventAttributes = {};
 
         for (const k in attributes) {
             mapped[k.toLowerCase().replace(/[^a-z]/g, "_")] = attributes[k];
@@ -81,7 +83,7 @@ export class Tracker {
         subject: Subject,
         intent: Intent,
         stage: Stage,
-        attributes?: (Promise<{ [k: string]: string }> | { [k: string]: string } | null),
+        attributes: EventAttributes = {},
     ): Promise<void> {
 
         try {
@@ -118,7 +120,7 @@ export class Tracker {
         intent: Intent,
         interaction: Interaction,
         channel: InteractionChannel,
-        attributes?: (Promise<{ [k: string]: string }> | { [k: string]: string } | null),
+        attributes: EventAttributes = {},
     ): Promise<void> {
         try {
             const event: InteractionEvent = {
@@ -152,7 +154,7 @@ export class Tracker {
         account: Account,
         application: Application,
         target: string,
-        attributes?: (Promise<{ [k: string]: string }> | { [k: string]: string } | null),
+        attributes: EventAttributes = {},
     ): Promise<void> {
         try {
             const event: ClickEvent = {
@@ -180,7 +182,7 @@ export class Tracker {
         account: Account,
         application: Application,
         location: string,
-        attributes?: (Promise<{ [k: string]: string }> | { [k: string]: string } | null),
+        attributes: EventAttributes = {},
     ): Promise<void> {
         try {
             const event: VisitEvent = {

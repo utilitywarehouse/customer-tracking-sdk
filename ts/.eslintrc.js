@@ -13,4 +13,7 @@ module.exports = {
         "node": true
     },
     "ignorePatterns": ["generated"],
+    rules: {
+        "@typescript-eslint/no-explicit-any": "off"
+    },
 };

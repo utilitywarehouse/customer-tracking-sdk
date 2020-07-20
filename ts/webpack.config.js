@@ -2,12 +2,12 @@ const path = require('path');
 
 module.exports = {
     devtool: "source-map",
-    entry: './src/browser_tracker.ts',
+    entry: './src-browser/index.ts',
     module: {
         rules: [
             {
                 test: /\.ts?$/,
-                use: 'ts-loader',
+                use: { loader: 'ts-loader', options: { configFile: 'tsconfig.browser.json' } },
                 exclude: /node_modules/,
             },
         ],
@@ -17,7 +17,7 @@ module.exports = {
     },
     output: {
         filename: 'uw_tracking.js',
-        path: path.resolve(__dirname, 'browser'),
+        path: path.resolve(__dirname, 'dist-browser'),
         library: 'uw_tracking',
-    },
+    }
 };

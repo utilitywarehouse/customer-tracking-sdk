@@ -1,15 +1,9 @@
-import {Tracker as BaseTracker} from "./tracker";
-import {MixpanelBrowserBackend} from "./backend/mixpanel-browser";
-import {
-    StageEvent, InteractionEvent, VisitEvent, ClickEvent,
-    InteractionChannel, Interaction, Subject, Intent, Stage,
-    Account, Application, Person
-} from "./../generated/tracking";
-import {BrowserBackend} from "./browser_backend";
-
+import {EventAttributes, Tracker as BaseTracker} from "../tracker";
+import {BrowserBackend} from "../browser_backend";
+import {Account, Application, Intent, Stage, Subject, Interaction, InteractionChannel} from "../generated/tracking";
 
 export class Tracker {
-    private account: Account;
+    private account!: Account;
     private baseTracker: BaseTracker;
     constructor(private readonly backend: BrowserBackend, private readonly application: Application) {
         this.baseTracker = new BaseTracker(backend);
@@ -33,7 +27,7 @@ export class Tracker {
         subject: Subject,
         intent: Intent,
         stage: Stage,
-        attributes?: (Promise<{ [k: string]: string }> | { [k: string]: string } | null),
+        attributes: EventAttributes = {},
     ): Promise<void> {
         return this.baseTracker.trackStage(this.account, this.application, subject, intent, stage, attributes)
     }
@@ -43,29 +37,22 @@ export class Tracker {
         intent: Intent,
         interaction: Interaction,
         channel: InteractionChannel,
-        attributes?: (Promise<{ [k: string]: string }> | { [k: string]: string } | null),
+        attributes: EventAttributes = {},
     ): Promise<void> {
         return this.baseTracker.trackInteraction(this.account, this.application, subject, intent, interaction, channel, attributes)
     }
 
     async trackClick(
         target: string,
-        attributes?: (Promise<{ [k: string]: string }> | { [k: string]: string } | null),
+        attributes: EventAttributes = {},
     ): Promise<void> {
         return this.baseTracker.trackClick(this.account, this.application, target, attributes)
     }
 
     async trackVisit(
         location: string,
-        attributes?: (Promise<{ [k: string]: string }> | { [k: string]: string } | null),
+        attributes: EventAttributes = {},
     ): Promise<void> {
         return this.baseTracker.trackVisit(this.account, this.application, location, attributes)
     }
-}
-
-export {
-    MixpanelBrowserBackend,
-    StageEvent, InteractionEvent, VisitEvent, ClickEvent,
-    InteractionChannel, Interaction, Subject, Intent, Stage,
-    Account, Application, Person
 }

@@ -2,7 +2,7 @@
 
 ## Vanilla JS browser usage
 
-Copy the built package from [here](./browser/uw_tracking.js) to your project.
+Copy the built package from [here](dist-browser/uw_tracking.js) to your project.
 
 Example:
 

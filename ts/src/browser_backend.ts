@@ -1,5 +1,5 @@
 import {Backend} from "./backend";
-import {Account} from "../generated/tracking";
+import {Account} from "./generated/tracking";
 
 export interface BrowserBackend extends Backend {
     enable(): Promise<void>

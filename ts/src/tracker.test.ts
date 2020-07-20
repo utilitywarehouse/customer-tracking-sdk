@@ -1,6 +1,6 @@
 import {Tracker} from "./tracker";
 import {Backend} from "./backend";
-import {Account, Application, Intent, Interaction, InteractionChannel, Stage, Subject} from "../generated/tracking";
+import {Account, Application, Intent, Interaction, InteractionChannel, Stage, Subject} from "./generated/tracking";
 
 function mockBackend(): Backend {
     return {
@@ -15,7 +15,7 @@ test("stage event tracking", async () => {
 
     const eventName = "submitted.meter-reading-submit";
 
-    const account: Account = {number: "acc-123", id: undefined};
+    const account: Account = {number: "acc-123", id: ""};
     const application: Application = {id: "acc-123"};
     const subject: Subject = Subject.SUBJECT_METER_READING;
     const intent: Intent = Intent.INTENT_METER_READING_SUBMIT;
@@ -49,7 +49,7 @@ test("interaction event tracking", async () => {
 
     const eventName = "email.clicked";
 
-    const account: Account = {number: "acc-123", id: undefined};
+    const account: Account = {number: "acc-123", id: ""};
     const application: Application = {id: "acc-123"};
     const subject: Subject = Subject.SUBJECT_METER_READING;
     const intent: Intent = Intent.INTENT_METER_READING_SUBMIT;
@@ -86,7 +86,7 @@ test("visit event tracking", async () => {
 
     const eventName = "visit";
 
-    const account: Account = {number: "acc-123", id: undefined};
+    const account: Account = {number: "acc-123", id: ""};
     const application: Application = {id: "acc-123"};
     const location = "location";
     const attributes = {"a-a": "b", c: 'd'};
@@ -111,7 +111,7 @@ test("click event tracking", async () => {
 
     const eventName = "click";
 
-    const account: Account = {number: "acc-123", id: undefined};
+    const account: Account = {number: "acc-123", id: ""};
     const application: Application = {id: "acc-123"};
     const target = "target";
     const attributes = {"a-a": "b", c: 'd'};
