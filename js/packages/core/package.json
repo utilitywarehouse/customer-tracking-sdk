@@ -8,6 +8,9 @@
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "build": "tsc"
   },
+  "files": [
+    "/lib"
+  ],
   "keywords": [],
   "author": "",
   "license": "MIT",
