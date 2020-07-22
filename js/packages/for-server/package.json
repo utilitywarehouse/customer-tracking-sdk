@@ -4,12 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@utilitywarehouse/customer-tracking-core": "^1.0.0"
+    "@utilitywarehouse/customer-tracking-core": "^1.0.0",
+    "@utilitywarehouse/customer-tracking-types": "^1.0.0",
+    "mixpanel": "^0.11.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.5",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "^7.5.0",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.3",
+    "typescript": "^3.9.7"
   }
 }

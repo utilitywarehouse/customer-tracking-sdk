@@ -19,7 +19,7 @@ interface StageArguments {
     subject: Subject;
     intent: Intent;
     stage: Stage;
-    attributes: EventAttributes;
+    attributes?: EventAttributes;
 }
 
 interface InteractionArguments {
@@ -29,21 +29,21 @@ interface InteractionArguments {
     intent: Intent;
     interaction: Interaction;
     channel: InteractionChannel;
-    attributes: EventAttributes;
+    attributes?: EventAttributes;
 }
 
 interface ClickArguments {
     account: Account;
     application: Application;
     target: string;
-    attributes: EventAttributes;
+    attributes?: EventAttributes;
 }
 
 interface VisitArguments {
     account: Account;
     application: Application;
     location: string;
-    attributes: EventAttributes;
+    attributes?: EventAttributes;
 }
 
 export class Tracker {
@@ -122,7 +122,7 @@ export class Tracker {
                 subject: inEvent.subject,
                 intent: inEvent.intent,
                 stage: inEvent.stage,
-                attributes: await inEvent.attributes,
+                attributes: inEvent.attributes && await inEvent.attributes || {},
             }
 
             return this.backend.track(
@@ -152,7 +152,7 @@ export class Tracker {
                 intent: inEvent.intent,
                 interaction: inEvent.interaction,
                 channel: inEvent.channel,
-                attributes: await inEvent.attributes,
+                attributes: inEvent.attributes && await inEvent.attributes || {},
             }
 
             return this.backend.track(
@@ -180,7 +180,7 @@ export class Tracker {
                 account: inEvent.account,
                 application: inEvent.application,
                 target: inEvent.target,
-                attributes: await inEvent.attributes,
+                attributes: inEvent.attributes && await inEvent.attributes || {},
             }
 
             return this.backend.track(
@@ -205,7 +205,7 @@ export class Tracker {
                 account: inEvent.account,
                 application: inEvent.application,
                 location: inEvent.location,
-                attributes: await inEvent.attributes,
+                attributes: inEvent.attributes && await inEvent.attributes || {},
             }
 
             return this.backend.track(

@@ -1,4 +1,4 @@
-import {Backend} from "../backend";
+import {Backend} from "@utilitywarehouse/customer-tracking-core";
 import * as mixpanel from "mixpanel";
 
 export class MixpanelBackend implements Backend {
@@ -11,7 +11,7 @@ export class MixpanelBackend implements Backend {
     }
     track(eventName: string, eventAttributes: { [p: string]: string }): Promise<void> {
         return new Promise((resolve, reject) => {
-            mixpanel.track(eventName, eventAttributes, (err) => {
+            this.mixpanel.track(eventName, eventAttributes, (err) => {
                 if (err) {
                     reject(err);
                 } else {
