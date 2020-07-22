@@ -2,8 +2,17 @@
 const mixpanel = require("mixpanel-browser");
 import {UIBackend, Account} from "@utilitywarehouse/customer-tracking-core";
 
+type MixpanelResponse = {
+    status: number,
+    error: string,
+}
+
+function isMixpanelResponse(response: MixpanelResponse | number): response is MixpanelResponse {
+    return (response as MixpanelResponse).status !== undefined;
+}
+
 export class MixpanelBackend implements UIBackend {
-    constructor(token: string, options: {[k: string]: any}) {
+    constructor(token: string, options: {[k: string]: string | number}) {
         mixpanel.init(token, {
             api_host: "api-eu.mixpanel.com", // EU by default
             ...options,
@@ -12,20 +21,22 @@ export class MixpanelBackend implements UIBackend {
 
     track(eventName: string, eventAttributes: { [p: string]: string }): Promise<void> {
         return new Promise((resolve, reject) => {
-            mixpanel.track(eventName, eventAttributes, (response: any) => {
-                if (response === 1) {
+            mixpanel.track(eventName, eventAttributes, (response: MixpanelResponse | number) => {
+                if ((response as number) === 1) {
                     resolve();
                     return;
                 }
 
-                if (response.status && response.status === 1) {
-                    resolve();
-                    return;
-                }
+                if (isMixpanelResponse(response)) {
+                    if (response.status && response.status === 1) {
+                        resolve();
+                        return;
+                    }
 
-                if (response.error) {
-                    reject(new Error(response.error));
-                    return;
+                    if (response.error) {
+                        reject(new Error(response.error));
+                        return;
+                    }
                 }
 
                 reject(new Error("mixpanel response unsuccessful"));
