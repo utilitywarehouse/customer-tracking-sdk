@@ -13,7 +13,6 @@ export class MixpanelBackend implements UIBackend {
     track(eventName: string, eventAttributes: { [p: string]: string }): Promise<void> {
         return new Promise((resolve, reject) => {
             mixpanel.track(eventName, eventAttributes, (response: any) => {
-
                 if (response === 1) {
                     resolve();
                     return;

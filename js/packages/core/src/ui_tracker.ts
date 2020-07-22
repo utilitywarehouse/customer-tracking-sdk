@@ -6,7 +6,7 @@ interface StageArguments {
     subject: Subject;
     intent: Intent;
     stage: Stage;
-    attributes: EventAttributes;
+    attributes?: EventAttributes;
 }
 
 interface InteractionArguments {
@@ -14,17 +14,17 @@ interface InteractionArguments {
     intent: Intent;
     interaction: Interaction;
     channel: InteractionChannel;
-    attributes: EventAttributes;
+    attributes?: EventAttributes;
 }
 
 interface ClickArguments {
     target: string;
-    attributes: EventAttributes;
+    attributes?: EventAttributes;
 }
 
 interface VisitArguments {
     location: string;
-    attributes: EventAttributes;
+    attributes?: EventAttributes;
 }
 
 export class UITracker {
@@ -32,6 +32,10 @@ export class UITracker {
     private baseTracker: BaseTracker;
     constructor(private readonly backend: UIBackend, private readonly application: Application) {
         this.baseTracker = new BaseTracker(backend);
+    }
+
+    onError(fn: (err: Error) => void): void {
+        this.baseTracker.onError(fn);
     }
 
     async identify(account: Account): Promise<void> {
