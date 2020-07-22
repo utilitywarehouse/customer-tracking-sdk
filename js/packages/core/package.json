@@ -1,6 +1,6 @@
 {
   "name": "@utilitywarehouse/customer-tracking-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "@types/jest": "^26.0.5",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
-    "@utilitywarehouse/customer-tracking-types": "^0.1.1",
+    "@utilitywarehouse/customer-tracking-types": "^0.1.2",
     "eslint": "^7.5.0",
     "jest": "^26.1.0",
     "ts-jest": "^26.1.3",
