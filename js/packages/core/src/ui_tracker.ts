@@ -1,6 +1,8 @@
 import {EventAttributes, Tracker as BaseTracker} from "./tracker";
 import {UIBackend} from "./ui_backend";
-import {Account, Application, Intent, Stage, Subject, Interaction, InteractionChannel} from "./generated/tracking";
+import {
+    Account, Application, Intent, Stage, Subject, Interaction, InteractionChannel,
+} from "@utilitywarehouse/customer-tracking-types";
 
 interface StageArguments {
     subject: Subject;

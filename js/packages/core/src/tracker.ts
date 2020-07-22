@@ -1,13 +1,16 @@
 import {
     Account,
-    Application, ClickEvent,
+    Application,
+    ClickEvent,
     Intent,
-    Interaction, InteractionChannel,
+    Interaction,
+    InteractionChannel,
     InteractionEvent,
     Stage,
     StageEvent,
-    Subject, VisitEvent
-} from "./generated/tracking";
+    Subject, VisitEvent,
+} from "@utilitywarehouse/customer-tracking-types";
+
 import {EventEmitter} from "events";
 import {Backend} from "./backend";
 

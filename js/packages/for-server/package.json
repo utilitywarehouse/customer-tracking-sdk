@@ -2,9 +2,8 @@
   "name": "@utilitywarehouse/customer-tracking-for-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "jest",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx"
   },
   "keywords": [],

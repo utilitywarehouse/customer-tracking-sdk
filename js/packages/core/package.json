@@ -2,7 +2,7 @@
   "name": "@utilitywarehouse/customer-tracking-core",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx"
@@ -11,15 +11,13 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@utilitywarehouse/customer-tracking-types": "^1.0.0",
     "@types/jest": "^26.0.5",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
     "eslint": "^7.5.0",
-
     "jest": "^26.1.0",
     "ts-jest": "^26.1.3",
-
-
     "typescript": "^3.9.7"
   }
 }

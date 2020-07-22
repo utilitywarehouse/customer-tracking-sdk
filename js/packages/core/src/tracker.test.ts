@@ -1,6 +1,8 @@
 import {Tracker} from "./tracker";
 import {Backend} from "./backend";
-import {Account, Application, Intent, Interaction, InteractionChannel, Stage, Subject} from "./generated/tracking";
+import {
+    Account, Application, Intent, Interaction, InteractionChannel, Stage, Subject,
+} from "@utilitywarehouse/customer-tracking-types";
 
 function mockBackend(): Backend {
     return {

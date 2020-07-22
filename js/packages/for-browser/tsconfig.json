@@ -5,12 +5,13 @@
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": false,
-    "target": "ES2019",
+    "target": "ES6",
     "declaration": true,
-    "outDir": "dist",
+    "outDir": "lib",
     "strict": true,
     "esModuleInterop": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "noLib": false
   },
   "include": ["src/**/*.ts"],
   "exclude": [

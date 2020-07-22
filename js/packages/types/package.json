@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx"
   },
   "keywords": [],
   "author": "",
