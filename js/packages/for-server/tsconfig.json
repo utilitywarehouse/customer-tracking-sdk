@@ -12,7 +12,7 @@
     "esModuleInterop": true,
     "types": ["jest", "node"]
   },
-  "include": ["src/**/*.ts", "index.ts"],
+  "include": ["index.ts"],
   "exclude": [
     "node_modules",
     "**/*.test.ts",

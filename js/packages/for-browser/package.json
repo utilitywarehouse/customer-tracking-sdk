@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
-    "build": "tsc"
+    "build": "rm -rf lib && tsc"
   },
   "files": [
     "/lib"
