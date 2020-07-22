@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const mixpanel = require("mixpanel-browser");
-import {UIBackend, Account} from "@utilitywarehouse/customer-tracking-core";
+import {UIBackend} from "@utilitywarehouse/customer-tracking-core";
+import {Account} from "@utilitywarehouse/customer-tracking-types";
 
 type MixpanelResponse = {
     status: number,

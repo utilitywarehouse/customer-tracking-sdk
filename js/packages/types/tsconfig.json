@@ -9,8 +9,7 @@
     "declaration": true,
     "outDir": "lib",
     "strict": true,
-    "esModuleInterop": true,
-    "types": ["jest", "node"]
+    "esModuleInterop": true
   },
   "include": ["src/**/*.ts"],
   "exclude": [

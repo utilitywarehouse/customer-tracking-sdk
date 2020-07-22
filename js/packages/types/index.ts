@@ -1,1 +1,1 @@
-export * from "./tracking";
+export * from "./src/tracking";

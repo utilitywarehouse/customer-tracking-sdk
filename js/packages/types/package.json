@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "grpc-tools": "^1.9.1",
-    "ts-proto": "^1.26.0"
+    "ts-proto": "^1.26.0",
+    "typescript": "^3.9.7"
   }
 }
