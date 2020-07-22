@@ -6,6 +6,9 @@
   "scripts": {
     "build": "tsc"
   },
+  "files": [
+    "/lib"
+  ],
   "keywords": [],
   "author": "",
   "license": "MIT",
