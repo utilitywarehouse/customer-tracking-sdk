@@ -8,7 +8,7 @@ function isMixpanelResponse(response) {
 }
 class MixpanelBackend {
     constructor(token, options) {
-        mixpanel.init(token, Object.assign({ api_host: "api-eu.mixpanel.com" }, options));
+        mixpanel.init(token, Object.assign({ api_host: "https://api-eu.mixpanel.com" }, options));
     }
     track(eventName, eventAttributes) {
         return new Promise((resolve, reject) => {

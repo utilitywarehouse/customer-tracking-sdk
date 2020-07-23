@@ -4,4 +4,4 @@ export {
 
 export * from "@utilitywarehouse/customer-tracking-types"
 
-export {MixpanelBackend} from "./src/mixpanel_backend"
+export {MixpanelBackend} from "./mixpanel_backend"

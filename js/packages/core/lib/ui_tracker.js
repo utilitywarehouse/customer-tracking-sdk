@@ -28,6 +28,7 @@ class UITracker {
     }
     reset() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.account = { id: "", number: "" };
             return this.backend.reset();
         });
     }

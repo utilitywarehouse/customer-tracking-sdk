@@ -10,7 +10,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./src/tracker"), exports);
-__exportStar(require("./src/ui_tracker"), exports);
-__exportStar(require("./src/backend"), exports);
-__exportStar(require("./src/ui_backend"), exports);
+__exportStar(require("./tracker"), exports);
+__exportStar(require("./ui_tracker"), exports);
+__exportStar(require("./backend"), exports);
+__exportStar(require("./ui_backend"), exports);

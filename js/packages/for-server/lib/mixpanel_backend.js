@@ -24,7 +24,7 @@ const mixpanel = __importStar(require("mixpanel"));
 class MixpanelBackend {
     constructor(apiKey, config) {
         this.mixpanel = mixpanel.init(apiKey, {
-            api_host: "api-eu.mixpanel.com",
+            api_host: "https://api-eu.mixpanel.com",
             ...config
         });
     }

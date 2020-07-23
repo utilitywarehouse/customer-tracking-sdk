@@ -13,5 +13,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var customer_tracking_core_1 = require("@utilitywarehouse/customer-tracking-core");
 Object.defineProperty(exports, "Tracker", { enumerable: true, get: function () { return customer_tracking_core_1.Tracker; } });
 __exportStar(require("@utilitywarehouse/customer-tracking-types"), exports);
-var mixpanel_backend_1 = require("./src/mixpanel_backend");
+var mixpanel_backend_1 = require("./mixpanel_backend");
 Object.defineProperty(exports, "MixpanelBackend", { enumerable: true, get: function () { return mixpanel_backend_1.MixpanelBackend; } });
