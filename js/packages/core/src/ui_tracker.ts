@@ -45,6 +45,7 @@ export class UITracker {
         return this.backend.identify(account);
     }
     async reset(): Promise<void> {
+        this.account = {id: "", number: ""};
         return this.backend.reset()
     }
     async disable(): Promise<void> {

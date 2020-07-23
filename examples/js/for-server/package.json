@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@utilitywarehouse/customer-tracking-for-server": "^0.1.6"
+    "@utilitywarehouse/customer-tracking-for-server": "latest"
   },
   "devDependencies": {
     "typescript": "^3.9.7"

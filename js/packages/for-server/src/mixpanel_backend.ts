@@ -5,7 +5,7 @@ export class MixpanelBackend implements Backend {
     private mixpanel: mixpanel.Mixpanel;
     constructor(apiKey: string, config: mixpanel.InitConfig) {
         this.mixpanel = mixpanel.init(apiKey, {
-            api_host: "api-eu.mixpanel.com", // EU by default
+            api_host: "https://api-eu.mixpanel.com", // EU by default
             ...config
         });
     }

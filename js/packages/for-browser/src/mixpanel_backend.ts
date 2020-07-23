@@ -15,7 +15,7 @@ function isMixpanelResponse(response: MixpanelResponse | number): response is Mi
 export class MixpanelBackend implements UIBackend {
     constructor(token: string, options: {[k: string]: string | number}) {
         mixpanel.init(token, {
-            api_host: "api-eu.mixpanel.com", // EU by default
+            api_host: "https://api-eu.mixpanel.com", // EU by default
             ...options,
         });
     }
