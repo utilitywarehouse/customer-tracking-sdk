@@ -1,0 +1,20 @@
+{
+  "name": "@utilitywarehouse/customer-tracking-types",
+  "version": "0.1.7",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "rm -rf lib && tsc"
+  },
+  "files": [
+    "/lib"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "grpc-tools": "^1.9.1",
+    "ts-proto": "^1.26.0",
+    "typescript": "^3.9.7"
+  }
+}
