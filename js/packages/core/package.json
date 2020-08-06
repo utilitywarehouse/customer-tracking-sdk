@@ -23,6 +23,7 @@
     "@utilitywarehouse/customer-tracking-types": "^0.1.7",
     "eslint": "^7.5.0",
     "jest": "^26.1.0",
+    "rollup-plugin-typescript2": "^0.27.1",
     "ts-jest": "^26.1.3",
     "typescript": "^3.9.7"
   }
