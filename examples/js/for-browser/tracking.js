@@ -1,1 +1,0 @@
-../../../js/packages/for-browser/dist/umd/index.js
