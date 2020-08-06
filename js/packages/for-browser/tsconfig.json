@@ -1,17 +1,14 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ES2015",
     "noImplicitAny": true,
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": false,
-    "target": "ES6",
+    "target": "ES2020",
     "declaration": true,
     "outDir": "lib",
-    "strict": true,
-    "esModuleInterop": true,
-    "types": ["jest", "node"],
-    "noLib": false
+    "strict": true
   },
   "include": [
     "src/index.ts"

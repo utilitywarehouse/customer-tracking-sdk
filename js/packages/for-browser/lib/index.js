@@ -1,17 +1,52 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var customer_tracking_core_1 = require("@utilitywarehouse/customer-tracking-core");
-Object.defineProperty(exports, "Tracker", { enumerable: true, get: function () { return customer_tracking_core_1.UITracker; } });
-__exportStar(require("@utilitywarehouse/customer-tracking-types"), exports);
-var mixpanel_backend_1 = require("./mixpanel_backend");
-Object.defineProperty(exports, "MixpanelBackend", { enumerable: true, get: function () { return mixpanel_backend_1.MixpanelBackend; } });
+export { UITracker as Tracker } from '@utilitywarehouse/customer-tracking-core';
+export * from '@utilitywarehouse/customer-tracking-types';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const mixpanel = require("mixpanel-browser");
+function isMixpanelResponse(response) {
+    return response.status !== undefined;
+}
+class MixpanelBackend {
+    constructor(token, options) {
+        mixpanel.init(token, {
+            api_host: "https://api-eu.mixpanel.com",
+            ...options,
+        });
+    }
+    track(eventName, eventAttributes) {
+        return new Promise((resolve, reject) => {
+            mixpanel.track(eventName, eventAttributes, (response) => {
+                if (response === 1) {
+                    resolve();
+                    return;
+                }
+                if (isMixpanelResponse(response)) {
+                    if (response.status && response.status === 1) {
+                        resolve();
+                        return;
+                    }
+                    if (response.error) {
+                        reject(new Error(response.error));
+                        return;
+                    }
+                }
+                reject(new Error("mixpanel response unsuccessful"));
+                return;
+            });
+        });
+    }
+    disable() {
+        return Promise.resolve(mixpanel.opt_out_tracking());
+    }
+    enable() {
+        return Promise.resolve(mixpanel.opt_in_tracking());
+    }
+    identify(account) {
+        return Promise.resolve(mixpanel.identify(account.number));
+    }
+    reset() {
+        return Promise.resolve(mixpanel.reset());
+    }
+}
+
+export { MixpanelBackend };

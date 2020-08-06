@@ -1,7 +1,7 @@
 import { UIBackend } from "@utilitywarehouse/customer-tracking-core";
 import { Account } from "@utilitywarehouse/customer-tracking-types";
 export declare class MixpanelBackend implements UIBackend {
-    constructor(token: string, options: {
+    constructor(token: string, options?: {
         [k: string]: string | number;
     });
     track(eventName: string, eventAttributes: {
