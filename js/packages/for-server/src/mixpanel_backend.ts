@@ -9,6 +9,19 @@ export class MixpanelBackend implements Backend {
             ...config
         });
     }
+
+    alias(from: string, to: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.mixpanel.alias(from, to, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            })
+        })
+    }
+
     track(eventName: string, eventAttributes: { [p: string]: string }): Promise<void> {
         return new Promise((resolve, reject) => {
             this.mixpanel.track(eventName, eventAttributes, (err) => {

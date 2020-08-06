@@ -86,4 +86,8 @@ export class UITracker {
             ...event
         })
     }
+
+    async alias(from: string, to: string): Promise<void> {
+        return this.baseTracker.alias(from, to)
+    }
 }
