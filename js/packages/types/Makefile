@@ -9,9 +9,13 @@ protos:
 		--proto_path=$(proto_dir) \
 		--ts_proto_out=env=node,outputEncodeMethods=false,outputJsonMethods=true,outputClientImpl=false,useOptionals=false:$(current_dir)src \
 		$(proto_dir)/*.proto
+	mv $(current_dir)src/tracking.ts $(current_dir)src/index.ts
 
 test:
 	npm test
 
 lint:
 	npm run lint
+
+build:
+	npm run build

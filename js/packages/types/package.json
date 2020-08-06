@@ -1,20 +1,28 @@
 {
   "name": "@utilitywarehouse/customer-tracking-types",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.js",
   "scripts": {
-    "build": "rm -rf lib && tsc"
+    "build:rm": "rm -rf dist && mkdir -p dist/esm",
+    "build:rollup": "rollup -c",
+    "build": "npm run build:rm && npm run build:rollup"
   },
   "files": [
-    "/lib"
+    "/dist"
   ],
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "grpc-tools": "^1.9.1",
+    "rollup-plugin-typescript2": "^0.27.1",
     "ts-proto": "^1.26.0",
     "typescript": "^3.9.7"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@utilitywarehouse/customer-tracking-for-native",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {},
@@ -8,6 +8,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@utilitywarehouse/customer-tracking-core": "^0.1.7"
+    "@utilitywarehouse/customer-tracking-core": "^0.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

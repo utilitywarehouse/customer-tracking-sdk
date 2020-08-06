@@ -1,15 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const mixpanel = require("mixpanel-browser");
+import mixpanel, {Response, VerboseResponse} from "mixpanel-browser";
 import {UIBackend} from "@utilitywarehouse/customer-tracking-core";
 import {Account} from "@utilitywarehouse/customer-tracking-types";
 
-type MixpanelResponse = {
-    status: number,
-    error: string,
-}
-
-function isMixpanelResponse(response: MixpanelResponse | number): response is MixpanelResponse {
-    return (response as MixpanelResponse).status !== undefined;
+function isMixpanelVerboseResponse(response: Response | number): response is VerboseResponse {
+    return (response as VerboseResponse).status !== undefined;
 }
 
 export class MixpanelBackend implements UIBackend {
@@ -22,13 +17,13 @@ export class MixpanelBackend implements UIBackend {
 
     track(eventName: string, eventAttributes: { [p: string]: string }): Promise<void> {
         return new Promise((resolve, reject) => {
-            mixpanel.track(eventName, eventAttributes, (response: MixpanelResponse | number) => {
+            mixpanel.track(eventName, eventAttributes, (response: Response | number) => {
                 if ((response as number) === 1) {
                     resolve();
                     return;
                 }
 
-                if (isMixpanelResponse(response)) {
+                if (isMixpanelVerboseResponse(response)) {
                     if (response.status && response.status === 1) {
                         resolve();
                         return;
