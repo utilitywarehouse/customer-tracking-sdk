@@ -1,17 +1,26 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var customer_tracking_core_1 = require("@utilitywarehouse/customer-tracking-core");
-Object.defineProperty(exports, "Tracker", { enumerable: true, get: function () { return customer_tracking_core_1.Tracker; } });
-__exportStar(require("@utilitywarehouse/customer-tracking-types"), exports);
-var mixpanel_backend_1 = require("./mixpanel_backend");
-Object.defineProperty(exports, "MixpanelBackend", { enumerable: true, get: function () { return mixpanel_backend_1.MixpanelBackend; } });
+export { Tracker } from '@utilitywarehouse/customer-tracking-core';
+export * from '@utilitywarehouse/customer-tracking-types';
+import { init } from 'mixpanel';
+
+class MixpanelBackend {
+    constructor(apiKey, config) {
+        this.mixpanel = init(apiKey, {
+            api_host: "https://api-eu.mixpanel.com",
+            ...config
+        });
+    }
+    track(eventName, eventAttributes) {
+        return new Promise((resolve, reject) => {
+            this.mixpanel.track(eventName, eventAttributes, (err) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+}
+
+export { MixpanelBackend };

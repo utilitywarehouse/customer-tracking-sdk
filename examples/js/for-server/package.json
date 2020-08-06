@@ -1,5 +1,5 @@
 {
-  "name": "for-server",
+  "name": "for-server-example",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@utilitywarehouse/customer-tracking-for-server": "latest"
   },
