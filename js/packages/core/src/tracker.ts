@@ -132,6 +132,7 @@ export class Tracker {
                 this.stageEventName(event),
                 {
                     account_number: event.account && event.account.number || "",
+                    account_id: event.account && event.account.id || "",
                     client_id: event.application && event.application.id || "",
                     subject: this.subjectValue(event.subject),
                     intent: this.intentValue(event.intent),
@@ -162,6 +163,7 @@ export class Tracker {
                 this.interactionEventName(event),
                 {
                     account_number: event.account && event.account.number || "",
+                    account_id: event.account && event.account.id || "",
                     client_id: event.application && event.application.id || "",
                     subject: this.subjectValue(event.subject),
                     intent: this.intentValue(event.intent),
@@ -190,6 +192,7 @@ export class Tracker {
                 "click",
                 {
                     account_number: event.account && event.account.number || "",
+                    account_id: event.account && event.account.id || "",
                     client_id: event.application && event.application.id || "",
                     target: event.target,
                     ...this.attributes(event.attributes),
@@ -215,10 +218,21 @@ export class Tracker {
                 "visit",
                 {
                     account_number: event.account && event.account.number || "",
+                    account_id: event.account && event.account.id || "",
                     client_id: event.application && event.application.id || "",
                     location: event.location,
                     ...this.attributes(event.attributes),
                 },
+            )
+        } catch (e) {
+            this.emitter.emit("error", e);
+        }
+    }
+
+    async alias(from: string, to: string): Promise<void> {
+        try {
+            return this.backend.alias(
+                from, to
             )
         } catch (e) {
             this.emitter.emit("error", e);

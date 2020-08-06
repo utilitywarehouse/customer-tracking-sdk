@@ -7,6 +7,7 @@ import {
 function mockBackend(): Backend {
     return {
         track: jest.fn(),
+        alias: jest.fn(),
     }
 }
 
@@ -37,6 +38,7 @@ test("stage event tracking", async () => {
 
     expect(backend.track).toBeCalledWith(eventName, {
         "account_number": account.number,
+        "account_id": account.id,
         client_id: application.id,
         subject: "meter-reading",
         intent: "meter-reading-submit",
@@ -74,6 +76,7 @@ test("interaction event tracking", async () => {
 
     expect(backend.track).toBeCalledWith(eventName, {
         "account_number": account.number,
+        "account_id": account.id,
         client_id: application.id,
         subject: "meter-reading",
         intent: "meter-reading-submit",
@@ -105,7 +108,10 @@ test("visit event tracking", async () => {
     )
 
     expect(backend.track).toBeCalledWith(eventName, {
-        "account_number": account.number, client_id: application.id, location, ...expectedAttributes
+        "account_number": account.number,
+        "account_id": account.id,
+        client_id: application.id,
+        location, ...expectedAttributes
     });
 })
 
@@ -131,6 +137,40 @@ test("click event tracking", async () => {
     )
 
     expect(backend.track).toBeCalledWith(eventName, {
-        "account_number": account.number, client_id: application.id, target, ...expectedAttributes
+        "account_number": account.number,
+        "account_id": account.id,
+        client_id: application.id,
+        target,
+        ...expectedAttributes
+    });
+})
+
+test("click event tracking", async () => {
+
+    const backend = mockBackend();
+    const tracker = new Tracker(backend);
+
+    const eventName = "click";
+
+    const account: Account = {number: "acc-123", id: ""};
+    const application: Application = {id: "acc-123"};
+    const target = "target";
+    const attributes = {"a-a": "b", c: 'd'};
+    const expectedAttributes = {"a_a": "b", c: 'd'};
+
+    await tracker.trackClick({
+            account,
+            application,
+            target,
+            attributes: new Promise(r => r(attributes)),
+        }
+    )
+
+    expect(backend.track).toBeCalledWith(eventName, {
+        "account_number": account.number,
+        "account_id": account.id,
+        client_id: application.id,
+        target,
+        ...expectedAttributes
     });
 })

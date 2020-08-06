@@ -15,6 +15,10 @@ export class MixpanelBackend implements UIBackend {
         });
     }
 
+    alias(from: string, to: string): Promise<void> {
+        return Promise.resolve(mixpanel.alias(from, to));
+    }
+
     track(eventName: string, eventAttributes: { [p: string]: string }): Promise<void> {
         return new Promise((resolve, reject) => {
             mixpanel.track(eventName, eventAttributes, (response: Response | number) => {

@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-const mixpanelEndpoint = "https://api.mixpanel.com/track"
+const mixpanelEndpoint = "https://api-eu.mixpanel.com/track"
 
 func NewMixpanelBackend(token string, client *http.Client) *MixpanelBackend {
 	return &MixpanelBackend{
