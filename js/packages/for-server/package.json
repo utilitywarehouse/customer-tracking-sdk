@@ -7,7 +7,7 @@
   "module": "lib/index.js",
   "scripts": {
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
-    "build": "rm -rf lib && mkdir lib && rollup -c"
+    "build": "rm -rf lib && mkdir lib && npx tsc"
   },
   "files": [
     "/lib"

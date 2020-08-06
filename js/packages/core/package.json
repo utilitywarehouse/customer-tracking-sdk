@@ -8,7 +8,10 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
-    "build": "rm -rf lib && mkdir lib && rollup -c"
+    "build:rm": "rm -rf lib && mkdir -p lib/esm",
+    "build:esm": "rollup -c",
+    "build:cjs": "tsc",
+    "build": "npm run build:rm && npm run build:cjs && npm run build:esm"
   },
   "files": [
     "/lib"

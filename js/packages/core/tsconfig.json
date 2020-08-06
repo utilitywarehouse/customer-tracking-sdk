@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "ES2015",
+    "module": "CommonJS",
     "noImplicitAny": true,
     "removeComments": false,
     "preserveConstEnums": true,
@@ -9,11 +9,11 @@
     "declaration": true,
     "outDir": "lib",
     "strict": true,
-    "esModuleInterop": true,
-    "types": ["jest", "node"],
-    "noLib": false
+    "esModuleInterop": true
   },
-  "include": ["src/index.ts"],
+  "include": [
+    "src/index.ts"
+  ],
   "exclude": [
     "node_modules",
     "**/*.test.ts",

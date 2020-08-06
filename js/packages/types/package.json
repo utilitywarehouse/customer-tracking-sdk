@@ -3,10 +3,13 @@
   "version": "0.1.8-alpha.0",
   "description": "",
   "main": "lib/index.js",
-  "module": "lib/index.js",
+  "module": "lib/esm/index.js",
   "types": "lib/index.d.js",
   "scripts": {
-    "build": "rm -rf lib && mkdir lib && rollup -c"
+    "build:rm": "rm -rf lib && mkdir -p lib/esm",
+    "build:esm": "rollup -c",
+    "build:cjs": "tsc",
+    "build": "npm run build:rm && npm run build:cjs && npm run build:esm"
   },
   "files": [
     "/lib"
