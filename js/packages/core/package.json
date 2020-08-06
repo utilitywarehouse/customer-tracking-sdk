@@ -2,28 +2,29 @@
   "name": "@utilitywarehouse/customer-tracking-core",
   "version": "0.1.9-alpha.0",
   "description": "",
-  "main": "lib/index.js",
-  "module": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
-    "build:rm": "rm -rf lib && mkdir -p lib/esm",
-    "build:esm": "rollup -c",
-    "build:cjs": "tsc",
-    "build": "npm run build:rm && npm run build:cjs && npm run build:esm"
+    "build:rm": "rm -rf dist && mkdir -p dist/esm",
+    "build:rollup": "rollup -c",
+    "build": "npm run build:rm && npm run build:rollup"
   },
   "files": [
-    "/lib"
+    "/dist"
   ],
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "dependencies": {
+    "@utilitywarehouse/customer-tracking-types": "^0.1.9-alpha.0"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.5",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
-    "@utilitywarehouse/customer-tracking-types": "^0.1.9-alpha.0",
     "eslint": "^7.5.0",
     "jest": "^26.1.0",
     "rollup-plugin-typescript2": "^0.27.1",

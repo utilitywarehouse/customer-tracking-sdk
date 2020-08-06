@@ -4,11 +4,12 @@
     "noImplicitAny": true,
     "removeComments": false,
     "preserveConstEnums": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "target": "ES2020",
     "declaration": true,
-    "outDir": "lib",
-    "strict": true
+    "outDir": "dist",
+    "strict": true,
+    "moduleResolution": "Node"
   },
   "include": [
     "src/index.ts"

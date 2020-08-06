@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UW Tracking Test</title>
+    <h1>Check console output</h1>
+    <script src="tracking.js"></script>
+    <script>
+
+        const {
+            Tracker, MixpanelBackend,
+            Subject, Intent, Stage,
+            Interaction, InteractionChannel,
+        } = uwTracking;
+
+        const tracker = new Tracker(
+            new MixpanelBackend("c4f9c42eec07534c28a8903a7c471f82", {debug: true, api_host: "https://api-eu.mixpanel.com"}),
+            {id: "my-application"}
+        )
+
+        tracker.onError(err => {
+            console.error("onError -> ", err.message)
+        })
+
+        const getAttributes = () => {
+            return new Promise(r => r({timeOfLastRead: "2020-06-01"}));
+        }
+
+        const failAttributes = () => {
+            return new Promise((_,r) => r(new Error("failed to obtain event context")));
+        }
+
+        tracker.identify({id: "123", number: "acc-123"});
+
+        tracker.trackVisit({
+            location: "/index.html",
+        })
+
+        tracker.trackStage({
+            subject: Subject.SUBJECT_METER_READING,
+            intent: Intent.INTENT_METER_READING_SUBMIT,
+            stage: Stage.STAGE_COMPLETED,
+            attributes: getAttributes() // note how attributes can be a promise
+        })
+
+        tracker.trackInteraction({
+            subject: Subject.SUBJECT_METER_READING,
+            intent: Intent.INTENT_METER_READING_SUBMIT,
+            interaction: Interaction.INTERACTION_CLICKED,
+            channel: InteractionChannel.INTERACTION_CHANNEL_EMAIL,
+            // note how the failure to resolve the promise will result in an onError event
+            // trigger rather than the tracker.trackInteraction promise rejection
+            attributes: failAttributes()
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
