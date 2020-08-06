@@ -9,5 +9,8 @@
   "license": "MIT",
   "dependencies": {
     "@utilitywarehouse/customer-tracking-core": "^0.1.9-alpha.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
