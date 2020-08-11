@@ -92,7 +92,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Track(ctx, "sample", map[string]string{})
 
-		assert.Errorf(t, err, "mixpanel backend: track call was not successful")
+		assert.Errorf(t, err, "mixpanel backend: call was not successful")
 	})
 
 	t.Run("sends all properties and returns nil if successful", func(t *testing.T) {
@@ -113,6 +113,43 @@ func TestMixpanelBackend_Track(t *testing.T) {
 
 		assert.Equal(t, "prop1", transport.received.Properties["prop1"])
 		assert.Equal(t, "prop2", transport.received.Properties["prop2"])
+	})
+}
+
+func TestMixpanelBackend_Alias(t *testing.T) {
+	ctx := context.Background()
+
+	t.Run("sends correct properties and returns nil", func(t *testing.T) {
+		transport := &testRoundTripper{
+			response: "1",
+		}
+		client := &http.Client{
+			Transport: transport,
+		}
+
+		be := tracking.NewMixpanelBackend("apiKey", client)
+		err := be.Alias(ctx, "id", "alias")
+
+		require.NoError(t, err)
+
+		assert.Equal(t, "$create_alias", transport.received.Event)
+		assert.Equal(t, "id", transport.received.Properties["distinct_id"])
+		assert.Equal(t, "alias", transport.received.Properties["alias"])
+		assert.Equal(t, "apiKey", transport.received.Properties["token"])
+	})
+
+	t.Run("returns an error if call is not successful", func(t *testing.T) {
+		transport := &testRoundTripper{
+			response: "0",
+		}
+		client := &http.Client{
+			Transport: transport,
+		}
+
+		be := tracking.NewMixpanelBackend("apiKey", client)
+		err := be.Alias(ctx, "id", "alias")
+
+		assert.Errorf(t, err, "mixpanel backend: call was not successful")
 	})
 }
 
