@@ -108,3 +108,7 @@ func (b *mockBackend) Track(_ context.Context, name string, attrs map[string]str
 	b.events = append(b.events, e)
 	return nil
 }
+
+func (b *mockBackend) Alias(ctx context.Context, currentID string, alias string) error {
+	return nil
+}

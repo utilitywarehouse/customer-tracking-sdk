@@ -28,25 +28,12 @@ type mixpanelRequest struct {
 	Properties map[string]string `json:"properties"`
 }
 
-func (b *MixpanelBackend) Track(ctx context.Context, name string, attrs map[string]string) error {
-	properties := map[string]string{}
-	for k, v := range attrs {
-		properties[k] = v
-	}
-
-	// Set $distinct_id if identifiers are available
-	if accountNumber, ok := properties["account_number"]; ok {
-		properties["$distinct_id"] = accountNumber
-	}
-	if accountID, ok := properties["account_id"]; ok {
-		properties["$distinct_id"] = accountID
-	}
-
+func (b *MixpanelBackend) track(ctx context.Context, eventName string, properties map[string]string) error {
 	// Set token
 	properties["token"] = b.token
 
 	r := &mixpanelRequest{
-		Event:      name,
+		Event:      eventName,
 		Properties: properties,
 	}
 
@@ -75,8 +62,34 @@ func (b *MixpanelBackend) Track(ctx context.Context, name string, attrs map[stri
 	}
 
 	if string(respBody) != "1" {
-		return fmt.Errorf("mixpanel backend: track call was not successful")
+		return fmt.Errorf("mixpanel backend: call was not successful")
 	}
 
 	return nil
+}
+
+func (b *MixpanelBackend) Track(ctx context.Context, name string, attrs map[string]string) error {
+	properties := map[string]string{}
+	for k, v := range attrs {
+		properties[k] = v
+	}
+
+	// Set $distinct_id if identifiers are available
+	if accountNumber, ok := properties["account_number"]; ok {
+		properties["$distinct_id"] = accountNumber
+	}
+	if accountID, ok := properties["account_id"]; ok {
+		properties["$distinct_id"] = accountID
+	}
+
+	return b.track(ctx, name, properties)
+
+}
+
+func (b *MixpanelBackend) Alias(ctx context.Context, currentID string, alias string) error {
+	props := map[string]string{
+		"distinct_id": currentID,
+		"alias":       alias,
+	}
+	return b.track(ctx, "$create_alias", props)
 }

@@ -15,12 +15,18 @@ type Tracker struct {
 
 type Backend interface {
 	Track(ctx context.Context, eventName string, attributes map[string]string) error
+	Alias(ctx context.Context, currentID string, alias string) error
 }
 
 func New(backend Backend) *Tracker {
 	return &Tracker{
 		backend: backend,
 	}
+}
+
+// Alias allows to associate another unique ID to an existing identity.
+func (t *Tracker) Alias(ctx context.Context, currentID string, alias string) error {
+	return t.backend.Alias(ctx, currentID, alias)
 }
 
 func (t *Tracker) TrackStage(ctx context.Context, event *types.StageEvent) error {
