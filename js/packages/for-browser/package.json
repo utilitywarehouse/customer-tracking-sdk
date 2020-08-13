@@ -3,10 +3,11 @@
   "version": "0.3.0",
   "description": "",
   "main": "dist/cjs/index.js",
-  "types": "dist/cjs/index.d.ts",
   "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
   "browser": "dist/umd/tracker.min.js",
   "scripts": {
+    "test": "jest --passWithNoTests",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "build:rm": "rm -rf dist && mkdir -p dist/esm",
     "build:rollup": "rollup -c",

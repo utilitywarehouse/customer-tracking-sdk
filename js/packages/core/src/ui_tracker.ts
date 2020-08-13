@@ -1,7 +1,7 @@
 import {EventAttributes, Tracker as BaseTracker} from "./tracker";
 import {UIBackend} from "./ui_backend";
 import {
-    Account, Application, Intent, Stage, Subject, Interaction, InteractionChannel,
+    Actor, Application, Intent, Stage, Subject, Interaction, InteractionChannel,
 } from "@utilitywarehouse/customer-tracking-types";
 
 interface StageArguments {
@@ -30,7 +30,7 @@ interface VisitArguments {
 }
 
 export class UITracker {
-    private account!: Account;
+    private actor!: Actor;
     private baseTracker: BaseTracker;
     constructor(private readonly backend: UIBackend, private readonly application: Application) {
         this.baseTracker = new BaseTracker(backend);
@@ -40,12 +40,12 @@ export class UITracker {
         this.baseTracker.onError(fn);
     }
 
-    async identify(account: Account): Promise<void> {
-        this.account = account;
-        return this.backend.identify(account);
+    async identify(actor: Actor): Promise<void> {
+        this.actor = actor;
+        return this.backend.identify(actor);
     }
     async reset(): Promise<void> {
-        this.account = {id: "", number: ""};
+        this.actor = {id: "", attributes: {}};
         return this.backend.reset()
     }
     async disable(): Promise<void> {
@@ -57,7 +57,7 @@ export class UITracker {
 
     async trackStage(event: StageArguments): Promise<void> {
         return this.baseTracker.trackStage({
-            account: this.account,
+            actor: this.actor,
             application: this.application,
             ...event
         })
@@ -65,7 +65,7 @@ export class UITracker {
 
     async trackInteraction(event: InteractionArguments): Promise<void> {
         return this.baseTracker.trackInteraction({
-            account: this.account,
+            actor: this.actor,
             application: this.application,
             ...event
         })
@@ -73,7 +73,7 @@ export class UITracker {
 
     async trackClick(event: ClickArguments): Promise<void> {
         return this.baseTracker.trackClick({
-            account: this.account,
+            actor: this.actor,
             application: this.application,
             ...event
         })
@@ -81,7 +81,7 @@ export class UITracker {
 
     async trackVisit(event: VisitArguments): Promise<void> {
         return this.baseTracker.trackVisit({
-            account: this.account,
+            actor: this.actor,
             application: this.application,
             ...event
         })

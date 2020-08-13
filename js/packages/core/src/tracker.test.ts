@@ -1,7 +1,7 @@
 import {Tracker} from "./tracker";
 import {Backend} from "./backend";
 import {
-    Account, Application, Intent, Interaction, InteractionChannel, Stage, Subject,
+    Actor, Application, Intent, Interaction, InteractionChannel, Stage, Subject,
 } from "@utilitywarehouse/customer-tracking-types";
 
 function mockBackend(): Backend {
@@ -18,7 +18,7 @@ test("stage event tracking", async () => {
 
     const eventName = "submitted.meter-reading-submit";
 
-    const account: Account = {number: "acc-123", id: ""};
+    const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
     const application: Application = {id: "acc-123"};
     const subject: Subject = Subject.SUBJECT_METER_READING;
     const intent: Intent = Intent.INTENT_METER_READING_SUBMIT;
@@ -27,7 +27,7 @@ test("stage event tracking", async () => {
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
     await tracker.trackStage({
-            account,
+            actor,
             application,
             subject,
             intent,
@@ -36,9 +36,9 @@ test("stage event tracking", async () => {
         }
     )
 
-    expect(backend.track).toBeCalledWith(eventName, {
-        "account_number": account.number,
-        "account_id": account.id,
+    expect(backend.track).toBeCalledWith(eventName, actor.id, {
+        "account_number": actor.attributes["account-number"],
+        "account_id": actor.id,
         client_id: application.id,
         subject: "meter-reading",
         intent: "meter-reading-submit",
@@ -54,7 +54,7 @@ test("interaction event tracking", async () => {
 
     const eventName = "email.clicked";
 
-    const account: Account = {number: "acc-123", id: ""};
+    const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
     const application: Application = {id: "acc-123"};
     const subject: Subject = Subject.SUBJECT_METER_READING;
     const intent: Intent = Intent.INTENT_METER_READING_SUBMIT;
@@ -64,7 +64,7 @@ test("interaction event tracking", async () => {
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
     await tracker.trackInteraction({
-            account,
+            actor,
             application,
             subject,
             intent,
@@ -74,9 +74,9 @@ test("interaction event tracking", async () => {
         }
     )
 
-    expect(backend.track).toBeCalledWith(eventName, {
-        "account_number": account.number,
-        "account_id": account.id,
+    expect(backend.track).toBeCalledWith(eventName, actor.id, {
+        "account_number": actor.attributes["account-number"],
+        "account_id": actor.id,
         client_id: application.id,
         subject: "meter-reading",
         intent: "meter-reading-submit",
@@ -93,23 +93,23 @@ test("visit event tracking", async () => {
 
     const eventName = "visit";
 
-    const account: Account = {number: "acc-123", id: ""};
+    const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
     const application: Application = {id: "acc-123"};
     const location = "location";
     const attributes = {"a-a": "b", c: 'd'};
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
     await tracker.trackVisit({
-            account,
+            actor,
             application,
             location,
             attributes: new Promise(r => r(attributes)),
         }
     )
 
-    expect(backend.track).toBeCalledWith(eventName, {
-        "account_number": account.number,
-        "account_id": account.id,
+    expect(backend.track).toBeCalledWith(eventName, actor.id, {
+        "account_number": actor.attributes["account-number"],
+        "account_id": actor.id,
         client_id: application.id,
         location, ...expectedAttributes
     });
@@ -122,23 +122,23 @@ test("click event tracking", async () => {
 
     const eventName = "click";
 
-    const account: Account = {number: "acc-123", id: ""};
+    const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
     const application: Application = {id: "acc-123"};
     const target = "target";
     const attributes = {"a-a": "b", c: 'd'};
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
     await tracker.trackClick({
-            account,
+            actor,
             application,
             target,
             attributes: new Promise(r => r(attributes)),
         }
     )
 
-    expect(backend.track).toBeCalledWith(eventName, {
-        "account_number": account.number,
-        "account_id": account.id,
+    expect(backend.track).toBeCalledWith(eventName, actor.id, {
+        "account_number": actor.attributes["account-number"],
+        "account_id": actor.id,
         client_id: application.id,
         target,
         ...expectedAttributes
@@ -152,23 +152,23 @@ test("click event tracking", async () => {
 
     const eventName = "click";
 
-    const account: Account = {number: "acc-123", id: ""};
+    const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
     const application: Application = {id: "acc-123"};
     const target = "target";
     const attributes = {"a-a": "b", c: 'd'};
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
     await tracker.trackClick({
-            account,
+            actor,
             application,
             target,
             attributes: new Promise(r => r(attributes)),
         }
     )
 
-    expect(backend.track).toBeCalledWith(eventName, {
-        "account_number": account.number,
-        "account_id": account.id,
+    expect(backend.track).toBeCalledWith(eventName, actor.id, {
+        "account_number": actor.attributes["account-number"],
+        "account_id": actor.id,
         client_id: application.id,
         target,
         ...expectedAttributes

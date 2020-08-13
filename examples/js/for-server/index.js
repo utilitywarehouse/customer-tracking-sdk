@@ -12,7 +12,7 @@ const failAttributes = () => {
     return new Promise((_, r) => r(new Error("failed to obtain event context")));
 };
 tracker.trackStage({
-    account: { id: "", number: "3002098" },
+    actor: { id: "3002098", attributes: { account_number: "3002098" } },
     // application, where appropriate should indicate the subject the user token was issued to
     // ie. a graphql tracking should use the react app ID in this place because the react app is
     // what triggered the action, this helps understanding where the action originated if many
@@ -24,7 +24,7 @@ tracker.trackStage({
     attributes: getAttributes() // note how attributes can be a promise
 });
 tracker.trackInteraction({
-    account: { id: "", number: "3002098" },
+    actor: { id: "3002098", attributes: { account_number: "3002098" } },
     application: { id: "ds-meter-reads" },
     subject: customer_tracking_for_server_1.Subject.SUBJECT_METER_READING,
     intent: customer_tracking_for_server_1.Intent.INTENT_METER_READING_SUBMIT,
