@@ -1,20 +1,28 @@
-    /* eslint-disable */
+/* eslint-disable */
 
 
-export interface Account {
+export interface Actor {
+  /**
+   *  used as the main identifier in tracking backend (ie distinct_id in mixpanel)
+   */
   id: string;
-  number: string;
+  /**
+   *  map to attach actor attributes to each event, can be used for account_number etc.
+   */
+  attributes: { [key: string]: string };
+}
+
+export interface Actor_AttributesEntry {
+  key: string;
+  value: string;
 }
 
 export interface Application {
   id: string;
 }
 
-export interface Person {
-}
-
 export interface StageEvent {
-  account: Account | undefined;
+  actor: Actor | undefined;
   application: Application | undefined;
   subject: Subject;
   intent: Intent;
@@ -28,7 +36,7 @@ export interface StageEvent_AttributesEntry {
 }
 
 export interface InteractionEvent {
-  account: Account | undefined;
+  actor: Actor | undefined;
   application: Application | undefined;
   subject: Subject;
   intent: Intent;
@@ -43,7 +51,7 @@ export interface InteractionEvent_AttributesEntry {
 }
 
 export interface VisitEvent {
-  account: Account | undefined;
+  actor: Actor | undefined;
   application: Application | undefined;
   location: string;
   attributes: { [key: string]: string };
@@ -55,7 +63,7 @@ export interface VisitEvent_AttributesEntry {
 }
 
 export interface ClickEvent {
-  account: Account | undefined;
+  actor: Actor | undefined;
   application: Application | undefined;
   target: string;
   attributes: { [key: string]: string };
@@ -66,16 +74,17 @@ export interface ClickEvent_AttributesEntry {
   value: string;
 }
 
-const baseAccount: object = {
+const baseActor: object = {
   id: "",
-  number: "",
+};
+
+const baseActor_AttributesEntry: object = {
+  key: "",
+  value: "",
 };
 
 const baseApplication: object = {
   id: "",
-};
-
-const basePerson: object = {
 };
 
 const baseStageEvent: object = {
@@ -122,6 +131,7 @@ const baseClickEvent_AttributesEntry: object = {
 export const Subject = {
   SUBJECT_NONE: 0 as const,
   SUBJECT_METER_READING: 1 as const,
+  SUBJECT_CUSTOMER_REFERRAL: 2 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -131,6 +141,9 @@ export const Subject = {
       case 1:
       case "SUBJECT_METER_READING":
         return Subject.SUBJECT_METER_READING;
+      case 2:
+      case "SUBJECT_CUSTOMER_REFERRAL":
+        return Subject.SUBJECT_CUSTOMER_REFERRAL;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -143,17 +156,20 @@ export const Subject = {
         return "SUBJECT_NONE";
       case Subject.SUBJECT_METER_READING:
         return "SUBJECT_METER_READING";
+      case Subject.SUBJECT_CUSTOMER_REFERRAL:
+        return "SUBJECT_CUSTOMER_REFERRAL";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | -1;
+export type Subject = 0 | 1 | 2 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
   INTENT_METER_READING_SUBMIT: 1 as const,
+  INTENT_LEAD_CONVERSION: 2 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -163,6 +179,9 @@ export const Intent = {
       case 1:
       case "INTENT_METER_READING_SUBMIT":
         return Intent.INTENT_METER_READING_SUBMIT;
+      case 2:
+      case "INTENT_LEAD_CONVERSION":
+        return Intent.INTENT_LEAD_CONVERSION;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -175,13 +194,15 @@ export const Intent = {
         return "INTENT_NONE";
       case Intent.INTENT_METER_READING_SUBMIT:
         return "INTENT_METER_READING_SUBMIT";
+      case Intent.INTENT_LEAD_CONVERSION:
+        return "INTENT_LEAD_CONVERSION";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | -1;
+export type Intent = 0 | 1 | 2 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
@@ -327,39 +348,80 @@ export const InteractionChannel = {
 
 export type InteractionChannel = 0 | 1 | 2 | -1;
 
-export const Account = {
-  fromJSON(object: any): Account {
-    const message = { ...baseAccount } as Account;
+export const Actor = {
+  fromJSON(object: any): Actor {
+    const message = { ...baseActor } as Actor;
+    message.attributes = {};
     if (object.id !== undefined && object.id !== null) {
       message.id = String(object.id);
     } else {
       message.id = "";
     }
-    if (object.number !== undefined && object.number !== null) {
-      message.number = String(object.number);
-    } else {
-      message.number = "";
+    if (object.attributes !== undefined && object.attributes !== null) {
+      Object.entries(object.attributes).forEach(([key, value]) => {
+        message.attributes[key] = String(value);
+      })
     }
     return message;
   },
-  fromPartial(object: DeepPartial<Account>): Account {
-    const message = { ...baseAccount } as Account;
+  fromPartial(object: DeepPartial<Actor>): Actor {
+    const message = { ...baseActor } as Actor;
+    message.attributes = {};
     if (object.id !== undefined && object.id !== null) {
       message.id = object.id;
     } else {
       message.id = "";
     }
-    if (object.number !== undefined && object.number !== null) {
-      message.number = object.number;
-    } else {
-      message.number = "";
+    if (object.attributes !== undefined && object.attributes !== null) {
+      Object.entries(object.attributes).forEach(([key, value]) => {
+        if (value !== undefined) {
+          message.attributes[key] = String(value);
+        }
+      })
     }
     return message;
   },
-  toJSON(message: Account): unknown {
+  toJSON(message: Actor): unknown {
     const obj: any = {};
     obj.id = message.id || "";
-    obj.number = message.number || "";
+    obj.attributes = message.attributes || undefined;
+    return obj;
+  },
+};
+
+export const Actor_AttributesEntry = {
+  fromJSON(object: any): Actor_AttributesEntry {
+    const message = { ...baseActor_AttributesEntry } as Actor_AttributesEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key);
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = String(object.value);
+    } else {
+      message.value = "";
+    }
+    return message;
+  },
+  fromPartial(object: DeepPartial<Actor_AttributesEntry>): Actor_AttributesEntry {
+    const message = { ...baseActor_AttributesEntry } as Actor_AttributesEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = object.key;
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = object.value;
+    } else {
+      message.value = "";
+    }
+    return message;
+  },
+  toJSON(message: Actor_AttributesEntry): unknown {
+    const obj: any = {};
+    obj.key = message.key || "";
+    obj.value = message.value || "";
     return obj;
   },
 };
@@ -390,29 +452,14 @@ export const Application = {
   },
 };
 
-export const Person = {
-  fromJSON(_: any): Person {
-    const message = { ...basePerson } as Person;
-    return message;
-  },
-  fromPartial(_: DeepPartial<Person>): Person {
-    const message = { ...basePerson } as Person;
-    return message;
-  },
-  toJSON(_: Person): unknown {
-    const obj: any = {};
-    return obj;
-  },
-};
-
 export const StageEvent = {
   fromJSON(object: any): StageEvent {
     const message = { ...baseStageEvent } as StageEvent;
     message.attributes = {};
-    if (object.account !== undefined && object.account !== null) {
-      message.account = Account.fromJSON(object.account);
+    if (object.actor !== undefined && object.actor !== null) {
+      message.actor = Actor.fromJSON(object.actor);
     } else {
-      message.account = undefined;
+      message.actor = undefined;
     }
     if (object.application !== undefined && object.application !== null) {
       message.application = Application.fromJSON(object.application);
@@ -444,10 +491,10 @@ export const StageEvent = {
   fromPartial(object: DeepPartial<StageEvent>): StageEvent {
     const message = { ...baseStageEvent } as StageEvent;
     message.attributes = {};
-    if (object.account !== undefined && object.account !== null) {
-      message.account = Account.fromPartial(object.account);
+    if (object.actor !== undefined && object.actor !== null) {
+      message.actor = Actor.fromPartial(object.actor);
     } else {
-      message.account = undefined;
+      message.actor = undefined;
     }
     if (object.application !== undefined && object.application !== null) {
       message.application = Application.fromPartial(object.application);
@@ -480,7 +527,7 @@ export const StageEvent = {
   },
   toJSON(message: StageEvent): unknown {
     const obj: any = {};
-    obj.account = message.account ? Account.toJSON(message.account) : undefined;
+    obj.actor = message.actor ? Actor.toJSON(message.actor) : undefined;
     obj.application = message.application ? Application.toJSON(message.application) : undefined;
     obj.subject = Subject.toJSON(message.subject);
     obj.intent = Intent.toJSON(message.intent);
@@ -531,10 +578,10 @@ export const InteractionEvent = {
   fromJSON(object: any): InteractionEvent {
     const message = { ...baseInteractionEvent } as InteractionEvent;
     message.attributes = {};
-    if (object.account !== undefined && object.account !== null) {
-      message.account = Account.fromJSON(object.account);
+    if (object.actor !== undefined && object.actor !== null) {
+      message.actor = Actor.fromJSON(object.actor);
     } else {
-      message.account = undefined;
+      message.actor = undefined;
     }
     if (object.application !== undefined && object.application !== null) {
       message.application = Application.fromJSON(object.application);
@@ -571,10 +618,10 @@ export const InteractionEvent = {
   fromPartial(object: DeepPartial<InteractionEvent>): InteractionEvent {
     const message = { ...baseInteractionEvent } as InteractionEvent;
     message.attributes = {};
-    if (object.account !== undefined && object.account !== null) {
-      message.account = Account.fromPartial(object.account);
+    if (object.actor !== undefined && object.actor !== null) {
+      message.actor = Actor.fromPartial(object.actor);
     } else {
-      message.account = undefined;
+      message.actor = undefined;
     }
     if (object.application !== undefined && object.application !== null) {
       message.application = Application.fromPartial(object.application);
@@ -612,7 +659,7 @@ export const InteractionEvent = {
   },
   toJSON(message: InteractionEvent): unknown {
     const obj: any = {};
-    obj.account = message.account ? Account.toJSON(message.account) : undefined;
+    obj.actor = message.actor ? Actor.toJSON(message.actor) : undefined;
     obj.application = message.application ? Application.toJSON(message.application) : undefined;
     obj.subject = Subject.toJSON(message.subject);
     obj.intent = Intent.toJSON(message.intent);
@@ -664,10 +711,10 @@ export const VisitEvent = {
   fromJSON(object: any): VisitEvent {
     const message = { ...baseVisitEvent } as VisitEvent;
     message.attributes = {};
-    if (object.account !== undefined && object.account !== null) {
-      message.account = Account.fromJSON(object.account);
+    if (object.actor !== undefined && object.actor !== null) {
+      message.actor = Actor.fromJSON(object.actor);
     } else {
-      message.account = undefined;
+      message.actor = undefined;
     }
     if (object.application !== undefined && object.application !== null) {
       message.application = Application.fromJSON(object.application);
@@ -689,10 +736,10 @@ export const VisitEvent = {
   fromPartial(object: DeepPartial<VisitEvent>): VisitEvent {
     const message = { ...baseVisitEvent } as VisitEvent;
     message.attributes = {};
-    if (object.account !== undefined && object.account !== null) {
-      message.account = Account.fromPartial(object.account);
+    if (object.actor !== undefined && object.actor !== null) {
+      message.actor = Actor.fromPartial(object.actor);
     } else {
-      message.account = undefined;
+      message.actor = undefined;
     }
     if (object.application !== undefined && object.application !== null) {
       message.application = Application.fromPartial(object.application);
@@ -715,7 +762,7 @@ export const VisitEvent = {
   },
   toJSON(message: VisitEvent): unknown {
     const obj: any = {};
-    obj.account = message.account ? Account.toJSON(message.account) : undefined;
+    obj.actor = message.actor ? Actor.toJSON(message.actor) : undefined;
     obj.application = message.application ? Application.toJSON(message.application) : undefined;
     obj.location = message.location || "";
     obj.attributes = message.attributes || undefined;
@@ -764,10 +811,10 @@ export const ClickEvent = {
   fromJSON(object: any): ClickEvent {
     const message = { ...baseClickEvent } as ClickEvent;
     message.attributes = {};
-    if (object.account !== undefined && object.account !== null) {
-      message.account = Account.fromJSON(object.account);
+    if (object.actor !== undefined && object.actor !== null) {
+      message.actor = Actor.fromJSON(object.actor);
     } else {
-      message.account = undefined;
+      message.actor = undefined;
     }
     if (object.application !== undefined && object.application !== null) {
       message.application = Application.fromJSON(object.application);
@@ -789,10 +836,10 @@ export const ClickEvent = {
   fromPartial(object: DeepPartial<ClickEvent>): ClickEvent {
     const message = { ...baseClickEvent } as ClickEvent;
     message.attributes = {};
-    if (object.account !== undefined && object.account !== null) {
-      message.account = Account.fromPartial(object.account);
+    if (object.actor !== undefined && object.actor !== null) {
+      message.actor = Actor.fromPartial(object.actor);
     } else {
-      message.account = undefined;
+      message.actor = undefined;
     }
     if (object.application !== undefined && object.application !== null) {
       message.application = Application.fromPartial(object.application);
@@ -815,7 +862,7 @@ export const ClickEvent = {
   },
   toJSON(message: ClickEvent): unknown {
     const obj: any = {};
-    obj.account = message.account ? Account.toJSON(message.account) : undefined;
+    obj.actor = message.actor ? Actor.toJSON(message.actor) : undefined;
     obj.application = message.application ? Application.toJSON(message.application) : undefined;
     obj.target = message.target || "";
     obj.attributes = message.attributes || undefined;

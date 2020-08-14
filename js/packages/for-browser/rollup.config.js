@@ -36,7 +36,9 @@ export default [
             // required to convert cjs deps into esm before bundling (for mixpanel-browser)
             commonjs(),
             // minifying
-            terser(),
+            terser({
+                ecma: 2020
+            }),
         ]
     }
 ]

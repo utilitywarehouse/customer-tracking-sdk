@@ -1,5 +1,5 @@
 import {
-    Account,
+    Actor,
     Application,
     ClickEvent,
     Intent,
@@ -17,7 +17,7 @@ import {Backend} from "./backend";
 export type EventAttributes = Promise<{[k: string]: string }> | { [k: string]: string }
 
 interface StageArguments {
-    account: Account;
+    actor: Actor;
     application: Application;
     subject: Subject;
     intent: Intent;
@@ -26,7 +26,7 @@ interface StageArguments {
 }
 
 interface InteractionArguments {
-    account: Account;
+    actor: Actor;
     application: Application;
     subject: Subject;
     intent: Intent;
@@ -36,14 +36,14 @@ interface InteractionArguments {
 }
 
 interface ClickArguments {
-    account: Account;
+    actor: Actor;
     application: Application;
     target: string;
     attributes?: EventAttributes;
 }
 
 interface VisitArguments {
-    account: Account;
+    actor: Actor;
     application: Application;
     location: string;
     attributes?: EventAttributes;
@@ -120,7 +120,7 @@ export class Tracker {
         try {
 
             const event: StageEvent = {
-                account: inEvent.account,
+                actor: inEvent.actor,
                 application: inEvent.application,
                 subject: inEvent.subject,
                 intent: inEvent.intent,
@@ -130,13 +130,13 @@ export class Tracker {
 
             return this.backend.track(
                 this.stageEventName(event),
+                event.actor && event.actor.id || undefined,
                 {
-                    account_number: event.account && event.account.number || "",
-                    account_id: event.account && event.account.id || "",
                     client_id: event.application && event.application.id || "",
                     subject: this.subjectValue(event.subject),
                     intent: this.intentValue(event.intent),
                     stage: this.stageValue(event.stage),
+                    ...this.attributes(event.actor && event.actor.attributes || {}),
                     ...this.attributes(event.attributes),
                 },
             )
@@ -150,7 +150,7 @@ export class Tracker {
     ): Promise<void> {
         try {
             const event: InteractionEvent = {
-                account: inEvent.account,
+                actor: inEvent.actor,
                 application: inEvent.application,
                 subject: inEvent.subject,
                 intent: inEvent.intent,
@@ -161,14 +161,14 @@ export class Tracker {
 
             return this.backend.track(
                 this.interactionEventName(event),
+                event.actor && event.actor.id || undefined,
                 {
-                    account_number: event.account && event.account.number || "",
-                    account_id: event.account && event.account.id || "",
                     client_id: event.application && event.application.id || "",
                     subject: this.subjectValue(event.subject),
                     intent: this.intentValue(event.intent),
                     interaction: this.interactionValue(event.interaction),
                     interaction_channel: this.interactionChannelValue(event.channel),
+                    ...this.attributes(event.actor && event.actor.attributes || {}),
                     ...this.attributes(event.attributes),
                 },
             )
@@ -182,7 +182,7 @@ export class Tracker {
     ): Promise<void> {
         try {
             const event: ClickEvent = {
-                account: inEvent.account,
+                actor: inEvent.actor,
                 application: inEvent.application,
                 target: inEvent.target,
                 attributes: inEvent.attributes && await inEvent.attributes || {},
@@ -190,11 +190,11 @@ export class Tracker {
 
             return this.backend.track(
                 "click",
+                event.actor && event.actor.id || undefined,
                 {
-                    account_number: event.account && event.account.number || "",
-                    account_id: event.account && event.account.id || "",
                     client_id: event.application && event.application.id || "",
                     target: event.target,
+                    ...this.attributes(event.actor && event.actor.attributes || {}),
                     ...this.attributes(event.attributes),
                 },
             )
@@ -208,7 +208,7 @@ export class Tracker {
     ): Promise<void> {
         try {
             const event: VisitEvent = {
-                account: inEvent.account,
+                actor: inEvent.actor,
                 application: inEvent.application,
                 location: inEvent.location,
                 attributes: inEvent.attributes && await inEvent.attributes || {},
@@ -216,11 +216,11 @@ export class Tracker {
 
             return this.backend.track(
                 "visit",
+                event.actor && event.actor.id || undefined,
                 {
-                    account_number: event.account && event.account.number || "",
-                    account_id: event.account && event.account.id || "",
                     client_id: event.application && event.application.id || "",
                     location: event.location,
+                    ...this.attributes(event.actor && event.actor.attributes || {}),
                     ...this.attributes(event.attributes),
                 },
             )

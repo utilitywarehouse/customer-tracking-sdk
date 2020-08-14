@@ -18,7 +18,7 @@ const failAttributes = (): Promise<{ [k: string]: string }> => {
 }
 
 tracker.trackStage({
-    account: {id: "", number: "3002098"},
+    actor: {id: "3002098", attributes: {account_number: "3002098"}},
     // application, where appropriate should indicate the subject the user token was issued to
     // ie. a graphql tracking should use the react app ID in this place because the react app is
     // what triggered the action, this helps understanding where the action originated if many
@@ -31,7 +31,7 @@ tracker.trackStage({
 })
 
 tracker.trackInteraction({
-    account: {id: "", number: "3002098"},
+    actor: {id: "3002098", attributes: {account_number: "3002098"}},
     application: {id: "ds-meter-reads"},
     subject: Subject.SUBJECT_METER_READING,
     intent: Intent.INTENT_METER_READING_SUBMIT,

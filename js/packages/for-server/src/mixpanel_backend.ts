@@ -5,7 +5,7 @@ export class MixpanelBackend implements Backend {
     private mixpanel: mixpanel.Mixpanel;
     constructor(apiKey: string, config?: mixpanel.InitConfig) {
         this.mixpanel = mixpanel.init(apiKey, {
-            api_host: "https://api-eu.mixpanel.com", // EU by default
+            host: "api-eu.mixpanel.com", // EU by default
             ...config
         });
     }
@@ -22,9 +22,22 @@ export class MixpanelBackend implements Backend {
         })
     }
 
-    track(eventName: string, eventAttributes: { [p: string]: string }): Promise<void> {
+    track(eventName: string, distinctId?: string, eventAttributes?: { [p: string]: string }): Promise<void> {
+
+        const filteredAttributes: { [p: string]: string } = {};
+
+        for (const key in eventAttributes) {
+            if (eventAttributes[key]) {
+                filteredAttributes[key] = eventAttributes[key];
+            }
+        }
+
+        if (distinctId) {
+            filteredAttributes['distinct_id'] = distinctId;
+        }
+
         return new Promise((resolve, reject) => {
-            this.mixpanel.track(eventName, eventAttributes, (err) => {
+            this.mixpanel.track(eventName, filteredAttributes, (err) => {
                 if (err) {
                     reject(err);
                 } else {

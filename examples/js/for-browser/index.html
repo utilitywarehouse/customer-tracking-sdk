@@ -30,7 +30,7 @@
             return new Promise((_,r) => r(new Error("failed to obtain event context")));
         }
 
-        tracker.identify({id: "123", number: "acc-123"});
+        tracker.identify({id: "123", attributes: {number: "acc-123"}});
 
         tracker.trackVisit({
             location: "/index.html",

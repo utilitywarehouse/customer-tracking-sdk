@@ -2,40 +2,17 @@ syntax = "proto3";
 
 option go_package = "types";
 
-/*
-
-    !!! KEEP ENUMS LAST OTHERWISE PBJS IS STRUGGLING :/
-
- */
-
-/*
-
-Below describes the user journey tracking common attributes schema.
-
-When sinking events into tracking devices, enums need to be converted
-to string following the 'kebab' case.
-
-Event attributes are defined by implementing teams, there isn't a hard
-schema but a level of consistency across the same subject/intent is
-expected.
-
-*/
-
-message Account {
-  string id = 1;
-  string number = 2;
+message Actor {
+  string id = 1; // used as the main identifier in tracking backend (ie distinct_id in mixpanel)
+  map<string, string> attributes = 2; // map to attach actor attributes to each event, can be used for account_number etc.
 }
 
 message Application {
   string id = 1;
 }
 
-message Person {
-
-}
-
 message StageEvent {
-  Account account = 1;
+  Actor actor = 1;
   Application application = 2;
   Subject subject = 3;
   Intent intent = 4;
@@ -44,7 +21,7 @@ message StageEvent {
 }
 
 message InteractionEvent {
-  Account account = 1;
+  Actor actor = 1;
   Application application = 2;
   Subject subject = 3;
   Intent intent = 4;
@@ -54,14 +31,14 @@ message InteractionEvent {
 }
 
 message VisitEvent {
-  Account account = 1;
+  Actor actor = 1;
   Application application = 2;
   string location = 3;
   map<string, string> attributes = 4;
 }
 
 message ClickEvent {
-  Account account = 1;
+  Actor actor = 1;
   Application application = 2;
   string target = 3;
   map<string, string> attributes = 4;
@@ -70,11 +47,13 @@ message ClickEvent {
 enum Subject {
   SUBJECT_NONE = 0;
   SUBJECT_METER_READING = 1;
+  SUBJECT_CUSTOMER_REFERRAL = 2;
 }
 
 enum Intent {
   INTENT_NONE = 0;
   INTENT_METER_READING_SUBMIT = 1;
+  INTENT_LEAD_CONVERSION = 2;
 }
 
 enum Stage {

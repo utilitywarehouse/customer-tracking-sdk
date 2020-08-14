@@ -122,7 +122,7 @@ function OptOut() {
 }
 
 function Login() {
-    tracker.identify({id: "123", number: "acc-123"});
+    tracker.identify({id: "123", attributes: {account_id: "123", account_number: "acc-123"}});
     return <h2>Sent identify command</h2>;
 }
 
