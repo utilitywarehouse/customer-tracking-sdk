@@ -26,13 +26,13 @@ func TestMixpanelBackend_Track(t *testing.T) {
 		}
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
-		err := be.Track(ctx, "sample", map[string]string{})
+		err := be.Track(ctx, "sample", "id", map[string]string{})
 
 		require.NoError(t, err)
 		assert.Equal(t, "sample", transport.received.Event)
 	})
 
-	t.Run("sets account number as $distinct_id if present", func(t *testing.T) {
+	t.Run("sets $distinct_id ", func(t *testing.T) {
 		transport := &testRoundTripper{
 			response: "1",
 		}
@@ -41,29 +41,10 @@ func TestMixpanelBackend_Track(t *testing.T) {
 		}
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
-		err := be.Track(ctx, "sample", map[string]string{
-			"account_number": "000000",
-		})
+		err := be.Track(ctx, "sample", "000000", map[string]string{})
 
 		require.NoError(t, err)
 		assert.Equal(t, "000000", transport.received.Properties["$distinct_id"])
-	})
-
-	t.Run("sets account id as $distinct_id if present", func(t *testing.T) {
-		transport := &testRoundTripper{
-			response: "1",
-		}
-		client := &http.Client{
-			Transport: transport,
-		}
-
-		be := tracking.NewMixpanelBackend("apiKey", client)
-		err := be.Track(ctx, "sample", map[string]string{
-			"account_id": "account-id",
-		})
-
-		require.NoError(t, err)
-		assert.Equal(t, "account-id", transport.received.Properties["$distinct_id"])
 	})
 
 	t.Run("sets token", func(t *testing.T) {
@@ -75,7 +56,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 		}
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
-		err := be.Track(ctx, "sample", map[string]string{})
+		err := be.Track(ctx, "sample", "0000000", map[string]string{})
 
 		require.NoError(t, err)
 		assert.Equal(t, "apiKey", transport.received.Properties["token"])
@@ -90,7 +71,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 		}
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
-		err := be.Track(ctx, "sample", map[string]string{})
+		err := be.Track(ctx, "sample", "0000000", map[string]string{})
 
 		assert.Errorf(t, err, "mixpanel backend: call was not successful")
 	})
@@ -104,7 +85,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 		}
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
-		err := be.Track(ctx, "sample", map[string]string{
+		err := be.Track(ctx, "sample", "0000000", map[string]string{
 			"prop1": "prop1",
 			"prop2": "prop2",
 		})

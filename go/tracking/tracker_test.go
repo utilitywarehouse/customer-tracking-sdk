@@ -14,9 +14,9 @@ import (
 func TestTrackStage(t *testing.T) {
 	ctx := context.Background()
 	e := &types.StageEvent{
-		Account: &types.Account{
-			Id:     "accId",
-			Number: "000000",
+		Actor: &types.Actor{
+			Id:         "000000",
+			Attributes: map[string]string{"account-number": "000001"},
 		},
 		Application: &types.Application{
 			Id: "test-application",
@@ -38,9 +38,9 @@ func TestTrackStage(t *testing.T) {
 	receivedEvent := b.events[0]
 
 	assert.Equal(t, "completed.meter-reading-submit", receivedEvent.name)
+	assert.Equal(t, "000000", receivedEvent.id)
 	expectedAttributes := map[string]string{
-		"account_number": "000000",
-		"account_id":     "accId",
+		"account_number": "000001",
 		"client_id":      "test-application",
 		"subject":        "meter-reading",
 		"intent":         "meter-reading-submit",
@@ -53,9 +53,9 @@ func TestTrackStage(t *testing.T) {
 func TestTrackInteraction(t *testing.T) {
 	ctx := context.Background()
 	e := &types.InteractionEvent{
-		Account: &types.Account{
-			Id:     "accId",
-			Number: "000000",
+		Actor: &types.Actor{
+			Id:         "000000",
+			Attributes: map[string]string{"account-number": "000001"},
 		},
 		Application: &types.Application{
 			Id: "test-application",
@@ -78,9 +78,9 @@ func TestTrackInteraction(t *testing.T) {
 	receivedEvent := b.events[0]
 
 	assert.Equal(t, "email.viewed", receivedEvent.name)
+	assert.Equal(t, "000000", receivedEvent.id)
 	expectedAttributes := map[string]string{
-		"account_number":      "000000",
-		"account_id":          "accId",
+		"account_number":      "000001",
 		"client_id":           "test-application",
 		"subject":             "meter-reading",
 		"intent":              "meter-reading-submit",
@@ -93,6 +93,7 @@ func TestTrackInteraction(t *testing.T) {
 
 type event struct {
 	name       string
+	id         string
 	attributes map[string]string
 }
 
@@ -100,9 +101,10 @@ type mockBackend struct {
 	events []event
 }
 
-func (b *mockBackend) Track(_ context.Context, name string, attrs map[string]string) error {
+func (b *mockBackend) Track(_ context.Context, name string, id string, attrs map[string]string) error {
 	e := event{
 		name:       name,
+		id:         id,
 		attributes: attrs,
 	}
 	b.events = append(b.events, e)

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "types";
+option go_package = ".;types";
 
 message Actor {
   string id = 1; // used as the main identifier in tracking backend (ie distinct_id in mixpanel)
