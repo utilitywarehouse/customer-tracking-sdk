@@ -24,9 +24,9 @@ func main() {
 
 	// Track an event
 	stage := &types.StageEvent{
-		Account: &types.Account{
+		Actor: &types.Actor{
 			Id:     "account-id",
-			Number: "000000",
+			: "000000",
 		},
 		Application: &types.Application{
 			Id: "your-application",

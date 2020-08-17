@@ -5,11 +5,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
-const mixpanelEndpoint = "https://api-eu.mixpanel.com/track"
+const mixpanelEndpoint = "https://api-eu.mixpanel.com/track?verbose=1"
 
 func NewMixpanelBackend(token string, client *http.Client) *MixpanelBackend {
 	return &MixpanelBackend{
@@ -28,6 +29,11 @@ type mixpanelRequest struct {
 	Properties map[string]string `json:"properties"`
 }
 
+type mixpanelResponse struct {
+	Status int    `json:"status"`
+	Error  string `json:"error"`
+}
+
 func (b *MixpanelBackend) track(ctx context.Context, eventName string, properties map[string]string) error {
 	// Set token
 	properties["token"] = b.token
@@ -36,6 +42,8 @@ func (b *MixpanelBackend) track(ctx context.Context, eventName string, propertie
 		Event:      eventName,
 		Properties: properties,
 	}
+
+	spew.Dump(r)
 
 	body, err := json.Marshal(r)
 	if err != nil {
@@ -52,17 +60,18 @@ func (b *MixpanelBackend) track(ctx context.Context, eventName string, propertie
 		return fmt.Errorf("mixpanel backend: %w", err)
 	}
 
-	// From Mixpanel documentation:
-	// The request will return an HTTP response with
-	// body "1" if the track call is successful, and a "0" otherwise.
 	defer res.Body.Close()
-	respBody, err := ioutil.ReadAll(res.Body)
+
+	mpRes := &mixpanelResponse{}
+
+	err = json.NewDecoder(res.Body).Decode(mpRes)
+
 	if err != nil {
 		return fmt.Errorf("mixpanel backend: %w", err)
 	}
 
-	if string(respBody) != "1" {
-		return fmt.Errorf("mixpanel backend: call was not successful")
+	if mpRes.Status != 1 {
+		return fmt.Errorf("mixpanel backend: call was not successful: %s", mpRes.Error)
 	}
 
 	return nil
