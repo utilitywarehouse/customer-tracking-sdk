@@ -10,7 +10,7 @@ clean-types:
 generate_types: clean-types types-dir
 	@echo "Generating types"
 	@protoc -I$(proto_src_root) \
-		--go_out=$(gogo_type_overrides):$(proto_target)/ \
+		--gogoslick_out=$(gogo_type_overrides):$(proto_target)/ \
 		tracking.proto
 
 ### LINTING
