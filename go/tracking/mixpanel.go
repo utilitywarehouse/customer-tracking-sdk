@@ -68,19 +68,13 @@ func (b *MixpanelBackend) track(ctx context.Context, eventName string, propertie
 	return nil
 }
 
-func (b *MixpanelBackend) Track(ctx context.Context, name string, attrs map[string]string) error {
+func (b *MixpanelBackend) Track(ctx context.Context, name string, distinctID string, attrs map[string]string) error {
 	properties := map[string]string{}
 	for k, v := range attrs {
 		properties[k] = v
 	}
 
-	// Set $distinct_id if identifiers are available
-	if accountNumber, ok := properties["account_number"]; ok {
-		properties["$distinct_id"] = accountNumber
-	}
-	if accountID, ok := properties["account_id"]; ok {
-		properties["$distinct_id"] = accountID
-	}
+	properties["$distinct_id"] = distinctID
 
 	return b.track(ctx, name, properties)
 

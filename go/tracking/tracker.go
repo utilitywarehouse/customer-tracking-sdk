@@ -14,7 +14,7 @@ type Tracker struct {
 }
 
 type Backend interface {
-	Track(ctx context.Context, eventName string, attributes map[string]string) error
+	Track(ctx context.Context, eventName string, actorID string, attributes map[string]string) error
 	Alias(ctx context.Context, currentID string, alias string) error
 }
 
@@ -38,21 +38,18 @@ func (t *Tracker) TrackStage(ctx context.Context, event *types.StageEvent) error
 		"subject":   subjectToString(event.Subject),
 	}
 
-	accountNumber := accountNumber(event.Account)
-	if accountNumber != "" {
-		attrs["account_number"] = accountNumber
-	}
-
-	accountID := accountID(event.Account)
-	if accountID != "" {
-		attrs["account_id"] = accountID
-	}
+	id := actorID(event.Actor)
+	actorAttrs := formatAttributes(actorAttributes(event.Actor))
 
 	customAttrs := formatAttributes(event.Attributes)
 	for k, v := range customAttrs {
 		attrs[k] = v
 	}
-	return t.backend.Track(ctx, name, attrs)
+	for k, v := range actorAttrs {
+		attrs[k] = v
+	}
+
+	return t.backend.Track(ctx, name, id, attrs)
 }
 
 func (t *Tracker) TrackInteraction(ctx context.Context, event *types.InteractionEvent) error {
@@ -65,35 +62,32 @@ func (t *Tracker) TrackInteraction(ctx context.Context, event *types.Interaction
 		"interaction_channel": channelToString(event.Channel),
 	}
 
-	accountNumber := accountNumber(event.Account)
-	if accountNumber != "" {
-		attrs["account_number"] = accountNumber
-	}
-
-	accountID := accountID(event.Account)
-	if accountID != "" {
-		attrs["account_id"] = accountID
-	}
+	id := actorID(event.Actor)
+	actorAttrs := formatAttributes(actorAttributes(event.Actor))
 
 	customAttrs := formatAttributes(event.Attributes)
 	for k, v := range customAttrs {
 		attrs[k] = v
 	}
-	return t.backend.Track(ctx, name, attrs)
+	for k, v := range actorAttrs {
+		attrs[k] = v
+	}
+
+	return t.backend.Track(ctx, name, id, attrs)
 }
 
-func accountNumber(account *types.Account) string {
-	if account == nil {
+func actorID(actor *types.Actor) string {
+	if actor == nil {
 		return ""
 	}
-	return account.Number
+	return actor.Id
 }
 
-func accountID(account *types.Account) string {
-	if account == nil {
-		return ""
+func actorAttributes(actor *types.Actor) map[string]string {
+	if actor == nil {
+		return map[string]string{}
 	}
-	return account.Id
+	return actor.Attributes
 }
 
 func clientID(application *types.Application) string {
