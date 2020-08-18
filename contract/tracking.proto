@@ -53,7 +53,7 @@ enum Subject {
 enum Intent {
   INTENT_NONE = 0;
   INTENT_METER_READING_SUBMIT = 1;
-  INTENT_LEAD_CONVERSION = 2;
+  INTENT_LEAD_CAPTURE = 2;
 }
 
 enum Stage {

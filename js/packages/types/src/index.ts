@@ -169,7 +169,7 @@ export type Subject = 0 | 1 | 2 | -1;
 export const Intent = {
   INTENT_NONE: 0 as const,
   INTENT_METER_READING_SUBMIT: 1 as const,
-  INTENT_LEAD_CONVERSION: 2 as const,
+  INTENT_LEAD_CAPTURE: 2 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -180,8 +180,8 @@ export const Intent = {
       case "INTENT_METER_READING_SUBMIT":
         return Intent.INTENT_METER_READING_SUBMIT;
       case 2:
-      case "INTENT_LEAD_CONVERSION":
-        return Intent.INTENT_LEAD_CONVERSION;
+      case "INTENT_LEAD_CAPTURE":
+        return Intent.INTENT_LEAD_CAPTURE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -194,8 +194,8 @@ export const Intent = {
         return "INTENT_NONE";
       case Intent.INTENT_METER_READING_SUBMIT:
         return "INTENT_METER_READING_SUBMIT";
-      case Intent.INTENT_LEAD_CONVERSION:
-        return "INTENT_LEAD_CONVERSION";
+      case Intent.INTENT_LEAD_CAPTURE:
+        return "INTENT_LEAD_CAPTURE";
       default:
         return "UNKNOWN";
     }
