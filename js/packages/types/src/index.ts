@@ -132,6 +132,7 @@ export const Subject = {
   SUBJECT_NONE: 0 as const,
   SUBJECT_METER_READING: 1 as const,
   SUBJECT_CUSTOMER_REFERRAL: 2 as const,
+  SUBJECT_BILL: 3 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -144,6 +145,9 @@ export const Subject = {
       case 2:
       case "SUBJECT_CUSTOMER_REFERRAL":
         return Subject.SUBJECT_CUSTOMER_REFERRAL;
+      case 3:
+      case "SUBJECT_BILL":
+        return Subject.SUBJECT_BILL;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -158,18 +162,21 @@ export const Subject = {
         return "SUBJECT_METER_READING";
       case Subject.SUBJECT_CUSTOMER_REFERRAL:
         return "SUBJECT_CUSTOMER_REFERRAL";
+      case Subject.SUBJECT_BILL:
+        return "SUBJECT_BILL";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | -1;
+export type Subject = 0 | 1 | 2 | 3 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
   INTENT_METER_READING_SUBMIT: 1 as const,
   INTENT_LEAD_CAPTURE: 2 as const,
+  INTENT_PAYMENT: 3 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -182,6 +189,9 @@ export const Intent = {
       case 2:
       case "INTENT_LEAD_CAPTURE":
         return Intent.INTENT_LEAD_CAPTURE;
+      case 3:
+      case "INTENT_PAYMENT":
+        return Intent.INTENT_PAYMENT;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -196,13 +206,15 @@ export const Intent = {
         return "INTENT_METER_READING_SUBMIT";
       case Intent.INTENT_LEAD_CAPTURE:
         return "INTENT_LEAD_CAPTURE";
+      case Intent.INTENT_PAYMENT:
+        return "INTENT_PAYMENT";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | -1;
+export type Intent = 0 | 1 | 2 | 3 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
