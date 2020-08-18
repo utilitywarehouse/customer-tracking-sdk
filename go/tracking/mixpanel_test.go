@@ -18,12 +18,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("sets provided event name as event", func(t *testing.T) {
-		transport := &testRoundTripper{
-			response: "1",
-		}
-		client := &http.Client{
-			Transport: transport,
-		}
+		client, transport := tripper(1, "")
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Track(ctx, "sample", "id", map[string]string{})
@@ -33,12 +28,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	})
 
 	t.Run("sets $distinct_id ", func(t *testing.T) {
-		transport := &testRoundTripper{
-			response: "1",
-		}
-		client := &http.Client{
-			Transport: transport,
-		}
+		client, transport := tripper(1, "")
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Track(ctx, "sample", "000000", map[string]string{})
@@ -48,12 +38,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	})
 
 	t.Run("sets token", func(t *testing.T) {
-		transport := &testRoundTripper{
-			response: "1",
-		}
-		client := &http.Client{
-			Transport: transport,
-		}
+		client, transport := tripper(1, "")
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Track(ctx, "sample", "0000000", map[string]string{})
@@ -63,26 +48,16 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	})
 
 	t.Run("returns an error if call is not successful", func(t *testing.T) {
-		transport := &testRoundTripper{
-			response: "0",
-		}
-		client := &http.Client{
-			Transport: transport,
-		}
+		client, _ := tripper(0, "errorMsg")
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Track(ctx, "sample", "0000000", map[string]string{})
 
-		assert.Errorf(t, err, "mixpanel backend: call was not successful")
+		assert.Errorf(t, err, "mixpanel backend: call was not successful: errorMsg")
 	})
 
 	t.Run("sends all properties and returns nil if successful", func(t *testing.T) {
-		transport := &testRoundTripper{
-			response: "1",
-		}
-		client := &http.Client{
-			Transport: transport,
-		}
+		client, transport := tripper(1, "")
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Track(ctx, "sample", "0000000", map[string]string{
@@ -101,12 +76,7 @@ func TestMixpanelBackend_Alias(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("sends correct properties and returns nil", func(t *testing.T) {
-		transport := &testRoundTripper{
-			response: "1",
-		}
-		client := &http.Client{
-			Transport: transport,
-		}
+		client, transport := tripper(1, "")
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Alias(ctx, "id", "alias")
@@ -120,23 +90,17 @@ func TestMixpanelBackend_Alias(t *testing.T) {
 	})
 
 	t.Run("returns an error if call is not successful", func(t *testing.T) {
-		transport := &testRoundTripper{
-			response: "0",
-		}
-		client := &http.Client{
-			Transport: transport,
-		}
+		client, _ := tripper(0, "errMsg")
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Alias(ctx, "id", "alias")
 
-		assert.Errorf(t, err, "mixpanel backend: call was not successful")
+		assert.Errorf(t, err, "mixpanel backend: call was not successful: errMsg")
 	})
 }
 
 type testRoundTripper struct {
-	response string
-
+	response *mixpanelResponse
 	received *mixpanelRequest
 }
 
@@ -145,25 +109,59 @@ type mixpanelRequest struct {
 	Properties map[string]string `json:"properties"`
 }
 
+type mixpanelResponse struct {
+	Status int    `json:"status"`
+	Error  string `json:"error"`
+}
+
 func (t *testRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
-	defer req.Body.Close()
-	body, err := ioutil.ReadAll(req.Body)
+
+	err := req.ParseForm()
+
 	if err != nil {
 		return nil, err
 	}
 
 	sent := &mixpanelRequest{}
-	err = json.Unmarshal(body, sent)
+	err = json.Unmarshal([]byte(req.Form.Get("data")), sent)
 	if err != nil {
 		return nil, err
 	}
 
 	t.received = sent
 
+	resS, err := json.Marshal(t.response)
+
+	if err != nil {
+		return nil, err
+	}
+
 	resp := &http.Response{
 		StatusCode: http.StatusOK,
-		Body:       ioutil.NopCloser(bytes.NewBufferString(t.response)),
+		Body:       ioutil.NopCloser(bytes.NewBuffer(resS)),
 	}
 
 	return resp, nil
+}
+
+func tripper(code int, msg string) (*http.Client, *testRoundTripper) {
+	transport := &testRoundTripper{
+		response: &mixpanelResponse{
+			Status: code,
+			Error:  msg,
+		},
+	}
+	client := &http.Client{
+		Transport: transport,
+	}
+	return client, transport
+}
+
+func TestMixpanelBackend_TrackIntegration(t *testing.T) {
+
+	mp := tracking.NewMixpanelBackend("asd", http.DefaultClient)
+
+	err := mp.Track(context.Background(), "test-event", "test-distinct-id", map[string]string{"param": "value"})
+
+	assert.NoError(t, err)
 }
