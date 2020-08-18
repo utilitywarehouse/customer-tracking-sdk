@@ -21,9 +21,9 @@ func TestTrackStage(t *testing.T) {
 		Application: &types.Application{
 			Id: "test-application",
 		},
-		Subject: types.Subject_SUBJECT_METER_READING,
-		Intent:  types.Intent_INTENT_METER_READING_SUBMIT,
-		Stage:   types.Stage_STAGE_COMPLETED,
+		Subject: types.SUBJECT_METER_READING,
+		Intent:  types.INTENT_METER_READING_SUBMIT,
+		Stage:   types.STAGE_COMPLETED,
 		Attributes: map[string]string{
 			"sample key": "foo",
 		},
@@ -60,10 +60,10 @@ func TestTrackInteraction(t *testing.T) {
 		Application: &types.Application{
 			Id: "test-application",
 		},
-		Subject:     types.Subject_SUBJECT_METER_READING,
-		Intent:      types.Intent_INTENT_METER_READING_SUBMIT,
-		Channel:     types.InteractionChannel_INTERACTION_CHANNEL_EMAIL,
-		Interaction: types.Interaction_INTERACTION_VIEWED,
+		Subject:     types.SUBJECT_METER_READING,
+		Intent:      types.INTENT_METER_READING_SUBMIT,
+		Channel:     types.INTERACTION_CHANNEL_EMAIL,
+		Interaction: types.INTERACTION_VIEWED,
 		Attributes: map[string]string{
 			"sample key": "foo",
 		},

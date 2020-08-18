@@ -1,16 +1,15 @@
 package tracking
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"github.com/davecgh/go-spew/spew"
+	"net/url"
+	"strings"
 )
 
-const mixpanelEndpoint = "https://api-eu.mixpanel.com/track?verbose=1"
+const mixpanelEndpoint = "https://api-eu.mixpanel.com/track"
 
 func NewMixpanelBackend(token string, client *http.Client) *MixpanelBackend {
 	return &MixpanelBackend{
@@ -43,17 +42,20 @@ func (b *MixpanelBackend) track(ctx context.Context, eventName string, propertie
 		Properties: properties,
 	}
 
-	spew.Dump(r)
-
-	body, err := json.Marshal(r)
+	data, err := json.Marshal(r)
 	if err != nil {
 		return fmt.Errorf("mixpanel backend: %w", err)
 	}
 
-	req, err := http.NewRequest("POST", mixpanelEndpoint, bytes.NewBuffer(body))
+	body := url.Values{}
+	body.Set("data", string(data))
+	body.Set("verbose", "1")
+
+	req, err := http.NewRequestWithContext(ctx, "POST", mixpanelEndpoint, strings.NewReader(body.Encode()))
 	if err != nil {
 		return fmt.Errorf("mixpanel backend: %w", err)
 	}
+	req.Header.Set("Content-type", "application/x-www-form-urlencoded")
 
 	res, err := b.client.Do(req)
 	if err != nil {
