@@ -25,15 +25,15 @@ func main() {
 	// Track an event
 	stage := &types.StageEvent{
 		Actor: &types.Actor{
-			Id:     "account-id",
-			: "000000",
+			Id:         "account-id",
+			Attributes: map[string]string{"account-number": "000000"},
 		},
 		Application: &types.Application{
 			Id: "your-application",
 		},
-		Subject: types.Subject_SUBJECT_METER_READING,
-		Intent:  types.Intent_INTENT_METER_READING_SUBMIT,
-		Stage:   types.Stage_STAGE_COMPLETED,
+		Subject: types.SUBJECT_METER_READING,
+		Intent:  types.INTENT_METER_READING_SUBMIT,
+		Stage:   types.STAGE_COMPLETED,
 		Attributes: map[string]string{
 			"your-additional-attribute": "foo",
 		},
@@ -47,17 +47,17 @@ func main() {
 	// Or do it in a separate routine
 	go func() {
 		interaction := &types.InteractionEvent{
-			Account: &types.Account{
-				Id:     "account-id",
-				Number: "000000",
+			Actor: &types.Actor{
+				Id:         "account-id",
+				Attributes: map[string]string{"account-number": "000000"},
 			},
 			Application: &types.Application{
 				Id: "your-application",
 			},
-			Subject:     types.Subject_SUBJECT_METER_READING,
-			Intent:      types.Intent_INTENT_METER_READING_SUBMIT,
-			Channel:     types.InteractionChannel_INTERACTION_CHANNEL_EMAIL,
-			Interaction: types.Interaction_INTERACTION_CLICKED,
+			Subject:     types.SUBJECT_METER_READING,
+			Intent:      types.INTENT_METER_READING_SUBMIT,
+			Channel:     types.INTERACTION_CHANNEL_EMAIL,
+			Interaction: types.INTERACTION_CLICKED,
 			Attributes: map[string]string{
 				"your-additional-attribute": "foo",
 			},
