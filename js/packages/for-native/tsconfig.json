@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "ES2015",
+    "noImplicitAny": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "target": "ES2020",
+    "declaration": true,
+    "outDir": "dist",
+    "strict": true,
+    "moduleResolution": "Node"
+  },
+  "include": [
+    "src/index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}
