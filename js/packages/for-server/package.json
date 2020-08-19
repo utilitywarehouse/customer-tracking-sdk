@@ -29,6 +29,7 @@
     "@typescript-eslint/parser": "^3.7.0",
     "eslint": "^7.5.0",
     "jest": "^26.1.0",
+    "rollup": "^2.26.3",
     "rollup-plugin-typescript2": "^0.27.1",
     "ts-jest": "^26.1.3",
     "typescript": "^3.9.7"
