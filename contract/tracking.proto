@@ -9,6 +9,7 @@ message Actor {
 
 message Application {
   string id = 1;
+  map<string, string> attributes = 2; // map to attach application attributes to each event, can be used for build version etc.
 }
 
 message StageEvent {
