@@ -177,6 +177,7 @@ export const Intent = {
   INTENT_METER_READING_SUBMIT: 1 as const,
   INTENT_LEAD_CAPTURE: 2 as const,
   INTENT_PAYMENT: 3 as const,
+  INTENT_FRIEND_REFERRAL_LINK_SHARE: 4 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -192,6 +193,9 @@ export const Intent = {
       case 3:
       case "INTENT_PAYMENT":
         return Intent.INTENT_PAYMENT;
+      case 4:
+      case "INTENT_FRIEND_REFERRAL_LINK_SHARE":
+        return Intent.INTENT_FRIEND_REFERRAL_LINK_SHARE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -208,13 +212,15 @@ export const Intent = {
         return "INTENT_LEAD_CAPTURE";
       case Intent.INTENT_PAYMENT:
         return "INTENT_PAYMENT";
+      case Intent.INTENT_FRIEND_REFERRAL_LINK_SHARE:
+        return "INTENT_FRIEND_REFERRAL_LINK_SHARE";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
@@ -326,6 +332,7 @@ export const InteractionChannel = {
   INTERACTION_CHANNEL_NONE: 0 as const,
   INTERACTION_CHANNEL_EMAIL: 1 as const,
   INTERACTION_CHANNEL_WILLIAM: 2 as const,
+  INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP: 3 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): InteractionChannel {
     switch (object) {
@@ -338,6 +345,9 @@ export const InteractionChannel = {
       case 2:
       case "INTERACTION_CHANNEL_WILLIAM":
         return InteractionChannel.INTERACTION_CHANNEL_WILLIAM;
+      case 3:
+      case "INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP":
+        return InteractionChannel.INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -352,13 +362,15 @@ export const InteractionChannel = {
         return "INTERACTION_CHANNEL_EMAIL";
       case InteractionChannel.INTERACTION_CHANNEL_WILLIAM:
         return "INTERACTION_CHANNEL_WILLIAM";
+      case InteractionChannel.INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP:
+        return "INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type InteractionChannel = 0 | 1 | 2 | -1;
+export type InteractionChannel = 0 | 1 | 2 | 3 | -1;
 
 export const Actor = {
   fromJSON(object: any): Actor {
