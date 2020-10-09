@@ -57,6 +57,7 @@ enum Intent {
   INTENT_LEAD_CAPTURE = 2;
   INTENT_PAYMENT = 3;
   INTENT_FRIEND_REFERRAL_LINK_SHARE = 4;
+  INTENT_METER_READING_CAPTURE = 5; // When we capture a meter reading input, before submitting
 }
 
 enum Stage {
