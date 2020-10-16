@@ -133,6 +133,7 @@ export const Subject = {
   SUBJECT_METER_READING: 1 as const,
   SUBJECT_CUSTOMER_REFERRAL: 2 as const,
   SUBJECT_BILL: 3 as const,
+  SUBJECT_ENERGY_PREFERENCES: 4 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -148,6 +149,9 @@ export const Subject = {
       case 3:
       case "SUBJECT_BILL":
         return Subject.SUBJECT_BILL;
+      case 4:
+      case "SUBJECT_ENERGY_PREFERENCES":
+        return Subject.SUBJECT_ENERGY_PREFERENCES;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -164,13 +168,15 @@ export const Subject = {
         return "SUBJECT_CUSTOMER_REFERRAL";
       case Subject.SUBJECT_BILL:
         return "SUBJECT_BILL";
+      case Subject.SUBJECT_ENERGY_PREFERENCES:
+        return "SUBJECT_ENERGY_PREFERENCES";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -178,6 +184,7 @@ export const Intent = {
   INTENT_LEAD_CAPTURE: 2 as const,
   INTENT_PAYMENT: 3 as const,
   INTENT_FRIEND_REFERRAL_LINK_SHARE: 4 as const,
+  INTENT_PREFERENCES_UPDATE: 5 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -196,6 +203,9 @@ export const Intent = {
       case 4:
       case "INTENT_FRIEND_REFERRAL_LINK_SHARE":
         return Intent.INTENT_FRIEND_REFERRAL_LINK_SHARE;
+      case 5:
+      case "INTENT_PREFERENCES_UPDATE":
+        return Intent.INTENT_PREFERENCES_UPDATE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -214,13 +224,15 @@ export const Intent = {
         return "INTENT_PAYMENT";
       case Intent.INTENT_FRIEND_REFERRAL_LINK_SHARE:
         return "INTENT_FRIEND_REFERRAL_LINK_SHARE";
+      case Intent.INTENT_PREFERENCES_UPDATE:
+        return "INTENT_PREFERENCES_UPDATE";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
