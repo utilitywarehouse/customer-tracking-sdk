@@ -29,7 +29,7 @@ make build
 --- __Publish changes__ ---
 
 1. Commit all changes
-1. ```shell
-cd js/
-make publish # Select appropriate version, lerna will auto commit vXX.XX.XX
-```
+1.  ```shell
+    cd js/
+    make publish # Select appropriate version, lerna will auto commit vXX.XX.XX
+    ```
