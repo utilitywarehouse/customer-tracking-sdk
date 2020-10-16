@@ -27,14 +27,14 @@ func TestMixpanelBackend_Track(t *testing.T) {
 		assert.Equal(t, "sample", transport.received.Event)
 	})
 
-	t.Run("sets $distinct_id ", func(t *testing.T) {
+	t.Run("sets distinct_id ", func(t *testing.T) {
 		client, transport := tripper(1, "")
 
 		be := tracking.NewMixpanelBackend("apiKey", client)
 		err := be.Track(ctx, "sample", "000000", map[string]string{})
 
 		require.NoError(t, err)
-		assert.Equal(t, "000000", transport.received.Properties["$distinct_id"])
+		assert.Equal(t, "000000", transport.received.Properties["distinct_id"])
 	})
 
 	t.Run("sets token", func(t *testing.T) {

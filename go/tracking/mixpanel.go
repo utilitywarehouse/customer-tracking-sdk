@@ -85,7 +85,7 @@ func (b *MixpanelBackend) Track(ctx context.Context, name string, distinctID str
 		properties[k] = v
 	}
 
-	properties["$distinct_id"] = distinctID
+	properties["distinct_id"] = distinctID
 
 	return b.track(ctx, name, properties)
 
