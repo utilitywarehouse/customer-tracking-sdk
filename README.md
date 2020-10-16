@@ -21,7 +21,6 @@ make generate_types
 
 ```shell
 cd js/
-npm ci
 make install
 make build
 ```
