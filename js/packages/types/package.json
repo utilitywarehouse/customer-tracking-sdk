@@ -1,6 +1,6 @@
 {
   "name": "@utilitywarehouse/customer-tracking-types",
-  "version": "0.4.10",
+  "version": "0.4.12",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
