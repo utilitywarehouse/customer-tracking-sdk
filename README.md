@@ -13,22 +13,20 @@ Dependencies:
 * [github.com/gogo/protobuf](https://github.com/gogo/protobuf)
 
 ```shell
-cd go/
-make generate_types
+make generate_types -C go
 ```
 
 --- __JavaScript build__ ---
 
 ```shell
-cd js/
-make install
-make build
+make install -C js
+make protos -C js/packages/types
+make build -C js
 ```
 
 --- __Publish changes__ ---
 
 1. Commit all changes
 1.  ```shell
-    cd js/
-    make publish # Select appropriate version, lerna will auto commit vXX.XX.XX
+    make publish -C js # Select appropriate version, lerna will auto commit vXX.XX.XX
     ```

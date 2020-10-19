@@ -134,6 +134,7 @@ export const Subject = {
   SUBJECT_CUSTOMER_REFERRAL: 2 as const,
   SUBJECT_BILL: 3 as const,
   SUBJECT_ENERGY_PREFERENCES: 4 as const,
+  SUBJECT_HELP: 5 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -152,6 +153,9 @@ export const Subject = {
       case 4:
       case "SUBJECT_ENERGY_PREFERENCES":
         return Subject.SUBJECT_ENERGY_PREFERENCES;
+      case 5:
+      case "SUBJECT_HELP":
+        return Subject.SUBJECT_HELP;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -170,13 +174,15 @@ export const Subject = {
         return "SUBJECT_BILL";
       case Subject.SUBJECT_ENERGY_PREFERENCES:
         return "SUBJECT_ENERGY_PREFERENCES";
+      case Subject.SUBJECT_HELP:
+        return "SUBJECT_HELP";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -185,6 +191,7 @@ export const Intent = {
   INTENT_PAYMENT: 3 as const,
   INTENT_FRIEND_REFERRAL_LINK_SHARE: 4 as const,
   INTENT_PREFERENCES_UPDATE: 5 as const,
+  INTENT_CONTACT_SUPPORT: 6 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -206,6 +213,9 @@ export const Intent = {
       case 5:
       case "INTENT_PREFERENCES_UPDATE":
         return Intent.INTENT_PREFERENCES_UPDATE;
+      case 6:
+      case "INTENT_CONTACT_SUPPORT":
+        return Intent.INTENT_CONTACT_SUPPORT;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -226,13 +236,15 @@ export const Intent = {
         return "INTENT_FRIEND_REFERRAL_LINK_SHARE";
       case Intent.INTENT_PREFERENCES_UPDATE:
         return "INTENT_PREFERENCES_UPDATE";
+      case Intent.INTENT_CONTACT_SUPPORT:
+        return "INTENT_CONTACT_SUPPORT";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
