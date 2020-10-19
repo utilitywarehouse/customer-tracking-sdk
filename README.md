@@ -13,16 +13,15 @@ Dependencies:
 * [github.com/gogo/protobuf](https://github.com/gogo/protobuf)
 
 ```shell
-cd go/
-make generate_types
+make generate_types -C go
 ```
 
 --- __JavaScript build__ ---
 
 ```shell
-cd js/
-make install
-make build
+make install -C js
+make protos -C js/packages/types
+make build -C js
 ```
 
 --- __Publish changes__ ---
