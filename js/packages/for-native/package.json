@@ -1,6 +1,6 @@
 {
   "name": "@utilitywarehouse/customer-tracking-for-native",
-  "version": "0.4.14",
+  "version": "0.4.15",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -17,8 +17,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@utilitywarehouse/customer-tracking-core": "^0.4.14",
-    "@utilitywarehouse/customer-tracking-types": "^0.4.14",
+    "@utilitywarehouse/customer-tracking-core": "^0.4.15",
+    "@utilitywarehouse/customer-tracking-types": "^0.4.15",
     "react-native-mixpanel": "^1.2.1"
   },
   "devDependencies": {
