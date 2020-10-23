@@ -1,6 +1,6 @@
 {
   "name": "@utilitywarehouse/customer-tracking-for-browser",
-  "version": "0.4.16",
+  "version": "0.4.17",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -20,8 +20,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@utilitywarehouse/customer-tracking-core": "^0.4.16",
-    "@utilitywarehouse/customer-tracking-types": "^0.4.16",
+    "@utilitywarehouse/customer-tracking-core": "^0.4.17",
+    "@utilitywarehouse/customer-tracking-types": "^0.4.17",
     "mixpanel-browser": "^2.38.0"
   },
   "devDependencies": {
