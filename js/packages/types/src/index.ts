@@ -192,6 +192,7 @@ export const Intent = {
   INTENT_FRIEND_REFERRAL_LINK_SHARE: 4 as const,
   INTENT_PREFERENCES_UPDATE: 5 as const,
   INTENT_CONTACT_SUPPORT: 6 as const,
+  INTENT_LEAVE_FEEDBACK: 7 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -216,6 +217,9 @@ export const Intent = {
       case 6:
       case "INTENT_CONTACT_SUPPORT":
         return Intent.INTENT_CONTACT_SUPPORT;
+      case 7:
+      case "INTENT_LEAVE_FEEDBACK":
+        return Intent.INTENT_LEAVE_FEEDBACK;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -238,13 +242,15 @@ export const Intent = {
         return "INTENT_PREFERENCES_UPDATE";
       case Intent.INTENT_CONTACT_SUPPORT:
         return "INTENT_CONTACT_SUPPORT";
+      case Intent.INTENT_LEAVE_FEEDBACK:
+        return "INTENT_LEAVE_FEEDBACK";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
