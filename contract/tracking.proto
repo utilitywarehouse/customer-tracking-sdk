@@ -3,13 +3,14 @@ syntax = "proto3";
 option go_package = ".;types";
 
 message Actor {
-  string id = 1; // used as the main identifier in tracking backend (ie distinct_id in mixpanel)
-  map<string, string> attributes = 2; // map to attach actor attributes to each event, can be used for account_number etc.
+  string id = 1; // used as the main identifier in tracking backend (ie
+                 // distinct_id in mixpanel)
+  map<string, string> attributes =
+      2; // map to attach actor attributes to each event, can be used for
+         // account_number etc.
 }
 
-message Application {
-  string id = 1;
-}
+message Application { string id = 1; }
 
 message StageEvent {
   Actor actor = 1;
@@ -51,6 +52,7 @@ enum Subject {
   SUBJECT_BILL = 3;
   SUBJECT_ENERGY_PREFERENCES = 4;
   SUBJECT_HELP = 5;
+  SUBJECT_CUSTOMER_AUTH = 6;
 }
 
 enum Intent {
@@ -62,6 +64,7 @@ enum Intent {
   INTENT_PREFERENCES_UPDATE = 5;
   INTENT_CONTACT_SUPPORT = 6;
   INTENT_LEAVE_FEEDBACK = 7;
+  INTENT_LOGIN = 8;
 }
 
 enum Stage {
@@ -87,4 +90,5 @@ enum InteractionChannel {
   INTERACTION_CHANNEL_WILLIAM = 2;
   INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP = 3;
   INTERACTION_CHANNEL_IVR = 4;
+  INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP = 5;
 }
