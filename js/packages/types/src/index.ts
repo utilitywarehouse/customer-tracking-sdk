@@ -3,11 +3,11 @@
 
 export interface Actor {
   /**
-   *  used as the main identifier in tracking backend (ie distinct_id in mixpanel)
+   *  used as the main identifier in tracking backend (ie
    */
   id: string;
   /**
-   *  map to attach actor attributes to each event, can be used for account_number etc.
+   *  distinct_id in mixpanel)
    */
   attributes: { [key: string]: string };
 }
@@ -135,6 +135,7 @@ export const Subject = {
   SUBJECT_BILL: 3 as const,
   SUBJECT_ENERGY_PREFERENCES: 4 as const,
   SUBJECT_HELP: 5 as const,
+  SUBJECT_CUSTOMER_AUTH: 6 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -156,6 +157,9 @@ export const Subject = {
       case 5:
       case "SUBJECT_HELP":
         return Subject.SUBJECT_HELP;
+      case 6:
+      case "SUBJECT_CUSTOMER_AUTH":
+        return Subject.SUBJECT_CUSTOMER_AUTH;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -176,13 +180,15 @@ export const Subject = {
         return "SUBJECT_ENERGY_PREFERENCES";
       case Subject.SUBJECT_HELP:
         return "SUBJECT_HELP";
+      case Subject.SUBJECT_CUSTOMER_AUTH:
+        return "SUBJECT_CUSTOMER_AUTH";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -193,6 +199,7 @@ export const Intent = {
   INTENT_PREFERENCES_UPDATE: 5 as const,
   INTENT_CONTACT_SUPPORT: 6 as const,
   INTENT_LEAVE_FEEDBACK: 7 as const,
+  INTENT_LOGIN: 8 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -220,6 +227,9 @@ export const Intent = {
       case 7:
       case "INTENT_LEAVE_FEEDBACK":
         return Intent.INTENT_LEAVE_FEEDBACK;
+      case 8:
+      case "INTENT_LOGIN":
+        return Intent.INTENT_LOGIN;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -244,13 +254,15 @@ export const Intent = {
         return "INTENT_CONTACT_SUPPORT";
       case Intent.INTENT_LEAVE_FEEDBACK:
         return "INTENT_LEAVE_FEEDBACK";
+      case Intent.INTENT_LOGIN:
+        return "INTENT_LOGIN";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
@@ -363,6 +375,7 @@ export const InteractionChannel = {
   INTERACTION_CHANNEL_EMAIL: 1 as const,
   INTERACTION_CHANNEL_WILLIAM: 2 as const,
   INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP: 3 as const,
+  INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP: 5 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): InteractionChannel {
     switch (object) {
@@ -378,6 +391,9 @@ export const InteractionChannel = {
       case 3:
       case "INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP":
         return InteractionChannel.INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP;
+      case 5:
+      case "INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP":
+        return InteractionChannel.INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -394,13 +410,15 @@ export const InteractionChannel = {
         return "INTERACTION_CHANNEL_WILLIAM";
       case InteractionChannel.INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP:
         return "INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP";
+      case InteractionChannel.INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP:
+        return "INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type InteractionChannel = 0 | 1 | 2 | 3 | -1;
+export type InteractionChannel = 0 | 1 | 2 | 3 | 5 | -1;
 
 export const Actor = {
   fromJSON(object: any): Actor {
