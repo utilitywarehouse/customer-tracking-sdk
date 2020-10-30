@@ -16,6 +16,7 @@ type Tracker struct {
 type Backend interface {
 	Track(ctx context.Context, eventName string, actorID string, attributes map[string]string) error
 	Alias(ctx context.Context, currentID string, alias string) error
+	Close() error
 }
 
 func New(backend Backend) *Tracker {

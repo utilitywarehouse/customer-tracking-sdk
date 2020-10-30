@@ -46,5 +46,11 @@ func (b *RudderstackBackend) Alias(ctx context.Context, currentID string, alias 
 		return errors.Wrap(err, "failed to write to rudderstack")
 	}
 
+	b.client.Close()
+
 	return nil
+}
+
+func (b *RudderstackBackend) Close() error {
+	return b.client.Close()
 }
