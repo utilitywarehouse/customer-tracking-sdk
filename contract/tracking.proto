@@ -56,6 +56,7 @@ enum Subject {
   SUBJECT_ENERGY_PREFERENCES = 4;
   SUBJECT_HELP = 5;
   SUBJECT_CUSTOMER_AUTH = 6;
+  SUBJECT_MOBILE_SIM = 7;
 }
 
 enum Intent {
@@ -68,6 +69,7 @@ enum Intent {
   INTENT_CONTACT_SUPPORT = 6;
   INTENT_LEAVE_FEEDBACK = 7;
   INTENT_LOGIN = 8;
+  INTENT_MOBILE_SIM_UPGRADE = 9;
 }
 
 enum Stage {
