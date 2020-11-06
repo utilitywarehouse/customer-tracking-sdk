@@ -19,6 +19,15 @@ export interface Actor_AttributesEntry {
 
 export interface Application {
   id: string;
+  /**
+   *  map to attach application attributes to each event, can be used for build version etc.
+   */
+  attributes: { [key: string]: string };
+}
+
+export interface Application_AttributesEntry {
+  key: string;
+  value: string;
 }
 
 export interface StageEvent {
@@ -87,6 +96,11 @@ const baseApplication: object = {
   id: "",
 };
 
+const baseApplication_AttributesEntry: object = {
+  key: "",
+  value: "",
+};
+
 const baseStageEvent: object = {
   subject: 0,
   intent: 0,
@@ -136,6 +150,7 @@ export const Subject = {
   SUBJECT_ENERGY_PREFERENCES: 4 as const,
   SUBJECT_HELP: 5 as const,
   SUBJECT_CUSTOMER_AUTH: 6 as const,
+  SUBJECT_MOBILE_SIM: 7 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -160,6 +175,9 @@ export const Subject = {
       case 6:
       case "SUBJECT_CUSTOMER_AUTH":
         return Subject.SUBJECT_CUSTOMER_AUTH;
+      case 7:
+      case "SUBJECT_MOBILE_SIM":
+        return Subject.SUBJECT_MOBILE_SIM;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -182,13 +200,15 @@ export const Subject = {
         return "SUBJECT_HELP";
       case Subject.SUBJECT_CUSTOMER_AUTH:
         return "SUBJECT_CUSTOMER_AUTH";
+      case Subject.SUBJECT_MOBILE_SIM:
+        return "SUBJECT_MOBILE_SIM";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -200,6 +220,7 @@ export const Intent = {
   INTENT_CONTACT_SUPPORT: 6 as const,
   INTENT_LEAVE_FEEDBACK: 7 as const,
   INTENT_LOGIN: 8 as const,
+  INTENT_MOBILE_SIM_UPGRADE: 9 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -230,6 +251,9 @@ export const Intent = {
       case 8:
       case "INTENT_LOGIN":
         return Intent.INTENT_LOGIN;
+      case 9:
+      case "INTENT_MOBILE_SIM_UPGRADE":
+        return Intent.INTENT_MOBILE_SIM_UPGRADE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -256,13 +280,15 @@ export const Intent = {
         return "INTENT_LEAVE_FEEDBACK";
       case Intent.INTENT_LOGIN:
         return "INTENT_LOGIN";
+      case Intent.INTENT_MOBILE_SIM_UPGRADE:
+        return "INTENT_MOBILE_SIM_UPGRADE";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
@@ -501,25 +527,77 @@ export const Actor_AttributesEntry = {
 export const Application = {
   fromJSON(object: any): Application {
     const message = { ...baseApplication } as Application;
+    message.attributes = {};
     if (object.id !== undefined && object.id !== null) {
       message.id = String(object.id);
     } else {
       message.id = "";
     }
+    if (object.attributes !== undefined && object.attributes !== null) {
+      Object.entries(object.attributes).forEach(([key, value]) => {
+        message.attributes[key] = String(value);
+      })
+    }
     return message;
   },
   fromPartial(object: DeepPartial<Application>): Application {
     const message = { ...baseApplication } as Application;
+    message.attributes = {};
     if (object.id !== undefined && object.id !== null) {
       message.id = object.id;
     } else {
       message.id = "";
+    }
+    if (object.attributes !== undefined && object.attributes !== null) {
+      Object.entries(object.attributes).forEach(([key, value]) => {
+        if (value !== undefined) {
+          message.attributes[key] = String(value);
+        }
+      })
     }
     return message;
   },
   toJSON(message: Application): unknown {
     const obj: any = {};
     obj.id = message.id || "";
+    obj.attributes = message.attributes || undefined;
+    return obj;
+  },
+};
+
+export const Application_AttributesEntry = {
+  fromJSON(object: any): Application_AttributesEntry {
+    const message = { ...baseApplication_AttributesEntry } as Application_AttributesEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key);
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = String(object.value);
+    } else {
+      message.value = "";
+    }
+    return message;
+  },
+  fromPartial(object: DeepPartial<Application_AttributesEntry>): Application_AttributesEntry {
+    const message = { ...baseApplication_AttributesEntry } as Application_AttributesEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = object.key;
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = object.value;
+    } else {
+      message.value = "";
+    }
+    return message;
+  },
+  toJSON(message: Application_AttributesEntry): unknown {
+    const obj: any = {};
+    obj.key = message.key || "";
+    obj.value = message.value || "";
     return obj;
   },
 };
