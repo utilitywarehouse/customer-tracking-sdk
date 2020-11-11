@@ -204,8 +204,11 @@ func (InteractionChannel) EnumDescriptor() ([]byte, []int) {
 }
 
 type Actor struct {
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// used as the main identifier in tracking backend (ie
 	// distinct_id in mixpanel)
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// map to attach actor attributes to each event, can be used for
+	// account_number etc.
 	Attributes map[string]string `protobuf:"bytes,2,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
@@ -256,7 +259,9 @@ func (m *Actor) GetAttributes() map[string]string {
 }
 
 type Application struct {
-	Id         string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// map to attach application attributes to each event, can be used for
+	// build version etc.
 	Attributes map[string]string `protobuf:"bytes,2,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 

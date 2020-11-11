@@ -3,18 +3,19 @@ syntax = "proto3";
 option go_package = ".;types";
 
 message Actor {
-  string id = 1; // used as the main identifier in tracking backend (ie
-                 // distinct_id in mixpanel)
-  map<string, string> attributes =
-      2; // map to attach actor attributes to each event, can be used for
-         // account_number etc.
+  // used as the main identifier in tracking backend (ie
+  // distinct_id in mixpanel)
+  string id = 1;
+  // map to attach actor attributes to each event, can be used for
+  // account_number etc.
+  map<string, string> attributes = 2;
 }
 
 message Application {
   string id = 1;
-  map<string, string> attributes =
-      2; // map to attach application attributes to each event, can be used for
-         // build version etc.
+  // map to attach application attributes to each event, can be used for
+  // build version etc.
+  map<string, string> attributes = 2;
 }
 
 message StageEvent {

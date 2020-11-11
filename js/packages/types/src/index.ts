@@ -4,10 +4,12 @@
 export interface Actor {
   /**
    *  used as the main identifier in tracking backend (ie
+   *  distinct_id in mixpanel)
    */
   id: string;
   /**
-   *  distinct_id in mixpanel)
+   *  map to attach actor attributes to each event, can be used for
+   *  account_number etc.
    */
   attributes: { [key: string]: string };
 }
@@ -21,6 +23,7 @@ export interface Application {
   id: string;
   /**
    *  map to attach application attributes to each event, can be used for
+   *  build version etc.
    */
   attributes: { [key: string]: string };
 }
