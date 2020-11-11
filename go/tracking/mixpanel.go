@@ -98,3 +98,7 @@ func (b *MixpanelBackend) Alias(ctx context.Context, currentID string, alias str
 	}
 	return b.track(ctx, "$create_alias", props)
 }
+
+func (b *MixpanelBackend) Close() error {
+	return nil
+}
