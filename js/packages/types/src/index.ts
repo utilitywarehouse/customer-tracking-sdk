@@ -154,7 +154,7 @@ export const Subject = {
   SUBJECT_HELP: 5 as const,
   SUBJECT_CUSTOMER_AUTH: 6 as const,
   SUBJECT_MOBILE_SIM: 7 as const,
-  SUBJECT_BOOKING: 8 as const,
+  SUBJECT_SMART_METER_INSTALLATION: 8 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -183,8 +183,8 @@ export const Subject = {
       case "SUBJECT_MOBILE_SIM":
         return Subject.SUBJECT_MOBILE_SIM;
       case 8:
-      case "SUBJECT_BOOKING":
-        return Subject.SUBJECT_BOOKING;
+      case "SUBJECT_SMART_METER_INSTALLATION":
+        return Subject.SUBJECT_SMART_METER_INSTALLATION;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -209,8 +209,8 @@ export const Subject = {
         return "SUBJECT_CUSTOMER_AUTH";
       case Subject.SUBJECT_MOBILE_SIM:
         return "SUBJECT_MOBILE_SIM";
-      case Subject.SUBJECT_BOOKING:
-        return "SUBJECT_BOOKING";
+      case Subject.SUBJECT_SMART_METER_INSTALLATION:
+        return "SUBJECT_SMART_METER_INSTALLATION";
       default:
         return "UNKNOWN";
     }
@@ -230,7 +230,7 @@ export const Intent = {
   INTENT_LEAVE_FEEDBACK: 7 as const,
   INTENT_LOGIN: 8 as const,
   INTENT_MOBILE_SIM_UPGRADE: 9 as const,
-  INTENT_BOOK: 10 as const,
+  INTENT_APPOINTMENT_BOOKING: 10 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -265,8 +265,8 @@ export const Intent = {
       case "INTENT_MOBILE_SIM_UPGRADE":
         return Intent.INTENT_MOBILE_SIM_UPGRADE;
       case 10:
-      case "INTENT_BOOK":
-        return Intent.INTENT_BOOK;
+      case "INTENT_APPOINTMENT_BOOKING":
+        return Intent.INTENT_APPOINTMENT_BOOKING;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -295,8 +295,8 @@ export const Intent = {
         return "INTENT_LOGIN";
       case Intent.INTENT_MOBILE_SIM_UPGRADE:
         return "INTENT_MOBILE_SIM_UPGRADE";
-      case Intent.INTENT_BOOK:
-        return "INTENT_BOOK";
+      case Intent.INTENT_APPOINTMENT_BOOKING:
+        return "INTENT_APPOINTMENT_BOOKING";
       default:
         return "UNKNOWN";
     }
