@@ -154,6 +154,7 @@ export const Subject = {
   SUBJECT_HELP: 5 as const,
   SUBJECT_CUSTOMER_AUTH: 6 as const,
   SUBJECT_MOBILE_SIM: 7 as const,
+  SUBJECT_SMART_METER_INSTALLATION: 8 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -181,6 +182,9 @@ export const Subject = {
       case 7:
       case "SUBJECT_MOBILE_SIM":
         return Subject.SUBJECT_MOBILE_SIM;
+      case 8:
+      case "SUBJECT_SMART_METER_INSTALLATION":
+        return Subject.SUBJECT_SMART_METER_INSTALLATION;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -205,13 +209,15 @@ export const Subject = {
         return "SUBJECT_CUSTOMER_AUTH";
       case Subject.SUBJECT_MOBILE_SIM:
         return "SUBJECT_MOBILE_SIM";
+      case Subject.SUBJECT_SMART_METER_INSTALLATION:
+        return "SUBJECT_SMART_METER_INSTALLATION";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -224,6 +230,7 @@ export const Intent = {
   INTENT_LEAVE_FEEDBACK: 7 as const,
   INTENT_LOGIN: 8 as const,
   INTENT_MOBILE_SIM_UPGRADE: 9 as const,
+  INTENT_APPOINTMENT_BOOKING: 10 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -257,6 +264,9 @@ export const Intent = {
       case 9:
       case "INTENT_MOBILE_SIM_UPGRADE":
         return Intent.INTENT_MOBILE_SIM_UPGRADE;
+      case 10:
+      case "INTENT_APPOINTMENT_BOOKING":
+        return Intent.INTENT_APPOINTMENT_BOOKING;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -285,13 +295,15 @@ export const Intent = {
         return "INTENT_LOGIN";
       case Intent.INTENT_MOBILE_SIM_UPGRADE:
         return "INTENT_MOBILE_SIM_UPGRADE";
+      case Intent.INTENT_APPOINTMENT_BOOKING:
+        return "INTENT_APPOINTMENT_BOOKING";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
