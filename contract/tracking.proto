@@ -15,90 +15,66 @@ message Application {
   string id = 1;
   // map to attach application attributes to each event, can be used for
   // build version etc.
-  map<string, string> attributes = 2;
+  Channel channel = 2;
+  map<string, string> attributes = 3;
 }
 
-message StageEvent {
-  Actor actor = 1;
-  Application application = 2;
-  Subject subject = 3;
-  Intent intent = 4;
-  Stage stage = 5;
-  map<string, string> attributes = 6;
+enum Channel {
+  CHANNEL_UNKNOWN = 0;
+  CHANNEL_WEB = 1;
+  CHANNEL_MOBILE = 2;
+  CHANNEL_VOICE = 3;
+  CHANNEL_CHAT = 4;
+  CHANNEL_EMAIL = 5;
 }
 
-message InteractionEvent {
-  Actor actor = 1;
-  Application application = 2;
-  Subject subject = 3;
-  Intent intent = 4;
-  Interaction interaction = 5;
-  InteractionChannel channel = 6;
-  map<string, string> attributes = 7;
+message Journey {
+  string id = 1;
+  JourneyIntent intent = 2;
+  JourneySubject subject = 3;
 }
 
-message VisitEvent {
-  Actor actor = 1;
-  Application application = 2;
-  string location = 3;
-  map<string, string> attributes = 4;
+message JourneyStage {
+  Journey journey = 1;
+  Actor actor = 2;
+  Application application = 3;
+  // step is optional and can be used to track microjourneys within journeys
+  string step = 4;
 }
 
-message ClickEvent {
-  Actor actor = 1;
-  Application application = 2;
+message Interaction {
+  InteractionType type = 1;
+  InteractionTargetType target_type = 2;
   string target = 3;
-  map<string, string> attributes = 4;
 }
 
-enum Subject {
-  SUBJECT_NONE = 0;
-  SUBJECT_METER_READING = 1;
-  SUBJECT_CUSTOMER_REFERRAL = 2;
-  SUBJECT_BILL = 3;
-  SUBJECT_ENERGY_PREFERENCES = 4;
-  SUBJECT_HELP = 5;
-  SUBJECT_CUSTOMER_AUTH = 6;
-  SUBJECT_MOBILE_SIM = 7;
-  SUBJECT_SMART_METER_INSTALLATION = 8;
+enum InteractionType {
+  INTERACTION_TYPE_UNKNOWN = 0;
 }
 
-enum Intent {
-  INTENT_NONE = 0;
-  INTENT_METER_READING_SUBMIT = 1;
-  INTENT_LEAD_CAPTURE = 2;
-  INTENT_PAYMENT = 3;
-  INTENT_FRIEND_REFERRAL_LINK_SHARE = 4;
-  INTENT_PREFERENCES_UPDATE = 5;
-  INTENT_CONTACT_SUPPORT = 6;
-  INTENT_LEAVE_FEEDBACK = 7;
-  INTENT_LOGIN = 8;
-  INTENT_MOBILE_SIM_UPGRADE = 9;
-  INTENT_APPOINTMENT_BOOKING = 10;
+enum InteractionTargetType {
+  INTERACTION_TARGET_TYPE_UNKNOWN = 0;
 }
 
-enum Stage {
-  STAGE_NONE = 0;
-  STAGE_SUBMITTED = 1;
-  STAGE_RECEIVED_REQUEST_FOR_AMEND = 2;
-  STAGE_COMPLETED = 3;
-  STAGE_REJECTED = 4;
-  STAGE_ENTERED = 5;
-  STAGE_STARTED = 6;
-  STAGE_FAILED = 7;
+// JourneyInteraction used to track significant microinteractions during journeys
+// a good example is switching an additional option during product selection etc
+message JourneyInteraction {
+  Journey journey = 1;
+  Actor actor = 2;
+  Application application = 3;
+  Interaction interaction = 4;
+  string step = 5;
 }
 
-enum Interaction {
-  INTERACTION_NONE = 0;
-  INTERACTION_CLICKED = 1;
-  INTERACTION_VIEWED = 2;
+// JourneyIntent describes what we are trying to make the customer do against
+// a specific JourneySubject, this should be universal and mostly applicable to
+// any subject, a good example NEW_SERVICE_OR_UPGRADE, PREFERENCES_UPDATE, bad example NEW_MOBILE_SERVICE
+enum JourneyIntent {
+  JOURNEY_INTENT_UNKNOWN = 0;
 }
 
-enum InteractionChannel {
-  INTERACTION_CHANNEL_NONE = 0;
-  INTERACTION_CHANNEL_EMAIL = 1;
-  INTERACTION_CHANNEL_WILLIAM = 2;
-  INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP = 3;
-  reserved 4;
-  INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP = 5;
+// JourneySubject should describe one of the aggregate roots or important entities
+// things like MOBILE_SERVICE, CONTACT_PREFERENCES etc.
+enum JourneySubject {
+  JOURNEY_SUBJECT_UNKNOWN = 0;
 }
