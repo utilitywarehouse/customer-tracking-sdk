@@ -11,7 +11,7 @@
     "build": "npm run build:rm && npm run build:rollup"
   },
   "files": [
-    "/dist"
+    "dist"
   ],
   "keywords": [],
   "author": "",

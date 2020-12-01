@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = ".;types";
+
+import "./entities.proto";
+
+message ClickEvent {
+    Actor actor = 1;
+    Application application = 2;
+    Channel channel = 3;
+    string target = 4;
+    map<string, string> attributes = 5;
+}
+
+message VisitEvent {
+    Actor actor = 1;
+    Application application = 2;
+    Channel channel = 3;
+    string location = 4;
+    map<string, string> attributes = 5;
+}

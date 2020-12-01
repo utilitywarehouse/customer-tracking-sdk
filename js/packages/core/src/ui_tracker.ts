@@ -1,30 +1,33 @@
-import {EventAttributes, Tracker as BaseTracker} from "./tracker";
+import {Application, EventAttributes, Tracker as BaseTracker} from "./tracker";
 import {UIBackend} from "./ui_backend";
 import {
-    Actor, Application, Intent, Stage, Subject, Interaction, InteractionChannel,
+    Journey, Channel, Actor, JourneyStage, Interaction
 } from "@utilitywarehouse/customer-tracking-types";
 
-interface StageArguments {
-    subject: Subject;
-    intent: Intent;
-    stage: Stage;
+interface JourneyStageArguments {
+    journey: Journey;
+    channel: Channel;
+    stage: JourneyStage;
+    step?: string;
     attributes?: EventAttributes;
 }
 
-interface InteractionArguments {
-    subject: Subject;
-    intent: Intent;
+interface JourneyInteractionArguments {
+    journey: Journey;
+    channel: Channel;
     interaction: Interaction;
-    channel: InteractionChannel;
+    step?: string;
     attributes?: EventAttributes;
 }
 
 interface ClickArguments {
     target: string;
+    channel: Channel;
     attributes?: EventAttributes;
 }
 
 interface VisitArguments {
+    channel: Channel;
     location: string;
     attributes?: EventAttributes;
 }
@@ -55,16 +58,16 @@ export class UITracker {
         return this.backend.enable()
     }
 
-    async trackStage(event: StageArguments): Promise<void> {
-        return this.baseTracker.trackStage({
+    async trackJourneyStage(event: JourneyStageArguments): Promise<void> {
+        return this.baseTracker.trackJourneyStage({
             actor: this.actor,
             application: this.application,
             ...event
         })
     }
 
-    async trackInteraction(event: InteractionArguments): Promise<void> {
-        return this.baseTracker.trackInteraction({
+    async trackJourneyInteraction(event: JourneyInteractionArguments): Promise<void> {
+        return this.baseTracker.trackJourneyInteraction({
             actor: this.actor,
             application: this.application,
             ...event

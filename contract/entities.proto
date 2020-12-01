@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = ".;types";
+
+message Actor {
+    // used as the main identifier in tracking backend (ie
+    // distinct_id in mixpanel)
+    string id = 1;
+    // map to attach actor attributes to each event, can be used for
+    // account_number etc.
+    map<string, string> attributes = 2;
+}
+
+message Application {
+    string id = 1;
+    // all attributes are automatically prefixed with application_
+    map<string, string> attributes = 2;
+}
+
+enum Channel {
+    CHANNEL_UNKNOWN = 0;
+    CHANNEL_WEB = 1;
+    CHANNEL_MOBILE = 2;
+    CHANNEL_VOICE = 3;
+    CHANNEL_CHAT = 4;
+    CHANNEL_EMAIL = 5;
+    CHANNEL_AGENT = 6;
+}

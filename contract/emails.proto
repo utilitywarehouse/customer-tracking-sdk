@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = ".;types";
+
+import "./entities.proto";
+import "./journeys.proto";
+
+message EmailViewEvent {
+    JourneyIntent intent = 1;
+    JourneySubject subject = 2;
+    Actor actor = 3;
+    map<string, string> attributes = 4;
+}
+
+message EmailClickEvent {
+    JourneyIntent intent = 1;
+    JourneySubject subject = 2;
+    Actor actor = 3;
+    map<string, string> attributes = 4;
+}
