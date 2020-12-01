@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+option go_package = ".;types";
+
+import "./entities.proto";
+
+message IVRCallSource {
+  IVRCallSourceType type = 1;
+  string source = 2;
+}
+
+enum IVRCallSourceType {
+  IVR_CALL_SOURCE_TYPE_UNKNOWN = 0;
+  IVR_CALL_SOURCE_TYPE_ORGANIC = 1;
+  IVR_CALL_SOURCE_TYPE_WEB = 2;
+  IVR_CALL_SOURCE_TYPE_MOBILE = 3;
+  IVR_CALL_SOURCE_TYPE_CALLBACK = 4;
+}
+
+message IVREntryEvent {
+  string call_id = 1;
+  IVRCallSource source = 2;
+  Actor actor = 3;
+  map<string, string> attributes = 4;
+}
+
+message IVRExitEvent {
+  string call_id = 1;
+  string destination = 2;
+  IVRExitDestinationType destination_type = 3;
+  map<string, string> attributes = 4;
+}
+
+enum IVRExitDestinationType {
+  IVR_EXIT_DESTINATION_TYPE_UNKNOWN = 0;
+  IVR_EXIT_DESTINATION_TYPE_IVR_SELF_SERVICE = 1;
+  IVR_EXIT_DESTINATION_TYPE_QUEUE = 2;
+  IVR_EXIT_DESTINATION_TYPE_DISCONNECTION = 3;
+  IVR_EXIT_DESTINATION_TYPE_CHANNEL_SWITCH = 4;
+  IVR_EXIT_DESTINATION_TYPE_CALLBACK_REQUEST = 5;
+}
+
+message IVRSelectionEvent {
+  string call_id = 1;
+  string selection = 2;
+  map<string, string> attributes = 3;
+}
+
+message IVRIntentRecognitionEvent {
+  string call_id = 1;
+  Intent intent = 2;
+  map<string, string> attributes = 3;
+}
+
+message Intent {
+  string key = 1;
+}

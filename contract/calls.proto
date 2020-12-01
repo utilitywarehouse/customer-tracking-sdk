@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = ".;types";
+
+import "./entities.proto";
+import "google/protobuf/duration.proto";
+
+message CallEvent {
+    string call_id = 1;
+    google.protobuf.Duration duration = 2;
+}

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option go_package = ".;types";
+
+import "./entities.proto";
+import "./clickstream.proto";
+
+message Workflow {
+  string name = 1;
+  WorkflowOrigin origin = 2;
+  WorkflowType type = 3;
+}
+
+enum WorkflowOrigin {
+  WORKFLOW_ORIGIN_UNKNOWN = 0;
+  WORKFLOW_ORIGIN_ENERGY = 1;
+}
+
+enum WorkflowType {
+  WORKFLOW_TYPE_UNKNOWN = 0;
+  WORKFLOW_TYPE_SERVICE = 1;
+  WORKFLOW_TYPE_ACCOUNT = 2;
+}
+
+message Agent {
+  string email = 1;
+}
+
+message WorkflowStageEvent {
+  Workflow workflow = 1;
+  Agent agent = 2;
+  WorkflowStage stage = 3;
+  string step = 4;
+  map<string, string> attributes = 5;
+}
+
+enum WorkflowStage {
+  WORKFLOW_STAGE_UNKNOWN = 0;
+  WORKFLOW_STAGE_STARTED = 1;
+  WORKFLOW_STAGE_COMPLETED = 2;
+  WORKFLOW_STAGE_ERRORED = 3;
+  WORKFLOW_STAGE_FAILED = 4;
+}

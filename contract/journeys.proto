@@ -2,20 +2,8 @@ syntax = "proto3";
 
 option go_package = ".;types";
 
-message Actor {
-  // used as the main identifier in tracking backend (ie
-  // distinct_id in mixpanel)
-  string id = 1;
-  // map to attach actor attributes to each event, can be used for
-  // account_number etc.
-  map<string, string> attributes = 2;
-}
-
-message Application {
-  string id = 1;
-  // all attributes are automatically prefixed with application_
-  map<string, string> attributes = 2;
-}
+import "./entities.proto";
+import "./clickstream.proto";
 
 enum Channel {
   CHANNEL_UNKNOWN = 0;
@@ -96,18 +84,3 @@ enum JourneySubject {
   JOURNEY_SUBJECT_MOBILE_SERVICE = 1;
 }
 
-message ClickEvent {
-  Actor actor = 1;
-  Application application = 2;
-  Channel channel = 3;
-  string target = 4;
-  map<string, string> attributes = 5;
-}
-
-message VisitEvent {
-  Actor actor = 1;
-  Application application = 2;
-  Channel channel = 3;
-  string location = 4;
-  map<string, string> attributes = 5;
-}

@@ -4,7 +4,7 @@ import {
     Interaction, InteractionTargetType, InteractionType
 } from "@utilitywarehouse/customer-tracking-types";
 
-interface Application {
+export interface Application {
     id: string,
     attributes?: { [key: string]: string },
 }
