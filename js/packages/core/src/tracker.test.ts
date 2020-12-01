@@ -1,7 +1,8 @@
 import {Tracker} from "./tracker";
 import {Backend} from "./backend";
 import {
-    Actor, Application, Intent, Interaction, InteractionChannel, Stage, Subject,
+    Actor, Application, JourneySubject, JourneyIntent, JourneyStage, Channel, Journey,
+    Interaction, InteractionTargetType, InteractionType
 } from "@utilitywarehouse/customer-tracking-types";
 
 function mockBackend(): Backend {
@@ -16,22 +17,25 @@ test("stage event tracking", async () => {
     const backend = mockBackend();
     const tracker = new Tracker(backend);
 
-    const eventName = "submitted.meter-reading-submit";
+    const eventName = "journey_stage";
 
     const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
-    const application: Application = {id: "acc-123"};
-    const subject: Subject = Subject.SUBJECT_METER_READING;
-    const intent: Intent = Intent.INTENT_METER_READING_SUBMIT;
-    const stage: Stage = Stage.STAGE_SUBMITTED;
+    const application: Application = {id: "acc-123", attributes: {version: "1"}};
+    const subject: JourneySubject = JourneySubject.JOURNEY_SUBJECT_MOBILE_SERVICE;
+    const intent: JourneyIntent = JourneyIntent.JOURNEY_INTENT_NEW_SERVICE_OR_UPGRADE;
+    const journey: Journey = {intent, subject};
+    const stage: JourneyStage = JourneyStage.JOURNEY_STAGE_SUBMITTED;
+    const channel: Channel =  Channel.CHANNEL_WEB;
     const attributes = {"a-a": "b", c: 'd'};
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
-    await tracker.trackStage({
+    await tracker.trackJourneyStage({
             actor,
             application,
-            subject,
-            intent,
+            journey,
             stage,
+            channel,
+            step: "sim-config",
             attributes: new Promise(r => r(attributes)),
         }
     )
@@ -39,35 +43,46 @@ test("stage event tracking", async () => {
     expect(backend.track).toBeCalledWith(eventName, actor.id, {
         "account_number": actor.attributes["account-number"],
         "account_id": actor.id,
-        client_id: application.id,
-        subject: "meter-reading",
-        intent: "meter-reading-submit",
+        application: application.id,
+        application_version: application.attributes.version,
+        channel: "web",
+        journey: "new-service-or-upgrade:mobile-service",
+        subject: "mobile-service",
+        step: "sim-config",
+        intent: "new-service-or-upgrade",
         stage: "submitted",
         ...expectedAttributes
     });
 })
+
 
 test("interaction event tracking", async () => {
 
     const backend = mockBackend();
     const tracker = new Tracker(backend);
 
-    const eventName = "email.clicked";
+    const eventName = "journey_interaction";
 
     const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
-    const application: Application = {id: "acc-123"};
-    const subject: Subject = Subject.SUBJECT_METER_READING;
-    const intent: Intent = Intent.INTENT_METER_READING_SUBMIT;
-    const interaction: Interaction = Interaction.INTERACTION_CLICKED;
-    const channel: InteractionChannel = InteractionChannel.INTERACTION_CHANNEL_EMAIL;
+    const application = {id: "acc-123"};
+    const subject: JourneySubject = JourneySubject.JOURNEY_SUBJECT_MOBILE_SERVICE;
+    const intent: JourneyIntent = JourneyIntent.JOURNEY_INTENT_NEW_SERVICE_OR_UPGRADE;
+    const journey: Journey = {intent, subject};
+    const interactionType: InteractionType = InteractionType.INTERACTION_TYPE_CLICK;
+    const interactionTargetType: InteractionTargetType = InteractionTargetType.INTERACTION_TARGET_TYPE_TOGGLE;
+    const interaction: Interaction = {
+        type: interactionType,
+        targetType: interactionTargetType,
+        target: "budget-plan-toggle",
+    }
+    const channel: Channel =  Channel.CHANNEL_WEB;
     const attributes = {"a-a": "b", c: 'd'};
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
-    await tracker.trackInteraction({
+    await tracker.trackJourneyInteraction({
             actor,
             application,
-            subject,
-            intent,
+            journey,
             interaction,
             channel,
             attributes: new Promise(r => r(attributes)),
@@ -77,11 +92,15 @@ test("interaction event tracking", async () => {
     expect(backend.track).toBeCalledWith(eventName, actor.id, {
         "account_number": actor.attributes["account-number"],
         "account_id": actor.id,
-        client_id: application.id,
-        subject: "meter-reading",
-        intent: "meter-reading-submit",
-        interaction: "clicked",
-        interaction_channel: "email",
+        application: application.id,
+        channel: "web",
+        journey: "new-service-or-upgrade:mobile-service",
+        subject: "mobile-service",
+        intent: "new-service-or-upgrade",
+        step: "",
+        target: "budget-plan-toggle",
+        target_type: "toggle",
+        type: "click",
         ...expectedAttributes
     });
 })
@@ -94,8 +113,9 @@ test("visit event tracking", async () => {
     const eventName = "visit";
 
     const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
-    const application: Application = {id: "acc-123"};
+    const application = {id: "acc-123"};
     const location = "location";
+    const channel: Channel =  Channel.CHANNEL_WEB;
     const attributes = {"a-a": "b", c: 'd'};
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
@@ -103,6 +123,7 @@ test("visit event tracking", async () => {
             actor,
             application,
             location,
+            channel,
             attributes: new Promise(r => r(attributes)),
         }
     )
@@ -110,7 +131,8 @@ test("visit event tracking", async () => {
     expect(backend.track).toBeCalledWith(eventName, actor.id, {
         "account_number": actor.attributes["account-number"],
         "account_id": actor.id,
-        client_id: application.id,
+        application: application.id,
+        channel: "web",
         location, ...expectedAttributes
     });
 })
@@ -123,15 +145,17 @@ test("click event tracking", async () => {
     const eventName = "click";
 
     const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
-    const application: Application = {id: "acc-123"};
+    const application = {id: "acc-123"};
     const target = "target";
     const attributes = {"a-a": "b", c: 'd'};
+    const channel: Channel =  Channel.CHANNEL_WEB;
     const expectedAttributes = {"a_a": "b", c: 'd'};
 
     await tracker.trackClick({
             actor,
             application,
             target,
+            channel,
             attributes: new Promise(r => r(attributes)),
         }
     )
@@ -139,38 +163,10 @@ test("click event tracking", async () => {
     expect(backend.track).toBeCalledWith(eventName, actor.id, {
         "account_number": actor.attributes["account-number"],
         "account_id": actor.id,
-        client_id: application.id,
+        application: application.id,
+        channel: "web",
         target,
         ...expectedAttributes
     });
 })
 
-test("click event tracking", async () => {
-
-    const backend = mockBackend();
-    const tracker = new Tracker(backend);
-
-    const eventName = "click";
-
-    const actor: Actor = {attributes: {"account-number": "acc-123", "account-id": "acc-id"}, id: "acc-id"};
-    const application: Application = {id: "acc-123"};
-    const target = "target";
-    const attributes = {"a-a": "b", c: 'd'};
-    const expectedAttributes = {"a_a": "b", c: 'd'};
-
-    await tracker.trackClick({
-            actor,
-            application,
-            target,
-            attributes: new Promise(r => r(attributes)),
-        }
-    )
-
-    expect(backend.track).toBeCalledWith(eventName, actor.id, {
-        "account_number": actor.attributes["account-number"],
-        "account_id": actor.id,
-        client_id: application.id,
-        target,
-        ...expectedAttributes
-    });
-})

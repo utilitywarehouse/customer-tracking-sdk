@@ -1,50 +1,56 @@
 import {
-    Actor,
-    Application,
-    ClickEvent,
-    Intent,
-    Interaction,
-    InteractionChannel,
-    InteractionEvent,
-    Stage,
-    StageEvent,
-    Subject, VisitEvent,
+    Journey, Actor,
+    JourneyIntent, JourneySubject, JourneyStage, Channel,
+    Interaction, InteractionTargetType, InteractionType
 } from "@utilitywarehouse/customer-tracking-types";
+
+interface Application {
+    id: string,
+    attributes?: { [key: string]: string },
+}
 
 import {EventEmitter} from "events";
 import {Backend} from "./backend";
 
 export type EventAttributes = Promise<{[k: string]: string }> | { [k: string]: string }
 
-interface StageArguments {
-    actor: Actor;
-    application: Application;
-    subject: Subject;
-    intent: Intent;
-    stage: Stage;
+const JOURNEY_STAGE_EVENT_NAME = 'journey_stage'
+const JOURNEY_INTERACTION_EVENT_NAME = 'journey_interaction'
+const CLICK_EVENT_NAME = 'click'
+const VISIT_EVENT_NAME = 'visit'
+
+interface JourneyStageArguments {
+    journey: Journey;
+    channel: Channel;
+    actor: Actor,
+    application: Application,
+    stage: JourneyStage;
+    step?: string;
     attributes?: EventAttributes;
 }
 
-interface InteractionArguments {
-    actor: Actor;
-    application: Application;
-    subject: Subject;
-    intent: Intent;
+interface JourneyInteractionArguments {
+    journey: Journey;
+    channel: Channel;
+    actor: Actor,
+    application: Application,
     interaction: Interaction;
-    channel: InteractionChannel;
+    step?: string;
     attributes?: EventAttributes;
 }
 
 interface ClickArguments {
-    actor: Actor;
-    application: Application;
+    actor: Actor,
+    application: Application,
     target: string;
+    channel: Channel;
     attributes?: EventAttributes;
 }
 
 interface VisitArguments {
-    actor: Actor;
-    application: Application;
+    actor: Actor,
+    channel: Channel;
+    application: Application,
     location: string;
     attributes?: EventAttributes;
 }
@@ -56,54 +62,64 @@ export class Tracker {
         this.emitter = new EventEmitter();
     }
 
-    private stageValue(m: Stage): string {
-        return Stage.toJSON(m)
+    private channelValue(m: Channel): string {
+        return Channel.toJSON(m)
             .toLowerCase()
-            .replace(/^stage_/, "")
+            .replace(/^channel_/, "")
             .replace(/[^a-z]/g, "-")
     }
 
-    private subjectValue(m: Subject): string {
-        return Subject.toJSON(m)
+    private stageValue(m: JourneyStage): string {
+        return JourneyStage.toJSON(m)
             .toLowerCase()
-            .replace(/^subject_/, "")
+            .replace(/^journey_stage_/, "")
             .replace(/[^a-z]/g, "-")
     }
 
-    private intentValue(m: Intent): string {
-        return Intent.toJSON(m)
+    private subjectValue(m: JourneySubject): string {
+        return JourneySubject.toJSON(m)
             .toLowerCase()
-            .replace(/^intent_/, "")
+            .replace(/^journey_subject_/, "")
             .replace(/[^a-z]/g, "-")
     }
 
-    private interactionValue(m: Interaction): string {
-        return Interaction.toJSON(m)
+    private intentValue(m: JourneyIntent): string {
+        return JourneyIntent.toJSON(m)
             .toLowerCase()
-            .replace(/^interaction_/, "")
+            .replace(/^journey_intent_/, "")
             .replace(/[^a-z]/g, "-")
     }
 
-    private interactionChannelValue(m: InteractionChannel): string {
-        return InteractionChannel.toJSON(m)
+    private interactionTypeValue(m: InteractionType): string {
+        return InteractionType.toJSON(m)
             .toLowerCase()
-            .replace(/^interaction_channel_/, "")
+            .replace(/^interaction_type_/, "")
             .replace(/[^a-z]/g, "-")
     }
 
-    private stageEventName(event: StageEvent): string {
-        return this.stageValue(event.stage) + "." + this.intentValue(event.intent)
+    private interactionTargetTypeValue(m: InteractionTargetType): string {
+        return InteractionTargetType.toJSON(m)
+            .toLowerCase()
+            .replace(/^interaction_target_type_/, "")
+            .replace(/[^a-z]/g, "-")
     }
 
-    private interactionEventName(event: InteractionEvent): string {
-        return this.interactionChannelValue(event.channel) + "." + this.interactionValue(event.interaction)
+    private journeyValue(m: Journey): string {
+        return `${this.intentValue(m.intent)}:${this.subjectValue(m.subject)}`
     }
 
-    private attributes(attributes: {[k: string]: string}): {[k: string]: string} {
+    private attributes(attributes: {[k: string]: string}, prefix?: string): {[k: string]: string} {
         const mapped: EventAttributes = {};
 
         for (const k in attributes) {
-            mapped[k.toLowerCase().replace(/[^a-z]/g, "_")] = attributes[k];
+
+            let key = k.toLowerCase().replace(/[^a-z]/g, "_")
+
+            if (prefix) {
+                key = prefix+key
+            }
+
+            mapped[key] = attributes[k];
         }
 
         return mapped;
@@ -113,31 +129,27 @@ export class Tracker {
         this.emitter.on("error", fn);
     }
 
-    async trackStage(
-        inEvent: StageArguments,
+    async trackJourneyStage(
+        event: JourneyStageArguments,
     ): Promise<void> {
-
         try {
 
-            const event: StageEvent = {
-                actor: inEvent.actor,
-                application: inEvent.application,
-                subject: inEvent.subject,
-                intent: inEvent.intent,
-                stage: inEvent.stage,
-                attributes: inEvent.attributes && await inEvent.attributes || {},
-            }
+            const eventAttributes = event.attributes && await event.attributes || {}
 
             return this.backend.track(
-                this.stageEventName(event),
+                JOURNEY_STAGE_EVENT_NAME,
                 event.actor && event.actor.id || undefined,
                 {
-                    client_id: event.application && event.application.id || "",
-                    subject: this.subjectValue(event.subject),
-                    intent: this.intentValue(event.intent),
+                    journey: this.journeyValue(event.journey),
+                    application: event.application && event.application.id || "",
+                    channel: this.channelValue(event.channel),
+                    subject: this.subjectValue(event.journey.subject),
+                    intent: this.intentValue(event.journey.intent),
                     stage: this.stageValue(event.stage),
+                    step: event.step || "",
                     ...this.attributes(event.actor && event.actor.attributes || {}),
-                    ...this.attributes(event.attributes),
+                    ...this.attributes(event.application && event.application.attributes || {}, "application_"),
+                    ...this.attributes(eventAttributes),
                 },
             )
         } catch (e) {
@@ -145,31 +157,29 @@ export class Tracker {
         }
     }
 
-    async trackInteraction(
-        inEvent: InteractionArguments,
+    async trackJourneyInteraction(
+        event: JourneyInteractionArguments,
     ): Promise<void> {
         try {
-            const event: InteractionEvent = {
-                actor: inEvent.actor,
-                application: inEvent.application,
-                subject: inEvent.subject,
-                intent: inEvent.intent,
-                interaction: inEvent.interaction,
-                channel: inEvent.channel,
-                attributes: inEvent.attributes && await inEvent.attributes || {},
-            }
+
+            const eventAttributes = event.attributes && await event.attributes || {}
 
             return this.backend.track(
-                this.interactionEventName(event),
+                JOURNEY_INTERACTION_EVENT_NAME,
                 event.actor && event.actor.id || undefined,
                 {
-                    client_id: event.application && event.application.id || "",
-                    subject: this.subjectValue(event.subject),
-                    intent: this.intentValue(event.intent),
-                    interaction: this.interactionValue(event.interaction),
-                    interaction_channel: this.interactionChannelValue(event.channel),
+                    journey: this.journeyValue(event.journey),
+                    application: event.application && event.application.id || "",
+                    channel: this.channelValue(event.channel),
+                    subject: this.subjectValue(event.journey.subject),
+                    intent: this.intentValue(event.journey.intent),
+                    type: this.interactionTypeValue(event.interaction.type),
+                    target_type: this.interactionTargetTypeValue(event.interaction.targetType),
+                    target: event.interaction.target,
+                    step: event.step || "",
                     ...this.attributes(event.actor && event.actor.attributes || {}),
-                    ...this.attributes(event.attributes),
+                    ...this.attributes(event.application && event.application.attributes || {}, "application_"),
+                    ...this.attributes(eventAttributes),
                 },
             )
         } catch (e) {
@@ -178,24 +188,22 @@ export class Tracker {
     }
 
     async trackClick(
-        inEvent: ClickArguments,
+        event: ClickArguments,
     ): Promise<void> {
         try {
-            const event: ClickEvent = {
-                actor: inEvent.actor,
-                application: inEvent.application,
-                target: inEvent.target,
-                attributes: inEvent.attributes && await inEvent.attributes || {},
-            }
+
+            const eventAttributes = event.attributes && await event.attributes || {}
 
             return this.backend.track(
-                "click",
+                CLICK_EVENT_NAME,
                 event.actor && event.actor.id || undefined,
                 {
-                    client_id: event.application && event.application.id || "",
+                    application: event.application && event.application.id || "",
+                    channel: this.channelValue(event.channel),
                     target: event.target,
                     ...this.attributes(event.actor && event.actor.attributes || {}),
-                    ...this.attributes(event.attributes),
+                    ...this.attributes(event.application && event.application.attributes || {}, "application_"),
+                    ...this.attributes(eventAttributes),
                 },
             )
         } catch (e) {
@@ -204,24 +212,22 @@ export class Tracker {
     }
 
     async trackVisit(
-        inEvent: VisitArguments,
+        event: VisitArguments,
     ): Promise<void> {
         try {
-            const event: VisitEvent = {
-                actor: inEvent.actor,
-                application: inEvent.application,
-                location: inEvent.location,
-                attributes: inEvent.attributes && await inEvent.attributes || {},
-            }
+
+            const eventAttributes = event.attributes && await event.attributes || {}
 
             return this.backend.track(
-                "visit",
+                VISIT_EVENT_NAME,
                 event.actor && event.actor.id || undefined,
                 {
-                    client_id: event.application && event.application.id || "",
+                    application: event.application && event.application.id || "",
+                    channel: this.channelValue(event.channel),
                     location: event.location,
                     ...this.attributes(event.actor && event.actor.attributes || {}),
-                    ...this.attributes(event.attributes),
+                    ...this.attributes(event.application && event.application.attributes || {}, "application_"),
+                    ...this.attributes(eventAttributes),
                 },
             )
         } catch (e) {

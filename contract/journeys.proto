@@ -13,10 +13,8 @@ message Actor {
 
 message Application {
   string id = 1;
-  // map to attach application attributes to each event, can be used for
-  // build version etc.
-  Channel channel = 2;
-  map<string, string> attributes = 3;
+  // all attributes are automatically prefixed with application_
+  map<string, string> attributes = 2;
 }
 
 enum Channel {
@@ -26,20 +24,33 @@ enum Channel {
   CHANNEL_VOICE = 3;
   CHANNEL_CHAT = 4;
   CHANNEL_EMAIL = 5;
+  CHANNEL_AGENT = 6;
 }
 
 message Journey {
-  string id = 1;
-  JourneyIntent intent = 2;
-  JourneySubject subject = 3;
+  JourneyIntent intent = 1;
+  JourneySubject subject = 2;
 }
 
-message JourneyStage {
+message JourneyStageEvent {
   Journey journey = 1;
-  Actor actor = 2;
-  Application application = 3;
+  Channel channel = 2;
+  Actor actor = 3;
+  Application application = 4;
+  JourneyStage stage = 5;
   // step is optional and can be used to track microjourneys within journeys
-  string step = 4;
+  string step = 6;
+  map<string, string> attributes = 7;
+}
+
+enum JourneyStage {
+  JOURNEY_STAGE_UNKNOWN = 0;
+  JOURNEY_STAGE_ENTERED = 1;
+  JOURNEY_STAGE_STARTED = 2;
+  JOURNEY_STAGE_SUBMITTED = 3;
+  JOURNEY_STAGE_COMPLETED = 4;
+  JOURNEY_STAGE_FAILED = 5;
+  JOURNEY_STAGE_ASKED_FOR_AMEND = 6;
 }
 
 message Interaction {
@@ -50,20 +61,24 @@ message Interaction {
 
 enum InteractionType {
   INTERACTION_TYPE_UNKNOWN = 0;
+  INTERACTION_TYPE_CLICK = 1;
 }
 
 enum InteractionTargetType {
   INTERACTION_TARGET_TYPE_UNKNOWN = 0;
+  INTERACTION_TARGET_TYPE_TOGGLE = 1;
 }
 
 // JourneyInteraction used to track significant microinteractions during journeys
 // a good example is switching an additional option during product selection etc
-message JourneyInteraction {
+message JourneyInteractionEvent {
   Journey journey = 1;
-  Actor actor = 2;
-  Application application = 3;
-  Interaction interaction = 4;
-  string step = 5;
+  Channel channel = 2;
+  Actor actor = 3;
+  Application application = 4;
+  Interaction interaction = 5;
+  string step = 6;
+  map<string, string> attributes = 7;
 }
 
 // JourneyIntent describes what we are trying to make the customer do against
@@ -71,10 +86,28 @@ message JourneyInteraction {
 // any subject, a good example NEW_SERVICE_OR_UPGRADE, PREFERENCES_UPDATE, bad example NEW_MOBILE_SERVICE
 enum JourneyIntent {
   JOURNEY_INTENT_UNKNOWN = 0;
+  JOURNEY_INTENT_NEW_SERVICE_OR_UPGRADE = 1;
 }
 
 // JourneySubject should describe one of the aggregate roots or important entities
 // things like MOBILE_SERVICE, CONTACT_PREFERENCES etc.
 enum JourneySubject {
   JOURNEY_SUBJECT_UNKNOWN = 0;
+  JOURNEY_SUBJECT_MOBILE_SERVICE = 1;
+}
+
+message ClickEvent {
+  Actor actor = 1;
+  Application application = 2;
+  Channel channel = 3;
+  string target = 4;
+  map<string, string> attributes = 5;
+}
+
+message VisitEvent {
+  Actor actor = 1;
+  Application application = 2;
+  Channel channel = 3;
+  string location = 4;
+  map<string, string> attributes = 5;
 }
