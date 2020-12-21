@@ -65,7 +65,8 @@ func TestTrackInteraction(t *testing.T) {
 		Channel:     types.INTERACTION_CHANNEL_EMAIL,
 		Interaction: types.INTERACTION_VIEWED,
 		Attributes: map[string]string{
-			"sample key": "foo",
+			"sample key":  "foo",
+			"sample key2": "foo",
 		},
 	}
 
@@ -87,6 +88,7 @@ func TestTrackInteraction(t *testing.T) {
 		"interaction_channel": "email",
 		"interaction":         "viewed",
 		"sample_key":          "foo",
+		"sample_key2":         "foo",
 	}
 	assert.Equal(t, expectedAttributes, receivedEvent.attributes)
 }
