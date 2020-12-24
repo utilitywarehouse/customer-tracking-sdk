@@ -144,6 +144,6 @@ func formatAttributes(attrs map[string]string) map[string]string {
 
 func formatMapKey(key string) string {
 	str := strings.ToLower(key)
-	re := regexp.MustCompile(`[^a-z]`)
+	re := regexp.MustCompile(`[^a-z0-9]`)
 	return re.ReplaceAllString(str, "_")
 }

@@ -103,7 +103,7 @@ export class Tracker {
         const mapped: EventAttributes = {};
 
         for (const k in attributes) {
-            mapped[k.toLowerCase().replace(/[^a-z]/g, "_")] = attributes[k];
+            mapped[k.toLowerCase().replace(/[^a-z0-9]/g, "_")] = attributes[k];
         }
 
         return mapped;
