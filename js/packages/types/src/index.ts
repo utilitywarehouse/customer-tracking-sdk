@@ -155,6 +155,7 @@ export const Subject = {
   SUBJECT_CUSTOMER_AUTH: 6 as const,
   SUBJECT_MOBILE_SIM: 7 as const,
   SUBJECT_SMART_METER_INSTALLATION: 8 as const,
+  SUBJECT_CUSTOMER_OVERDUE_BALANCE: 9 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -185,6 +186,9 @@ export const Subject = {
       case 8:
       case "SUBJECT_SMART_METER_INSTALLATION":
         return Subject.SUBJECT_SMART_METER_INSTALLATION;
+      case 9:
+      case "SUBJECT_CUSTOMER_OVERDUE_BALANCE":
+        return Subject.SUBJECT_CUSTOMER_OVERDUE_BALANCE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -211,13 +215,15 @@ export const Subject = {
         return "SUBJECT_MOBILE_SIM";
       case Subject.SUBJECT_SMART_METER_INSTALLATION:
         return "SUBJECT_SMART_METER_INSTALLATION";
+      case Subject.SUBJECT_CUSTOMER_OVERDUE_BALANCE:
+        return "SUBJECT_CUSTOMER_OVERDUE_BALANCE";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
