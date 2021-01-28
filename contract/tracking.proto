@@ -76,6 +76,7 @@ enum Intent {
   INTENT_LOGIN = 8;
   INTENT_MOBILE_SIM_UPGRADE = 9;
   INTENT_APPOINTMENT_BOOKING = 10;
+  INTENT_FIND_HELP = 11;
 }
 
 enum Stage {
@@ -93,6 +94,7 @@ enum Interaction {
   INTERACTION_NONE = 0;
   INTERACTION_CLICKED = 1;
   INTERACTION_VIEWED = 2;
+  INTERACTION_SEARCHED = 3;
 }
 
 enum InteractionChannel {

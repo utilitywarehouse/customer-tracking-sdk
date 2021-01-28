@@ -237,6 +237,7 @@ export const Intent = {
   INTENT_LOGIN: 8 as const,
   INTENT_MOBILE_SIM_UPGRADE: 9 as const,
   INTENT_APPOINTMENT_BOOKING: 10 as const,
+  INTENT_FIND_HELP: 11 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -273,6 +274,9 @@ export const Intent = {
       case 10:
       case "INTENT_APPOINTMENT_BOOKING":
         return Intent.INTENT_APPOINTMENT_BOOKING;
+      case 11:
+      case "INTENT_FIND_HELP":
+        return Intent.INTENT_FIND_HELP;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -303,13 +307,15 @@ export const Intent = {
         return "INTENT_MOBILE_SIM_UPGRADE";
       case Intent.INTENT_APPOINTMENT_BOOKING:
         return "INTENT_APPOINTMENT_BOOKING";
+      case Intent.INTENT_FIND_HELP:
+        return "INTENT_FIND_HELP";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
@@ -383,6 +389,7 @@ export const Interaction = {
   INTERACTION_NONE: 0 as const,
   INTERACTION_CLICKED: 1 as const,
   INTERACTION_VIEWED: 2 as const,
+  INTERACTION_SEARCHED: 3 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Interaction {
     switch (object) {
@@ -395,6 +402,9 @@ export const Interaction = {
       case 2:
       case "INTERACTION_VIEWED":
         return Interaction.INTERACTION_VIEWED;
+      case 3:
+      case "INTERACTION_SEARCHED":
+        return Interaction.INTERACTION_SEARCHED;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -409,13 +419,15 @@ export const Interaction = {
         return "INTERACTION_CLICKED";
       case Interaction.INTERACTION_VIEWED:
         return "INTERACTION_VIEWED";
+      case Interaction.INTERACTION_SEARCHED:
+        return "INTERACTION_SEARCHED";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Interaction = 0 | 1 | 2 | -1;
+export type Interaction = 0 | 1 | 2 | 3 | -1;
 
 export const InteractionChannel = {
   INTERACTION_CHANNEL_NONE: 0 as const,
