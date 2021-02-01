@@ -54,3 +54,7 @@ func (b *RudderstackBackend) Alias(ctx context.Context, currentID string, alias 
 func (b *RudderstackBackend) Close() error {
 	return b.client.Close()
 }
+
+func (b *RudderstackBackend) Import() error {
+	return errors.New("not implemented")
+}

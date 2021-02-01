@@ -103,6 +103,10 @@ type mockBackend struct {
 	events []event
 }
 
+func (b *mockBackend) Import(_ context.Context, name string, id string, attrs map[string]string) error {
+	return nil
+}
+
 func (b *mockBackend) Track(_ context.Context, name string, id string, attrs map[string]string) error {
 	e := event{
 		name:       name,

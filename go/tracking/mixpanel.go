@@ -9,18 +9,23 @@ import (
 	"strings"
 )
 
-const mixpanelEndpoint = "https://api-eu.mixpanel.com/track"
+const (
+	mixpanelEndpoint = "https://api-eu.mixpanel.com/track"
+	mixpanelImportEndpoint = "https://api-eu.mixpanel.com/import"
+)
 
-func NewMixpanelBackend(token string, client *http.Client) *MixpanelBackend {
+func NewMixpanelBackend(token string, client *http.Client, secret string) *MixpanelBackend {
 	return &MixpanelBackend{
 		token:  token,
 		client: client,
+		secret: secret,
 	}
 }
 
 type MixpanelBackend struct {
 	token  string
 	client *http.Client
+	secret string // Required for import endpoint
 }
 
 type mixpanelRequest struct {
@@ -56,6 +61,66 @@ func (b *MixpanelBackend) track(ctx context.Context, eventName string, propertie
 		return fmt.Errorf("mixpanel backend: %w", err)
 	}
 	req.Header.Set("Content-type", "application/x-www-form-urlencoded")
+
+	res, err := b.client.Do(req)
+	if err != nil {
+		return fmt.Errorf("mixpanel backend: %w", err)
+	}
+
+	defer res.Body.Close()
+
+	mpRes := &mixpanelResponse{}
+
+	err = json.NewDecoder(res.Body).Decode(mpRes)
+
+	if err != nil {
+		return fmt.Errorf("mixpanel backend: %w", err)
+	}
+
+	if mpRes.Status != 1 {
+		return fmt.Errorf("mixpanel backend: call was not successful: %s", mpRes.Error)
+	}
+
+	return nil
+}
+
+func (b *MixpanelBackend) imp(ctx context.Context, eventName string, properties map[string]string) error {
+
+
+	return nil
+}
+
+func (b *MixpanelBackend) Import(ctx context.Context, name string, distinctID string, attrs map[string]string) error {
+	properties := map[string]string{}
+	for k, v := range attrs {
+		properties[k] = v
+	}
+
+	properties["distinct_id"] = distinctID
+
+	// Set token
+	properties["token"] = b.token
+
+	r := &mixpanelRequest{
+		Event:      name,
+		Properties: properties,
+	}
+
+	data, err := json.Marshal(r)
+	if err != nil {
+		return fmt.Errorf("mixpanel backend: %w", err)
+	}
+
+	body := url.Values{}
+	body.Set("data", string(data))
+	body.Set("verbose", "1")
+
+	req, err := http.NewRequestWithContext(ctx, "POST", mixpanelImportEndpoint, strings.NewReader(body.Encode()))
+	if err != nil {
+		return fmt.Errorf("mixpanel backend: %w", err)
+	}
+	req.Header.Set("Content-type", "application/x-www-form-urlencoded")
+	req.SetBasicAuth(b.secret, "")
 
 	res, err := b.client.Do(req)
 	if err != nil {

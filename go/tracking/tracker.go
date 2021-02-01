@@ -15,6 +15,7 @@ type Tracker struct {
 
 type Backend interface {
 	Track(ctx context.Context, eventName string, actorID string, attributes map[string]string) error
+	Import(ctx context.Context, eventName string, actorID string, attributes map[string]string) error
 	Alias(ctx context.Context, currentID string, alias string) error
 	Close() error
 }
@@ -23,6 +24,29 @@ func New(backend Backend) *Tracker {
 	return &Tracker{
 		backend: backend,
 	}
+}
+
+func (t *Tracker) ImportStage(ctx context.Context, event *types.StageEvent)  error {
+	name := stageToString(event.Stage) + "." + intentToString(event.Intent)
+	attrs := map[string]string{
+		"client_id": clientID(event.Application),
+		"intent":    intentToString(event.Intent),
+		"stage":     stageToString(event.Stage),
+		"subject":   subjectToString(event.Subject),
+	}
+
+	id := actorID(event.Actor)
+	actorAttrs := formatAttributes(actorAttributes(event.Actor))
+
+	customAttrs := formatAttributes(event.Attributes)
+	for k, v := range customAttrs {
+		attrs[k] = v
+	}
+	for k, v := range actorAttrs {
+		attrs[k] = v
+	}
+
+	return t.backend.Import(ctx, name, id, attrs)
 }
 
 // Alias allows to associate another unique ID to an existing identity.
