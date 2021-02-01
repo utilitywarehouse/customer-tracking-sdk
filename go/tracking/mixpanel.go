@@ -6,21 +6,28 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
+	"time"
 )
 
-const mixpanelEndpoint = "https://api-eu.mixpanel.com/track"
+const (
+	mixpanelEndpoint = "https://api-eu.mixpanel.com/track"
+	mixpanelImportEndpoint = "https://api-eu.mixpanel.com/import"
+)
 
-func NewMixpanelBackend(token string, client *http.Client) *MixpanelBackend {
+func NewMixpanelBackend(token string, client *http.Client, secret string) *MixpanelBackend {
 	return &MixpanelBackend{
 		token:  token,
 		client: client,
+		secret: secret, // Required for import implementation
 	}
 }
 
 type MixpanelBackend struct {
 	token  string
 	client *http.Client
+	secret string
 }
 
 type mixpanelRequest struct {
@@ -55,6 +62,18 @@ func (b *MixpanelBackend) track(ctx context.Context, eventName string, propertie
 	if err != nil {
 		return fmt.Errorf("mixpanel backend: %w", err)
 	}
+
+	// If event is older than 4 days https://developer.mixpanel.com/reference/events#import-events
+	imp := shouldImport(properties)
+	if imp && b.secret != "" {
+		req, err = http.NewRequestWithContext(ctx, "POST", mixpanelImportEndpoint, strings.NewReader(body.Encode()))
+		if err != nil {
+			return fmt.Errorf("mixpanel backend: %w", err)
+		}
+
+		req.SetBasicAuth(b.secret, "")
+	}
+
 	req.Header.Set("Content-type", "application/x-www-form-urlencoded")
 
 	res, err := b.client.Do(req)
@@ -101,4 +120,23 @@ func (b *MixpanelBackend) Alias(ctx context.Context, currentID string, alias str
 
 func (b *MixpanelBackend) Close() error {
 	return nil
+}
+
+func shouldImport(properties map[string]string) bool {
+	ets, ok := properties["time"]
+
+	if !ok {
+		return false
+	}
+
+	eti, err := strconv.ParseInt(ets, 10, 64)
+	if err != nil {
+		return false
+	}
+
+	if time.Unix(eti, 0).Before(time.Now().AddDate(0,0,-4)) {
+		return true
+	}
+
+	return false
 }

@@ -20,7 +20,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	t.Run("sets provided event name as event", func(t *testing.T) {
 		client, transport := tripper(1, "")
 
-		be := tracking.NewMixpanelBackend("apiKey", client)
+		be := tracking.NewMixpanelBackend("apiKey", client, "")
 		err := be.Track(ctx, "sample", "id", map[string]string{})
 
 		require.NoError(t, err)
@@ -30,7 +30,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	t.Run("sets distinct_id ", func(t *testing.T) {
 		client, transport := tripper(1, "")
 
-		be := tracking.NewMixpanelBackend("apiKey", client)
+		be := tracking.NewMixpanelBackend("apiKey", client, "")
 		err := be.Track(ctx, "sample", "000000", map[string]string{})
 
 		require.NoError(t, err)
@@ -40,7 +40,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	t.Run("sets token", func(t *testing.T) {
 		client, transport := tripper(1, "")
 
-		be := tracking.NewMixpanelBackend("apiKey", client)
+		be := tracking.NewMixpanelBackend("apiKey", client, "")
 		err := be.Track(ctx, "sample", "0000000", map[string]string{})
 
 		require.NoError(t, err)
@@ -50,7 +50,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	t.Run("returns an error if call is not successful", func(t *testing.T) {
 		client, _ := tripper(0, "errorMsg")
 
-		be := tracking.NewMixpanelBackend("apiKey", client)
+		be := tracking.NewMixpanelBackend("apiKey", client, "")
 		err := be.Track(ctx, "sample", "0000000", map[string]string{})
 
 		assert.Errorf(t, err, "mixpanel backend: call was not successful: errorMsg")
@@ -59,7 +59,7 @@ func TestMixpanelBackend_Track(t *testing.T) {
 	t.Run("sends all properties and returns nil if successful", func(t *testing.T) {
 		client, transport := tripper(1, "")
 
-		be := tracking.NewMixpanelBackend("apiKey", client)
+		be := tracking.NewMixpanelBackend("apiKey", client, "")
 		err := be.Track(ctx, "sample", "0000000", map[string]string{
 			"prop1": "prop1",
 			"prop2": "prop2",
@@ -78,7 +78,7 @@ func TestMixpanelBackend_Alias(t *testing.T) {
 	t.Run("sends correct properties and returns nil", func(t *testing.T) {
 		client, transport := tripper(1, "")
 
-		be := tracking.NewMixpanelBackend("apiKey", client)
+		be := tracking.NewMixpanelBackend("apiKey", client, "")
 		err := be.Alias(ctx, "id", "alias")
 
 		require.NoError(t, err)
@@ -92,7 +92,7 @@ func TestMixpanelBackend_Alias(t *testing.T) {
 	t.Run("returns an error if call is not successful", func(t *testing.T) {
 		client, _ := tripper(0, "errMsg")
 
-		be := tracking.NewMixpanelBackend("apiKey", client)
+		be := tracking.NewMixpanelBackend("apiKey", client, "")
 		err := be.Alias(ctx, "id", "alias")
 
 		assert.Errorf(t, err, "mixpanel backend: call was not successful: errMsg")
@@ -159,7 +159,7 @@ func tripper(code int, msg string) (*http.Client, *testRoundTripper) {
 
 func TestMixpanelBackend_TrackIntegration(t *testing.T) {
 
-	mp := tracking.NewMixpanelBackend("asd", http.DefaultClient)
+	mp := tracking.NewMixpanelBackend("asd", http.DefaultClient, "")
 
 	err := mp.Track(context.Background(), "test-event", "test-distinct-id", map[string]string{"param": "value"})
 
