@@ -156,7 +156,7 @@ export const Subject = {
   SUBJECT_MOBILE_SIM: 7 as const,
   SUBJECT_SMART_METER_INSTALLATION: 8 as const,
   SUBJECT_CUSTOMER_OVERDUE_BALANCE: 9 as const,
-  SUBJECT_INSURANCE_QUOTING: 10 as const,
+  SUBJECT_INSURANCE_QUOTE: 10 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -191,8 +191,8 @@ export const Subject = {
       case "SUBJECT_CUSTOMER_OVERDUE_BALANCE":
         return Subject.SUBJECT_CUSTOMER_OVERDUE_BALANCE;
       case 10:
-      case "SUBJECT_INSURANCE_QUOTING":
-        return Subject.SUBJECT_INSURANCE_QUOTING;
+      case "SUBJECT_INSURANCE_QUOTE":
+        return Subject.SUBJECT_INSURANCE_QUOTE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -221,8 +221,8 @@ export const Subject = {
         return "SUBJECT_SMART_METER_INSTALLATION";
       case Subject.SUBJECT_CUSTOMER_OVERDUE_BALANCE:
         return "SUBJECT_CUSTOMER_OVERDUE_BALANCE";
-      case Subject.SUBJECT_INSURANCE_QUOTING:
-        return "SUBJECT_INSURANCE_QUOTING";
+      case Subject.SUBJECT_INSURANCE_QUOTE:
+        return "SUBJECT_INSURANCE_QUOTE";
       default:
         return "UNKNOWN";
     }
