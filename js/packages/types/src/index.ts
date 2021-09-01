@@ -156,6 +156,7 @@ export const Subject = {
   SUBJECT_MOBILE_SIM: 7 as const,
   SUBJECT_SMART_METER_INSTALLATION: 8 as const,
   SUBJECT_CUSTOMER_OVERDUE_BALANCE: 9 as const,
+  SUBJECT_INSURANCE_QUOTING: 10 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -189,6 +190,9 @@ export const Subject = {
       case 9:
       case "SUBJECT_CUSTOMER_OVERDUE_BALANCE":
         return Subject.SUBJECT_CUSTOMER_OVERDUE_BALANCE;
+      case 10:
+      case "SUBJECT_INSURANCE_QUOTING":
+        return Subject.SUBJECT_INSURANCE_QUOTING;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -217,13 +221,15 @@ export const Subject = {
         return "SUBJECT_SMART_METER_INSTALLATION";
       case Subject.SUBJECT_CUSTOMER_OVERDUE_BALANCE:
         return "SUBJECT_CUSTOMER_OVERDUE_BALANCE";
+      case Subject.SUBJECT_INSURANCE_QUOTING:
+        return "SUBJECT_INSURANCE_QUOTING";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -238,6 +244,8 @@ export const Intent = {
   INTENT_MOBILE_SIM_UPGRADE: 9 as const,
   INTENT_APPOINTMENT_BOOKING: 10 as const,
   INTENT_FIND_HELP: 11 as const,
+  INTENT_APPOINTMENT_RESCHEDULE: 12 as const,
+  INTENT_CREATE_INSURANCE_QUOTE: 13 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -277,6 +285,12 @@ export const Intent = {
       case 11:
       case "INTENT_FIND_HELP":
         return Intent.INTENT_FIND_HELP;
+      case 12:
+      case "INTENT_APPOINTMENT_RESCHEDULE":
+        return Intent.INTENT_APPOINTMENT_RESCHEDULE;
+      case 13:
+      case "INTENT_CREATE_INSURANCE_QUOTE":
+        return Intent.INTENT_CREATE_INSURANCE_QUOTE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -309,13 +323,17 @@ export const Intent = {
         return "INTENT_APPOINTMENT_BOOKING";
       case Intent.INTENT_FIND_HELP:
         return "INTENT_FIND_HELP";
+      case Intent.INTENT_APPOINTMENT_RESCHEDULE:
+        return "INTENT_APPOINTMENT_RESCHEDULE";
+      case Intent.INTENT_CREATE_INSURANCE_QUOTE:
+        return "INTENT_CREATE_INSURANCE_QUOTE";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
