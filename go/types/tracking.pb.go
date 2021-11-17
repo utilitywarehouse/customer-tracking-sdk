@@ -91,6 +91,7 @@ const (
 	INTENT_FIND_HELP                  Intent = 11
 	INTENT_APPOINTMENT_RESCHEDULE     Intent = 12
 	INTENT_CREATE_INSURANCE_QUOTE     Intent = 13
+INTENT_RETRIEVE_INSURANCE_QUOTE     Intent = 14
 )
 
 var Intent_name = map[int32]string{
@@ -108,6 +109,7 @@ var Intent_name = map[int32]string{
 	11: "INTENT_FIND_HELP",
 	12: "INTENT_APPOINTMENT_RESCHEDULE",
 	13: "INTENT_CREATE_INSURANCE_QUOTE",
+	14: "INTENT_RETRIEVE_INSURANCE_QUOTE",
 }
 
 var Intent_value = map[string]int32{
@@ -125,6 +127,7 @@ var Intent_value = map[string]int32{
 	"INTENT_FIND_HELP":                  11,
 	"INTENT_APPOINTMENT_RESCHEDULE":     12,
 	"INTENT_CREATE_INSURANCE_QUOTE":     13,
+	"INTENT_RETRIEVE_INSURANCE_QUOTE":   14,
 }
 
 func (Intent) EnumDescriptor() ([]byte, []int) {

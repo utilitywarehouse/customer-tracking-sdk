@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-
 export interface Actor {
   /**
    *  used as the main identifier in tracking backend (ie
@@ -227,7 +226,7 @@ export const Subject = {
         return "UNKNOWN";
     }
   },
-}
+};
 
 export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | -1;
 
@@ -246,6 +245,7 @@ export const Intent = {
   INTENT_FIND_HELP: 11 as const,
   INTENT_APPOINTMENT_RESCHEDULE: 12 as const,
   INTENT_CREATE_INSURANCE_QUOTE: 13 as const,
+  INTENT_RETRIEVE_INSURANCE_QUOTE: 14 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -291,6 +291,9 @@ export const Intent = {
       case 13:
       case "INTENT_CREATE_INSURANCE_QUOTE":
         return Intent.INTENT_CREATE_INSURANCE_QUOTE;
+      case 13:
+      case "INTENT_RETRIEVE_INSURANCE_QUOTE":
+        return Intent.INTENT_RETRIEVE_INSURANCE_QUOTE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -327,13 +330,31 @@ export const Intent = {
         return "INTENT_APPOINTMENT_RESCHEDULE";
       case Intent.INTENT_CREATE_INSURANCE_QUOTE:
         return "INTENT_CREATE_INSURANCE_QUOTE";
+      case Intent.INTENT_RETRIEVE_INSURANCE_QUOTE:
+        return "INTENT_RETRIEVE_INSURANCE_QUOTE";
       default:
         return "UNKNOWN";
     }
   },
-}
+};
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | -1;
+export type Intent =
+  | 0
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
@@ -399,7 +420,7 @@ export const Stage = {
         return "UNKNOWN";
     }
   },
-}
+};
 
 export type Stage = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | -1;
 
@@ -443,7 +464,7 @@ export const Interaction = {
         return "UNKNOWN";
     }
   },
-}
+};
 
 export type Interaction = 0 | 1 | 2 | 3 | -1;
 
@@ -499,7 +520,7 @@ export const InteractionChannel = {
         return "UNKNOWN";
     }
   },
-}
+};
 
 export type InteractionChannel = 0 | 1 | 2 | 3 | 5 | 6 | -1;
 
@@ -515,7 +536,7 @@ export const Actor = {
     if (object.attributes !== undefined && object.attributes !== null) {
       Object.entries(object.attributes).forEach(([key, value]) => {
         message.attributes[key] = String(value);
-      })
+      });
     }
     return message;
   },
@@ -532,7 +553,7 @@ export const Actor = {
         if (value !== undefined) {
           message.attributes[key] = String(value);
         }
-      })
+      });
     }
     return message;
   },
@@ -559,7 +580,9 @@ export const Actor_AttributesEntry = {
     }
     return message;
   },
-  fromPartial(object: DeepPartial<Actor_AttributesEntry>): Actor_AttributesEntry {
+  fromPartial(
+    object: DeepPartial<Actor_AttributesEntry>
+  ): Actor_AttributesEntry {
     const message = { ...baseActor_AttributesEntry } as Actor_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = object.key;
@@ -593,7 +616,7 @@ export const Application = {
     if (object.attributes !== undefined && object.attributes !== null) {
       Object.entries(object.attributes).forEach(([key, value]) => {
         message.attributes[key] = String(value);
-      })
+      });
     }
     return message;
   },
@@ -610,7 +633,7 @@ export const Application = {
         if (value !== undefined) {
           message.attributes[key] = String(value);
         }
-      })
+      });
     }
     return message;
   },
@@ -624,7 +647,9 @@ export const Application = {
 
 export const Application_AttributesEntry = {
   fromJSON(object: any): Application_AttributesEntry {
-    const message = { ...baseApplication_AttributesEntry } as Application_AttributesEntry;
+    const message = {
+      ...baseApplication_AttributesEntry,
+    } as Application_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = String(object.key);
     } else {
@@ -637,8 +662,12 @@ export const Application_AttributesEntry = {
     }
     return message;
   },
-  fromPartial(object: DeepPartial<Application_AttributesEntry>): Application_AttributesEntry {
-    const message = { ...baseApplication_AttributesEntry } as Application_AttributesEntry;
+  fromPartial(
+    object: DeepPartial<Application_AttributesEntry>
+  ): Application_AttributesEntry {
+    const message = {
+      ...baseApplication_AttributesEntry,
+    } as Application_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = object.key;
     } else {
@@ -691,7 +720,7 @@ export const StageEvent = {
     if (object.attributes !== undefined && object.attributes !== null) {
       Object.entries(object.attributes).forEach(([key, value]) => {
         message.attributes[key] = String(value);
-      })
+      });
     }
     return message;
   },
@@ -728,14 +757,16 @@ export const StageEvent = {
         if (value !== undefined) {
           message.attributes[key] = String(value);
         }
-      })
+      });
     }
     return message;
   },
   toJSON(message: StageEvent): unknown {
     const obj: any = {};
     obj.actor = message.actor ? Actor.toJSON(message.actor) : undefined;
-    obj.application = message.application ? Application.toJSON(message.application) : undefined;
+    obj.application = message.application
+      ? Application.toJSON(message.application)
+      : undefined;
     obj.subject = Subject.toJSON(message.subject);
     obj.intent = Intent.toJSON(message.intent);
     obj.stage = Stage.toJSON(message.stage);
@@ -746,7 +777,9 @@ export const StageEvent = {
 
 export const StageEvent_AttributesEntry = {
   fromJSON(object: any): StageEvent_AttributesEntry {
-    const message = { ...baseStageEvent_AttributesEntry } as StageEvent_AttributesEntry;
+    const message = {
+      ...baseStageEvent_AttributesEntry,
+    } as StageEvent_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = String(object.key);
     } else {
@@ -759,8 +792,12 @@ export const StageEvent_AttributesEntry = {
     }
     return message;
   },
-  fromPartial(object: DeepPartial<StageEvent_AttributesEntry>): StageEvent_AttributesEntry {
-    const message = { ...baseStageEvent_AttributesEntry } as StageEvent_AttributesEntry;
+  fromPartial(
+    object: DeepPartial<StageEvent_AttributesEntry>
+  ): StageEvent_AttributesEntry {
+    const message = {
+      ...baseStageEvent_AttributesEntry,
+    } as StageEvent_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = object.key;
     } else {
@@ -818,7 +855,7 @@ export const InteractionEvent = {
     if (object.attributes !== undefined && object.attributes !== null) {
       Object.entries(object.attributes).forEach(([key, value]) => {
         message.attributes[key] = String(value);
-      })
+      });
     }
     return message;
   },
@@ -860,14 +897,16 @@ export const InteractionEvent = {
         if (value !== undefined) {
           message.attributes[key] = String(value);
         }
-      })
+      });
     }
     return message;
   },
   toJSON(message: InteractionEvent): unknown {
     const obj: any = {};
     obj.actor = message.actor ? Actor.toJSON(message.actor) : undefined;
-    obj.application = message.application ? Application.toJSON(message.application) : undefined;
+    obj.application = message.application
+      ? Application.toJSON(message.application)
+      : undefined;
     obj.subject = Subject.toJSON(message.subject);
     obj.intent = Intent.toJSON(message.intent);
     obj.interaction = Interaction.toJSON(message.interaction);
@@ -879,7 +918,9 @@ export const InteractionEvent = {
 
 export const InteractionEvent_AttributesEntry = {
   fromJSON(object: any): InteractionEvent_AttributesEntry {
-    const message = { ...baseInteractionEvent_AttributesEntry } as InteractionEvent_AttributesEntry;
+    const message = {
+      ...baseInteractionEvent_AttributesEntry,
+    } as InteractionEvent_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = String(object.key);
     } else {
@@ -892,8 +933,12 @@ export const InteractionEvent_AttributesEntry = {
     }
     return message;
   },
-  fromPartial(object: DeepPartial<InteractionEvent_AttributesEntry>): InteractionEvent_AttributesEntry {
-    const message = { ...baseInteractionEvent_AttributesEntry } as InteractionEvent_AttributesEntry;
+  fromPartial(
+    object: DeepPartial<InteractionEvent_AttributesEntry>
+  ): InteractionEvent_AttributesEntry {
+    const message = {
+      ...baseInteractionEvent_AttributesEntry,
+    } as InteractionEvent_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = object.key;
     } else {
@@ -936,7 +981,7 @@ export const VisitEvent = {
     if (object.attributes !== undefined && object.attributes !== null) {
       Object.entries(object.attributes).forEach(([key, value]) => {
         message.attributes[key] = String(value);
-      })
+      });
     }
     return message;
   },
@@ -963,14 +1008,16 @@ export const VisitEvent = {
         if (value !== undefined) {
           message.attributes[key] = String(value);
         }
-      })
+      });
     }
     return message;
   },
   toJSON(message: VisitEvent): unknown {
     const obj: any = {};
     obj.actor = message.actor ? Actor.toJSON(message.actor) : undefined;
-    obj.application = message.application ? Application.toJSON(message.application) : undefined;
+    obj.application = message.application
+      ? Application.toJSON(message.application)
+      : undefined;
     obj.location = message.location || "";
     obj.attributes = message.attributes || undefined;
     return obj;
@@ -979,7 +1026,9 @@ export const VisitEvent = {
 
 export const VisitEvent_AttributesEntry = {
   fromJSON(object: any): VisitEvent_AttributesEntry {
-    const message = { ...baseVisitEvent_AttributesEntry } as VisitEvent_AttributesEntry;
+    const message = {
+      ...baseVisitEvent_AttributesEntry,
+    } as VisitEvent_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = String(object.key);
     } else {
@@ -992,8 +1041,12 @@ export const VisitEvent_AttributesEntry = {
     }
     return message;
   },
-  fromPartial(object: DeepPartial<VisitEvent_AttributesEntry>): VisitEvent_AttributesEntry {
-    const message = { ...baseVisitEvent_AttributesEntry } as VisitEvent_AttributesEntry;
+  fromPartial(
+    object: DeepPartial<VisitEvent_AttributesEntry>
+  ): VisitEvent_AttributesEntry {
+    const message = {
+      ...baseVisitEvent_AttributesEntry,
+    } as VisitEvent_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = object.key;
     } else {
@@ -1036,7 +1089,7 @@ export const ClickEvent = {
     if (object.attributes !== undefined && object.attributes !== null) {
       Object.entries(object.attributes).forEach(([key, value]) => {
         message.attributes[key] = String(value);
-      })
+      });
     }
     return message;
   },
@@ -1063,14 +1116,16 @@ export const ClickEvent = {
         if (value !== undefined) {
           message.attributes[key] = String(value);
         }
-      })
+      });
     }
     return message;
   },
   toJSON(message: ClickEvent): unknown {
     const obj: any = {};
     obj.actor = message.actor ? Actor.toJSON(message.actor) : undefined;
-    obj.application = message.application ? Application.toJSON(message.application) : undefined;
+    obj.application = message.application
+      ? Application.toJSON(message.application)
+      : undefined;
     obj.target = message.target || "";
     obj.attributes = message.attributes || undefined;
     return obj;
@@ -1079,7 +1134,9 @@ export const ClickEvent = {
 
 export const ClickEvent_AttributesEntry = {
   fromJSON(object: any): ClickEvent_AttributesEntry {
-    const message = { ...baseClickEvent_AttributesEntry } as ClickEvent_AttributesEntry;
+    const message = {
+      ...baseClickEvent_AttributesEntry,
+    } as ClickEvent_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = String(object.key);
     } else {
@@ -1092,8 +1149,12 @@ export const ClickEvent_AttributesEntry = {
     }
     return message;
   },
-  fromPartial(object: DeepPartial<ClickEvent_AttributesEntry>): ClickEvent_AttributesEntry {
-    const message = { ...baseClickEvent_AttributesEntry } as ClickEvent_AttributesEntry;
+  fromPartial(
+    object: DeepPartial<ClickEvent_AttributesEntry>
+  ): ClickEvent_AttributesEntry {
+    const message = {
+      ...baseClickEvent_AttributesEntry,
+    } as ClickEvent_AttributesEntry;
     if (object.key !== undefined && object.key !== null) {
       message.key = object.key;
     } else {
