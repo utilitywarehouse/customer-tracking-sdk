@@ -157,7 +157,7 @@ export const Subject = {
   SUBJECT_SMART_METER_INSTALLATION: 8 as const,
   SUBJECT_CUSTOMER_OVERDUE_BALANCE: 9 as const,
   SUBJECT_INSURANCE_QUOTE: 10 as const,
-  SUBJECT_OPEN_METER_READING: 11 as const,
+  SUBJECT_OPENING_METER_READING: 11 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -195,8 +195,8 @@ export const Subject = {
       case "SUBJECT_INSURANCE_QUOTE":
         return Subject.SUBJECT_INSURANCE_QUOTE;
       case 11:
-      case "SUBJECT_OPEN_METER_READING":
-        return Subject.SUBJECT_OPEN_METER_READING;
+      case "SUBJECT_OPENING_METER_READING":
+        return Subject.SUBJECT_OPENING_METER_READING;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -227,8 +227,8 @@ export const Subject = {
         return "SUBJECT_CUSTOMER_OVERDUE_BALANCE";
       case Subject.SUBJECT_INSURANCE_QUOTE:
         return "SUBJECT_INSURANCE_QUOTE";
-      case Subject.SUBJECT_OPEN_METER_READING:
-        return "SUBJECT_OPEN_METER_READING";
+      case Subject.SUBJECT_OPENING_METER_READING:
+        return "SUBJECT_OPENING_METER_READING";
       default:
         return "UNKNOWN";
     }
@@ -253,7 +253,7 @@ export const Intent = {
   INTENT_APPOINTMENT_RESCHEDULE: 12 as const,
   INTENT_CREATE_INSURANCE_QUOTE: 13 as const,
   INTENT_RETRIEVE_INSURANCE_QUOTE: 14 as const,
-  INTENT_SUBMIT_OPEN_METER_READING: 15 as const,
+  INTENT_SUBMIT_OPENING_METER_READING: 15 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -303,8 +303,8 @@ export const Intent = {
       case "INTENT_RETRIEVE_INSURANCE_QUOTE":
         return Intent.INTENT_RETRIEVE_INSURANCE_QUOTE;
       case 15:
-      case "INTENT_SUBMIT_OPEN_METER_READING":
-        return Intent.INTENT_SUBMIT_OPEN_METER_READING;
+      case "INTENT_SUBMIT_OPENING_METER_READING":
+        return Intent.INTENT_SUBMIT_OPENING_METER_READING;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -343,8 +343,8 @@ export const Intent = {
         return "INTENT_CREATE_INSURANCE_QUOTE";
       case Intent.INTENT_RETRIEVE_INSURANCE_QUOTE:
         return "INTENT_RETRIEVE_INSURANCE_QUOTE";
-      case Intent.INTENT_SUBMIT_OPEN_METER_READING:
-        return "INTENT_SUBMIT_OPEN_METER_READING";
+      case Intent.INTENT_SUBMIT_OPENING_METER_READING:
+        return "INTENT_SUBMIT_OPENING_METER_READING";
       default:
         return "UNKNOWN";
     }
