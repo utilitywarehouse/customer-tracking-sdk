@@ -472,6 +472,7 @@ export const InteractionChannel = {
   INTERACTION_CHANNEL_RESIDENTIAL_MOBILE_APP: 3 as const,
   INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP: 5 as const,
   INTERACTION_CHANNEL_HELP_CENTRE_WEB: 6 as const,
+  INTERACTION_CHANNEL_SMS: 7 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): InteractionChannel {
     switch (object) {
@@ -493,6 +494,9 @@ export const InteractionChannel = {
       case 6:
       case "INTERACTION_CHANNEL_HELP_CENTRE_WEB":
         return InteractionChannel.INTERACTION_CHANNEL_HELP_CENTRE_WEB;
+      case 7:
+      case "INTERACTION_CHANNEL_SMS":
+        return InteractionChannel.INTERACTION_CHANNEL_SMS;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -513,13 +517,15 @@ export const InteractionChannel = {
         return "INTERACTION_CHANNEL_RESIDENTIAL_WEB_APP";
       case InteractionChannel.INTERACTION_CHANNEL_HELP_CENTRE_WEB:
         return "INTERACTION_CHANNEL_HELP_CENTRE_WEB";
+      case InteractionChannel.INTERACTION_CHANNEL_SMS:
+        return "INTERACTION_CHANNEL_SMS";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type InteractionChannel = 0 | 1 | 2 | 3 | 5 | 6 | -1;
+export type InteractionChannel = 0 | 1 | 2 | 3 | 5 | 6 | 7 | -1;
 
 export const Actor = {
   fromJSON(object: any): Actor {
