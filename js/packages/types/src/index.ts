@@ -158,6 +158,8 @@ export const Subject = {
   SUBJECT_CUSTOMER_OVERDUE_BALANCE: 9 as const,
   SUBJECT_INSURANCE_QUOTE: 10 as const,
   SUBJECT_OPENING_METER_READING: 11 as const,
+  SUBJECT_CASHBACK: 12 as const,
+  SUBJECT_ROUTER_SETUP: 13 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -197,6 +199,12 @@ export const Subject = {
       case 11:
       case "SUBJECT_OPENING_METER_READING":
         return Subject.SUBJECT_OPENING_METER_READING;
+      case 12:
+      case "SUBJECT_CASHBACK":
+        return Subject.SUBJECT_CASHBACK;
+      case 13:
+      case "SUBJECT_ROUTER_SETUP":
+        return Subject.SUBJECT_ROUTER_SETUP;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -229,13 +237,17 @@ export const Subject = {
         return "SUBJECT_INSURANCE_QUOTE";
       case Subject.SUBJECT_OPENING_METER_READING:
         return "SUBJECT_OPENING_METER_READING";
+      case Subject.SUBJECT_CASHBACK:
+        return "SUBJECT_CASHBACK";
+      case Subject.SUBJECT_ROUTER_SETUP:
+        return "SUBJECT_ROUTER_SETUP";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
