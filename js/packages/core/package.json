@@ -1,6 +1,6 @@
 {
   "name": "@utilitywarehouse/customer-tracking-core",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -19,7 +19,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@utilitywarehouse/customer-tracking-types": "^0.12.0"
+    "@utilitywarehouse/customer-tracking-types": "^0.13.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.5",
