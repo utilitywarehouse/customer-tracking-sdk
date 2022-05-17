@@ -160,6 +160,7 @@ export const Subject = {
   SUBJECT_OPENING_METER_READING: 11 as const,
   SUBJECT_CASHBACK: 12 as const,
   SUBJECT_ROUTER_SETUP: 13 as const,
+  SUBJECT_DOWNLOAD_APP: 14 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -205,6 +206,9 @@ export const Subject = {
       case 13:
       case "SUBJECT_ROUTER_SETUP":
         return Subject.SUBJECT_ROUTER_SETUP;
+      case 14:
+      case "SUBJECT_DOWNLOAD_APP":
+        return Subject.SUBJECT_DOWNLOAD_APP;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -241,13 +245,15 @@ export const Subject = {
         return "SUBJECT_CASHBACK";
       case Subject.SUBJECT_ROUTER_SETUP:
         return "SUBJECT_ROUTER_SETUP";
+      case Subject.SUBJECT_DOWNLOAD_APP:
+        return "SUBJECT_DOWNLOAD_APP";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -266,6 +272,7 @@ export const Intent = {
   INTENT_CREATE_INSURANCE_QUOTE: 13 as const,
   INTENT_RETRIEVE_INSURANCE_QUOTE: 14 as const,
   INTENT_SUBMIT_OPENING_METER_READING: 15 as const,
+  INTENT_DOWNLOAD_APP: 16 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -317,6 +324,9 @@ export const Intent = {
       case 15:
       case "INTENT_SUBMIT_OPENING_METER_READING":
         return Intent.INTENT_SUBMIT_OPENING_METER_READING;
+      case 16:
+      case "INTENT_DOWNLOAD_APP":
+        return Intent.INTENT_DOWNLOAD_APP;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -357,13 +367,15 @@ export const Intent = {
         return "INTENT_RETRIEVE_INSURANCE_QUOTE";
       case Intent.INTENT_SUBMIT_OPENING_METER_READING:
         return "INTENT_SUBMIT_OPENING_METER_READING";
+      case Intent.INTENT_DOWNLOAD_APP:
+        return "INTENT_DOWNLOAD_APP";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
