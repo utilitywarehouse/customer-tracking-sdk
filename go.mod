@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
-	github.com/gogo/protobuf v1.3.1
+	github.com/gogo/protobuf v1.3.2
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/rudderlabs/analytics-go v3.2.1+incompatible
