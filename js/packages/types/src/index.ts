@@ -281,13 +281,14 @@ export const Intent = {
   INTENT_APPOINTMENT_BOOKING: 10 as const,
   INTENT_FIND_HELP: 11 as const,
   INTENT_APPOINTMENT_RESCHEDULE: 12 as const,
-  INTENT_CREATE_HOME_INSURANCE_QUOTE: 13 as const,
+  INTENT_CREATE_INSURANCE_QUOTE: 13 as const,
   INTENT_RETRIEVE_INSURANCE_QUOTE: 14 as const,
   INTENT_SUBMIT_OPENING_METER_READING: 15 as const,
   INTENT_DOWNLOAD_APP: 16 as const,
   INTENT_VULNERABILITY_ASSESSMENT: 17 as const,
   INTENT_CREATE_BOILER_INSURANCE_QUOTE: 18 as const,
   INTENT_SUBMIT_HOME_INSURANCE_RENEWAL_DATE: 19 as const,
+  INTENT_CREATE_HOME_INSURANCE_QUOTE: 20 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -331,8 +332,8 @@ export const Intent = {
       case "INTENT_APPOINTMENT_RESCHEDULE":
         return Intent.INTENT_APPOINTMENT_RESCHEDULE;
       case 13:
-      case "INTENT_CREATE_HOME_INSURANCE_QUOTE":
-        return Intent.INTENT_CREATE_HOME_INSURANCE_QUOTE;
+      case "INTENT_CREATE_INSURANCE_QUOTE":
+        return Intent.INTENT_CREATE_INSURANCE_QUOTE;
       case 14:
       case "INTENT_RETRIEVE_INSURANCE_QUOTE":
         return Intent.INTENT_RETRIEVE_INSURANCE_QUOTE;
@@ -351,6 +352,9 @@ export const Intent = {
       case 19:
       case "INTENT_SUBMIT_HOME_INSURANCE_RENEWAL_DATE":
         return Intent.INTENT_SUBMIT_HOME_INSURANCE_RENEWAL_DATE;
+      case 20:
+      case "INTENT_CREATE_HOME_INSURANCE_QUOTE":
+        return Intent.INTENT_CREATE_HOME_INSURANCE_QUOTE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -385,8 +389,8 @@ export const Intent = {
         return "INTENT_FIND_HELP";
       case Intent.INTENT_APPOINTMENT_RESCHEDULE:
         return "INTENT_APPOINTMENT_RESCHEDULE";
-      case Intent.INTENT_CREATE_HOME_INSURANCE_QUOTE:
-        return "INTENT_CREATE_HOME_INSURANCE_QUOTE";
+      case Intent.INTENT_CREATE_INSURANCE_QUOTE:
+        return "INTENT_CREATE_INSURANCE_QUOTE";
       case Intent.INTENT_RETRIEVE_INSURANCE_QUOTE:
         return "INTENT_RETRIEVE_INSURANCE_QUOTE";
       case Intent.INTENT_SUBMIT_OPENING_METER_READING:
@@ -399,13 +403,15 @@ export const Intent = {
         return "INTENT_CREATE_BOILER_INSURANCE_QUOTE";
       case Intent.INTENT_SUBMIT_HOME_INSURANCE_RENEWAL_DATE:
         return "INTENT_SUBMIT_HOME_INSURANCE_RENEWAL_DATE";
+      case Intent.INTENT_CREATE_HOME_INSURANCE_QUOTE:
+        return "INTENT_CREATE_HOME_INSURANCE_QUOTE";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
