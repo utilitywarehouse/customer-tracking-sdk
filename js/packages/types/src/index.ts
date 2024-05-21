@@ -164,6 +164,7 @@ export const Subject = {
   SUBJECT_VULNERABILITY: 15 as const,
   SUBJECT_INSURANCE_RENEWAL_DATE: 16 as const,
   SUBJECT_BROADBAND_ADD: 17 as const,
+  SUBJECT_BROADBAND_SUBMIT_END_DATE: 18 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -221,6 +222,9 @@ export const Subject = {
       case 17:
       case "SUBJECT_BROADBAND_ADD":
         return Subject.SUBJECT_BROADBAND_ADD;
+      case 18:
+      case "SUBJECT_BROADBAND_SUBMIT_END_DATE":
+        return Subject.SUBJECT_BROADBAND_SUBMIT_END_DATE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -265,13 +269,15 @@ export const Subject = {
         return "SUBJECT_INSURANCE_RENEWAL_DATE";
       case Subject.SUBJECT_BROADBAND_ADD:
         return "SUBJECT_BROADBAND_ADD";
+      case Subject.SUBJECT_BROADBAND_SUBMIT_END_DATE:
+        return "SUBJECT_BROADBAND_SUBMIT_END_DATE";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -296,6 +302,7 @@ export const Intent = {
   INTENT_SUBMIT_HOME_INSURANCE_RENEWAL_DATE: 19 as const,
   INTENT_CREATE_HOME_INSURANCE_QUOTE: 20 as const,
   INTENT_BROADBAND_ADD: 21 as const,
+  INTENT_BROADBAND_SUBMIT_END_DATE: 22 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -365,6 +372,9 @@ export const Intent = {
       case 21:
       case "INTENT_BROADBAND_ADD":
         return Intent.INTENT_BROADBAND_ADD;
+      case 22:
+      case "INTENT_BROADBAND_SUBMIT_END_DATE":
+        return Intent.INTENT_BROADBAND_SUBMIT_END_DATE;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -417,13 +427,15 @@ export const Intent = {
         return "INTENT_CREATE_HOME_INSURANCE_QUOTE";
       case Intent.INTENT_BROADBAND_ADD:
         return "INTENT_BROADBAND_ADD";
+      case Intent.INTENT_BROADBAND_SUBMIT_END_DATE:
+        return "INTENT_BROADBAND_SUBMIT_END_DATE";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
