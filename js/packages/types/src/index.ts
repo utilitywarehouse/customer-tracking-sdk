@@ -166,6 +166,7 @@ export const Subject = {
   SUBJECT_BROADBAND_ADD: 17 as const,
   SUBJECT_BROADBAND_SUBMIT_END_DATE: 18 as const,
   SUBJECT_MOBILE_SUBMIT_END_DATE: 19 as const,
+  SUBJECT_EV_TARIFF: 20 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Subject {
     switch (object) {
@@ -229,6 +230,9 @@ export const Subject = {
       case 19:
       case "SUBJECT_MOBILE_SUBMIT_END_DATE":
         return Subject.SUBJECT_MOBILE_SUBMIT_END_DATE;
+      case 20:
+      case "SUBJECT_EV_TARIFF":
+        return Subject.SUBJECT_EV_TARIFF;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -277,13 +281,15 @@ export const Subject = {
         return "SUBJECT_BROADBAND_SUBMIT_END_DATE";
       case Subject.SUBJECT_MOBILE_SUBMIT_END_DATE:
         return "SUBJECT_MOBILE_SUBMIT_END_DATE";
+      case Subject.SUBJECT_EV_TARIFF:
+        return "SUBJECT_EV_TARIFF";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | -1;
+export type Subject = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | -1;
 
 export const Intent = {
   INTENT_NONE: 0 as const,
@@ -310,6 +316,7 @@ export const Intent = {
   INTENT_BROADBAND_ADD: 21 as const,
   INTENT_BROADBAND_SUBMIT_END_DATE: 22 as const,
   INTENT_MOBILE_SUBMIT_END_DATE: 23 as const,
+  INTENT_START_EV_SWITCH: 24 as const,
   UNRECOGNIZED: -1 as const,
   fromJSON(object: any): Intent {
     switch (object) {
@@ -385,6 +392,9 @@ export const Intent = {
       case 23:
       case "INTENT_MOBILE_SUBMIT_END_DATE":
         return Intent.INTENT_MOBILE_SUBMIT_END_DATE;
+      case 24:
+      case "INTENT_START_EV_SWITCH":
+        return Intent.INTENT_START_EV_SWITCH;
       case -1:
       case "UNRECOGNIZED":
       default:
@@ -441,13 +451,15 @@ export const Intent = {
         return "INTENT_BROADBAND_SUBMIT_END_DATE";
       case Intent.INTENT_MOBILE_SUBMIT_END_DATE:
         return "INTENT_MOBILE_SUBMIT_END_DATE";
+      case Intent.INTENT_START_EV_SWITCH:
+        return "INTENT_START_EV_SWITCH";
       default:
         return "UNKNOWN";
     }
   },
 }
 
-export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | -1;
+export type Intent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | -1;
 
 export const Stage = {
   STAGE_NONE: 0 as const,
