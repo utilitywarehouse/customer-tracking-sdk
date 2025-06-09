@@ -1,6 +1,6 @@
 {
   "name": "@utilitywarehouse/customer-tracking-types",
-  "version": "0.19.1",
+  "version": "0.20.0",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -25,5 +25,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "581f69cd6c70d75528c43151ab605cc614c62d10"
 }
